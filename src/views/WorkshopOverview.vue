@@ -1,11 +1,16 @@
 <template>
   <div>
-    <h1>Hello Workshops</h1>
+    <WorkshopList />
   </div>
 </template>
 
 <script>
+import WorkshopList from "@/components/WorkshopList.vue";
+
 export default {
-  name: "WorkshopOverview"
+  name: "WorkshopOverview",
+  components: {
+    WorkshopList
+  }
 };
 </script>
