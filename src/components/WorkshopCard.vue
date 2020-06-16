@@ -1,6 +1,6 @@
 <template>
   <Card class="p-shadow-3">
-    <template slot="title">{{ workshop.name }} {{ workshop.date }}</template>
+    <template slot="title">{{ workshop.name }} {{ date() }}</template>
     <template slot="content">
       <div>I am WorkshopCard {{ workshop.name }}.</div>
       <div>My id is {{ workshop.id }}.</div>
@@ -9,7 +9,7 @@
         <a :href="workshop.place.mapLink">{{ workshop.place.name }}</a>.
       </div>
       <div v-else>I was held at {{ workshop.place.name }}</div>
-      <div>The date was {{ workshop.date }}.</div>
+      <div>The date was  {{ date() }}.</div>
       <div>I have been tagged with</div>
       <div>
         <li v-for="tag in workshop.tags" :key="tag">{{ tag }}</li>
@@ -29,6 +29,10 @@ import { Workshop } from "@/shared/models/Workshop.model";
 @Component
 export default class WorkshopCard extends Vue {
   @Prop() private workshop!: Workshop;
+
+  date() {
+    return new Date(this.workshop.date).toDateString();
+  }
 }
 </script>
 

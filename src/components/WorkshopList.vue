@@ -40,7 +40,7 @@ export default class WorkshopList extends Vue {
         24,
         "noch einer",
         new Place("Hamburg", "https://goo.gl/maps/mbnen1jr8C81J6vU9"),
-        86876876,
+        1592212009205,
         ["gelb", "blau", "grün", "rot"],
         987
       )
@@ -50,7 +50,7 @@ export default class WorkshopList extends Vue {
         1,
         "der zweite",
         new Place("Berlin"),
-        12345678,
+        1592314101605,
         ["abcd", "fghi", "poiu"],
         37
       )
@@ -60,7 +60,7 @@ export default class WorkshopList extends Vue {
         33,
         "another Workshop",
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
-        321312,
+        1591316104625,
         ["hjk", "sdf"],
         87
       )
