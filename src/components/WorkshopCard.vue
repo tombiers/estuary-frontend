@@ -5,7 +5,8 @@
       <template slot="content">
         <div>I am WorkshopCard {{ workshop.name }}.</div>
         <div>My id is {{ workshop.id }}.</div>
-        <div>I was held at {{ workshop.place }}.</div>
+        <div v-if="workshop.place.mapLink != ''">I was held at <a :href= "workshop.place.mapLink" >{{ workshop.place.name }}</a>.</div>
+        <div v-else>I was held at {{ workshop.place.name }}</div>
         <div>The date was {{ workshop.date }}.</div>
         <div>I have been tagged with</div>
         <div>
