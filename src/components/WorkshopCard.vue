@@ -1,24 +1,25 @@
 <template>
-  <div>
-    <Card>
-      <template slot="title">{{ workshop.name }} {{ workshop.date }}</template>
-      <template slot="content">
-        <div>I am WorkshopCard {{ workshop.name }}.</div>
-        <div>My id is {{ workshop.id }}.</div>
-        <div v-if="workshop.place.mapLink != ''">I was held at <a :href= "workshop.place.mapLink" >{{ workshop.place.name }}</a>.</div>
-        <div v-else>I was held at {{ workshop.place.name }}</div>
-        <div>The date was {{ workshop.date }}.</div>
-        <div>I have been tagged with</div>
-        <div>
-          <li v-for="tag in workshop.tags" :key="tag">{{ tag }}</li>
-        </div>
-        <div>I got {{ workshop.upvotes }} upvotes.</div>
-      </template>
-      <template slot="footer">
-        <Button icon="pi pi-thumbs-up" label="Save" />
-      </template>
-    </Card>
-  </div>
+  <Card class="p-shadow-3">
+    <template slot="title">{{ workshop.name }} {{ workshop.date }}</template>
+    <template slot="content">
+      <div>I am WorkshopCard {{ workshop.name }}.</div>
+      <div>My id is {{ workshop.id }}.</div>
+      <div v-if="workshop.place.mapLink != ''">
+        I was held at
+        <a :href="workshop.place.mapLink">{{ workshop.place.name }}</a>.
+      </div>
+      <div v-else>I was held at {{ workshop.place.name }}</div>
+      <div>The date was {{ workshop.date }}.</div>
+      <div>I have been tagged with</div>
+      <div>
+        <li v-for="tag in workshop.tags" :key="tag">{{ tag }}</li>
+      </div>
+      <div>I got {{ workshop.upvotes }} upvotes.</div>
+    </template>
+    <template slot="footer">
+      <Button icon="pi pi-thumbs-up" label="Vote" />
+    </template>
+  </Card>
 </template>
 
 <script lang="ts">
@@ -32,4 +33,16 @@ export default class WorkshopCard extends Vue {
 </script>
 
 <style scoped lang="less">
+.p-card {
+  background-color: lightgreen;
+  height: 100%;
+}
+.p-card /deep/ .p-card-body {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-direction: column;
+}
+
 </style>
