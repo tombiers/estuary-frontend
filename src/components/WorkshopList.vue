@@ -1,9 +1,10 @@
 <template>
   <div>
+    <button v-on:click="getWorkshops">Lade Workshops</button>
     <h1>Here be some Workshops</h1>
-    TODO: Display Workshop Cards (custom Component)
-    <WorkshopCard v-bind:workshop = "aWorkshop"/>
-    <WorkshopCard v-bind:workshop = "anotherWorkshop"/>
+    <div v-for="workshop in someWorkshops" :key="workshop.id">
+      <WorkshopCard v-bind:workshop = "workshop"/>
+    </div>
   </div>
 </template>
 
@@ -21,14 +22,15 @@ import { Workshop } from "@/shared/models/Workshop.model.ts";
   }
 })
 export default class WorkshopList extends Vue {
-  data() {
-    return {
-      aWorkshop: {id: 1, name:"der zweite", place:"Berlin", date:12345678, tags:["abcd","fghi","poiu"],upvotes:37},
-      anotherWorkshop: new Workshop(33, "another Workshop", "Hamburg", 321312, ["hjk","sdf"], 87)  
-    }
+
+  someWorkshops: Workshop[] = [];
+
+  getWorkshops() {
+    this.someWorkshops.push(new Workshop(24,"noch einer","Bremen",86876876, ["gelb","blau","grün","rot"], 987))
+    this.someWorkshops.push(new Workshop(1, "der zweite", "Berlin", 12345678, ["abcd","fghi","poiu"], 37));
+    this.someWorkshops.push(new Workshop(33, "another Workshop", "Hamburg", 321312, ["hjk","sdf"], 87));
   }
 }
-
 
 // TODO: Get workshops from vuex store and instantiate WorkshopCards
 </script>
