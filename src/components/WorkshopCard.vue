@@ -1,16 +1,22 @@
 <template>
   <div>
-    <h1>I am WorkshopCard {{ workshop.name }}.</h1>
-    <h2>My id is {{ workshop.id }}.</h2>
-    <h2>I was held at {{ workshop.place }}.</h2>
-    <h2>The date was {{ workshop.date }}.</h2>
-    <h2>I have been tagged with</h2>
-    <ul>
-      <li v-for="tag in workshop.tags" :key="tag">
-        {{ tag }}
-      </li>
-    </ul>
-    <h2>I got {{ workshop.upvotes }} upvotes.</h2>
+    <Card>
+      <template slot="title">{{ workshop.name }} {{ workshop.date }}</template>
+      <template slot="content">
+        <div>I am WorkshopCard {{ workshop.name }}.</div>
+        <div>My id is {{ workshop.id }}.</div>
+        <div>I was held at {{ workshop.place }}.</div>
+        <div>The date was {{ workshop.date }}.</div>
+        <div>I have been tagged with</div>
+        <div>
+          <li v-for="tag in workshop.tags" :key="tag">{{ tag }}</li>
+        </div>
+        <div>I got {{ workshop.upvotes }} upvotes.</div>
+      </template>
+      <template slot="footer">
+        <Button icon="pi pi-thumbs-up" label="Save" />
+      </template>
+    </Card>
   </div>
 </template>
 
@@ -21,7 +27,6 @@ import { Workshop } from "@/shared/models/Workshop.model";
 @Component
 export default class WorkshopCard extends Vue {
   @Prop() private workshop!: Workshop;
-
 }
 </script>
 

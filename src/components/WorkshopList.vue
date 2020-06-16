@@ -1,7 +1,7 @@
 <template>
   <div>
-    <button v-on:click="getWorkshops">Lade Workshops</button>
-    <h1>Here be some Workshops</h1>
+    <Button label="Lade Workshops" icon="pi pi-check" iconPos="right" @click="getWorkshops()" :disabled="loadDisabled" />
+    <h1>Here be some Workshops <i class = "pi pi-thumbs-up"/></h1>
     <div v-for="workshop in someWorkshops" :key="workshop.id">
       <WorkshopCard v-bind:workshop = "workshop"/>
     </div>
@@ -24,11 +24,13 @@ import { Workshop } from "@/shared/models/Workshop.model.ts";
 export default class WorkshopList extends Vue {
 
   someWorkshops: Workshop[] = [];
+  loadDisabled = false;
 
   getWorkshops() {
     this.someWorkshops.push(new Workshop(24,"noch einer","Bremen",86876876, ["gelb","blau","grün","rot"], 987))
     this.someWorkshops.push(new Workshop(1, "der zweite", "Berlin", 12345678, ["abcd","fghi","poiu"], 37));
     this.someWorkshops.push(new Workshop(33, "another Workshop", "Hamburg", 321312, ["hjk","sdf"], 87));
+    this.loadDisabled = true;
   }
 }
 
