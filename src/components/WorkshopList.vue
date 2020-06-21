@@ -9,12 +9,8 @@
       :disabled="loadDisabled"
     />
     <div class="p-grid">
-      <div class="p-col-4" v-for="workshop in someWorkshops" :key="workshop.id">
+      <div class="p-col" v-for="workshop in someWorkshops" :key="workshop.id">
         <WorkshopCard v-bind:workshop="workshop" />
-      </div>
-    </div>
-    <div class="p-grid">
-      <div class="p-col-4" v-for="workshop in someWorkshops" :key="workshop.id">
       </div>
     </div>
   </div>

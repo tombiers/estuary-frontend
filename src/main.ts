@@ -3,8 +3,8 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
-import { VcAFrame, VcAColumn, VcABox, VcAInfoBox, VcAFilterTag } from 'vca-widget-base'
-import 'vca-widget-base/dist/vca-widget-base.css'
+import { VcAFrame, VcAColumn, VcABox, VcAInfoBox, VcAFilterTag } from 'vca-widget-base';
+import 'vca-widget-base/dist/vca-widget-base.css';
 
 import "primevue/resources/themes/nova-vue/theme.css";
 import "primevue/resources/primevue.min.css";

@@ -1,11 +1,18 @@
 <template>
-  <VcABox :title="headline()" :expand="true" class="vca-blue-background vca-more-shadow workshop">
+  <VcABox
+    id="card"
+    :title="headline()"
+    :expand="true"
+    class="vca-blue-background vca-more-shadow workshop"
+  >
     <template slot="header">{{ date() }}</template>
     <div>I have been tagged with</div>
     <div class="p-grid tags">
-      <VcAFilterTag class="p-col" v-for="tag in workshop.tags" :key="tag" 
-        field="" 
-        :value="tag" 
+      <VcAFilterTag 
+        class="p-col" 
+        v-for="tag in workshop.tags" :key="tag" 
+          field 
+          :value="tag" 
       />
     </div>
     <div>I got {{ workshop.upvotes }} upvotes.</div>
@@ -26,6 +33,15 @@ export default class WorkshopCard extends Vue {
   headline() {
     return this.workshop.type + " " + this.workshop.place.name;
   }
+  headlineWithLink() {
+    let re = "";
+    if (this.workshop.place.mapLink != "") {
+      re = `<a href="${this.workshop.place.mapLink}">${this.workshop.place.name}</a>`;
+    } else {
+      re = `I was held at ${this.workshop.place.name}`;
+    }
+    return re;
+  }
 }
 </script>
 
@@ -35,8 +51,6 @@ export default class WorkshopCard extends Vue {
 }
 
 .tags {
-  margin: .5em;
+  margin: 0.5em;
 }
-
-
 </style>
