@@ -12,6 +12,7 @@
     "primeflex": "^1.2.0",
     "primeicons": "^4.0.0",
     "primevue": "^2.0.0-rc.1",
+    "vca-widget-base": "^0.1.5",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^8.4.2",

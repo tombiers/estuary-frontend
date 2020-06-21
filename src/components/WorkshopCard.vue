@@ -1,8 +1,9 @@
 <template>
+  <!--
   <Card class="p-shadow-3">
-    <template slot="title">{{ workshop.name }} {{ date() }}</template>
+    <template slot="title">{{ workshop.type }} {{ date() }} {{ workshop.place.name }}</template>
     <template slot="content">
-      <div>I am WorkshopCard {{ workshop.name }}.</div>
+      <div>My Workshop Type is {{ workshop.type }}.</div>
       <div>My id is {{ workshop.id }}.</div>
       <div v-if="workshop.place.mapLink != ''">
         I was held at
@@ -20,6 +21,15 @@
       <Button icon="pi pi-thumbs-up" label="Vote" />
     </template>
   </Card>
+  -->
+  <VcABox :title="headline()" :expand="true" class="vca-blue-background vca-more-shadow workshop">
+    <template slot="header">{{ date() }}</template>
+    <div>I have been tagged with</div>
+      <div v-for="tag in workshop.tags" :key="tag">
+        <VcAFilterTag field="" :value="tag" />
+        </div>
+    <div>I got {{ workshop.upvotes }} upvotes.</div>
+  </VcABox>
 </template>
 
 <script lang="ts">
@@ -32,6 +42,9 @@ export default class WorkshopCard extends Vue {
 
   date() {
     return new Date(this.workshop.date).toDateString();
+  }
+  headline() {
+    return this.workshop.type + " " + this.workshop.place.name;
   }
 }
 </script>
@@ -47,6 +60,9 @@ export default class WorkshopCard extends Vue {
   justify-content: space-between;
   align-items: stretch;
   flex-direction: column;
+}
+.workshop {
+  height: 100%;
 }
 
 </style>

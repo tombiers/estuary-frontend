@@ -13,6 +13,10 @@
         <WorkshopCard v-bind:workshop="workshop" />
       </div>
     </div>
+    <div class="p-grid">
+      <div class="p-col-4" v-for="workshop in someWorkshops" :key="workshop.id">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -38,7 +42,7 @@ export default class WorkshopList extends Vue {
     this.someWorkshops.push(
       new Workshop(
         24,
-        "noch einer",
+        "PS Workshop",
         new Place("Hamburg", "https://goo.gl/maps/mbnen1jr8C81J6vU9"),
         1592212009205,
         ["gelb", "blau", "grün", "rot"],
@@ -48,7 +52,7 @@ export default class WorkshopList extends Vue {
     this.someWorkshops.push(
       new Workshop(
         1,
-        "der zweite",
+        "PS Workshop",
         new Place("Berlin"),
         1592314101605,
         ["abcd", "fghi", "poiu"],
@@ -58,7 +62,7 @@ export default class WorkshopList extends Vue {
     this.someWorkshops.push(
       new Workshop(
         33,
-        "another Workshop",
+        "Idea Workshop",
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
         1591316104625,
         ["hjk", "sdf"],

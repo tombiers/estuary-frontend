@@ -1,9 +1,9 @@
-import { Place } from './Place.model';
+import { Place } from "./Place.model";
 
-export class Workshop { 
+export class Workshop {
   constructor(
     public id: number,
-    public name: string,
+    public type: string,
     public place: Place,
     public date: number,
     public tags: string[],
