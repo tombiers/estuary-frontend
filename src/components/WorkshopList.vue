@@ -9,7 +9,7 @@
       :disabled="loadDisabled"
     />
     <div class="p-grid">
-      <div class="p-col" v-for="workshop in someWorkshops" :key="workshop.id">
+      <div class="p-col-12 p-md-6 p-lg-4 p-xl-3" v-for="workshop in someWorkshops" :key="workshop.id">
         <WorkshopCard v-bind:workshop="workshop" />
       </div>
     </div>
@@ -62,6 +62,26 @@ export default class WorkshopList extends Vue {
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
         1591316104625,
         ["hjk", "sdf"],
+        87
+      )
+    );
+    this.someWorkshops.push(
+      new Workshop(
+        31,
+        "Idea Workshop",
+        new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
+        1591316104625,
+        ["asdads", "asdasd","iuiu","uahduiasdojasd"],
+        87
+      )
+    );
+    this.someWorkshops.push(
+      new Workshop(
+        93,
+        "Idea Workshop",
+        new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
+        1591316104625,
+        ["hjk", "sdf","iuoi","ioo easda asdasd"],
         87
       )
     );
