@@ -70,8 +70,8 @@ export default class WorkshopList extends Vue {
         31,
         "Idea Workshop",
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
-        1591316104625,
-        ["asdads", "asdasd","iuiu","uahduiasdojasd"],
+        1291316104625,
+        ["asdads", "asdasd","iuiu","uahduiasdojasd", "uhjoj", "iuoijoi", "ijojoi", "jiuhjiu"],
         87
       )
     );
@@ -80,7 +80,7 @@ export default class WorkshopList extends Vue {
         93,
         "Idea Workshop",
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
-        1591316104625,
+        1191316104625,
         ["hjk", "sdf","iuoi","ioo easda asdasd"],
         87
       )
