@@ -1,12 +1,16 @@
 <template>
   <VcABox
     id="card"
-    :title="headline()"
+    :title="headlineWithDate()"
     :expand="true"
     class="vca-blue-background vca-more-shadow workshop"
   >
-    <template slot="header">{{ date() }}</template>
-    <div>I have been tagged with</div>
+    <template slot="header">
+      <span class="p-overlay-badge">
+      <span class="p-badge p-badge-info">{{workshop.upvotes}}</span>
+      <i class="pi pi-thumbs-up" style="font-size: 2em"></i>
+      </span>
+    </template>
     <div class="p-grid tags">
       <VcAFilterTag 
         class="p-col" 
@@ -15,7 +19,6 @@
           :value="tag" 
       />
     </div>
-    <div>I got {{ workshop.upvotes }} upvotes.</div>
   </VcABox>
 </template>
 
@@ -32,6 +35,9 @@ export default class WorkshopCard extends Vue {
   }
   headline() {
     return this.workshop.type + " " + this.workshop.place.name;
+  }
+  headlineWithDate() {
+    return this.headline() + " " + this.date();
   }
   headlineWithLink() {
     let re = "";
@@ -52,5 +58,17 @@ export default class WorkshopCard extends Vue {
 
 .tags {
   margin: 0.5em;
+}
+
+.likes-text {
+  color: blue;
+  font-size: 2em;
+  align-content: center;
+}
+
+.likes-thumb {
+  color: blue;
+  font-size: 1em;
+  align-content: center;
 }
 </style>
