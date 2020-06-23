@@ -4,7 +4,7 @@
       class="testButton"
       label="Lade Test Workshops"
       icon="pi pi-check"
-      iconPos="right"
+      icon-pos="left"
       @click="getWorkshops()"
       :disabled="loadDisabled"
     />

@@ -49,14 +49,6 @@ export default class WorkshopCard extends Vue {
     const fullDate = new Date(this.workshop.date);
     return fullDate.getMonth() + 1 + "." + fullDate.getFullYear(); // months are counted from 0, add 1 for display
   }
-  // computed getter
-  get headline() {
-    return this.workshop.place.name;
-  }
-  // computed getter
-  get headlineWithDate() {
-    return this.headline + " " + this.date;
-  }
 }
 </script>
 
@@ -71,7 +63,6 @@ export default class WorkshopCard extends Vue {
 }
 
 .workshop-container /deep/ .el-card__body {
-  position: relative;
   flex: 1;
 }
 
