@@ -11,7 +11,7 @@
     <div class="p-grid">
       <div
         class="p-col-12 p-md-6 p-lg-4 p-xl-3"
-        v-for="workshop in someWorkshops"
+        v-for="workshop in workshopStore.workshops"
         :key="workshop.id"
       >
         <WorkshopCard :workshop="workshop" />
@@ -25,6 +25,8 @@ import { Component, Vue } from "vue-property-decorator";
 import WorkshopCard from "@/components/WorkshopCard.vue";
 import { Workshop } from "@/shared/models/Workshop.model.ts";
 import { Place } from "@/shared/models/Place.model.ts";
+import { getModule } from "vuex-module-decorators";
+import WorkshopStore from "@/store/modules/Workshops.ts";
 
 @Component({
   // Specify `components` option.
@@ -35,74 +37,14 @@ import { Place } from "@/shared/models/Place.model.ts";
   }
 })
 export default class WorkshopList extends Vue {
-  someWorkshops: Workshop[] = [];
   loadDisabled = false;
+  workshopStore = getModule(WorkshopStore)
 
   getWorkshops() {
-    this.someWorkshops.push(
-      new Workshop(
-        24,
-        "PS Workshop",
-        new Place("Hamburg", "https://goo.gl/maps/mbnen1jr8C81J6vU9"),
-        1592212009205,
-        ["gelb", "blau", "grün", "rot"],
-        987,
-        "Ein Workshop teaser."
-      )
-    );
-    this.someWorkshops.push(
-      new Workshop(
-        1,
-        "PS Workshop",
-        new Place("Berlin"),
-        1592314101605,
-        ["abcd", "fghi", "poiu"],
-        37,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ut facilisis metus. Mauris viverra ipsum in sollicitudin porttitor. Aliquam semper dolor ante, eget pellentesque arcu malesuada a."
-      )
-    );
-    this.someWorkshops.push(
-      new Workshop(
-        33,
-        "Idea Workshop",
-        new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
-        1591316104625,
-        ["hjk", "sdf"],
-        87,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-      )
-    );
-    this.someWorkshops.push(
-      new Workshop(
-        31,
-        "Idea Workshop",
-        new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
-        1291316104625,
-        [
-          "asdads",
-          "asdasd",
-          "iuiu",
-          "uahduiasdojasd",
-          "uhjoj",
-          "iuoijoi",
-          "ijojoi",
-          "jiuhjiu"
-        ],
-        87,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-      )
-    );
-    this.someWorkshops.push(
-      new Workshop(
-        93,
-        "Idea Workshop",
-        new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
-        1191316104625,
-        ["hjk", "sdf", "iuoi", "ioo easda asdasd"],
-        87,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-      )
-    );
+    if (this.workshopStore.workshops.length == 0) {
+      console.log("no workshops in store, call test data creator.")
+      this.workshopStore.createTestData();
+    }
     this.loadDisabled = true;
   }
 }
