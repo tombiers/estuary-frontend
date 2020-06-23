@@ -7,6 +7,7 @@ export class Workshop {
     public place: Place,
     public date: number,
     public tags: string[],
-    public upvotes: number
+    public upvotes: number,
+    public teaser: string
   ) { }
 }

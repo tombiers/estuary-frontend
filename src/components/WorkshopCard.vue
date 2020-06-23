@@ -1,32 +1,38 @@
 <template>
-<div class="workshop-container">
-  <VcABox
-    id="card"
-    :title="workshop.type"
-    :expand="true"
-    class="vca-blue-background vca-more-shadow workshop"
-  >
-    <template slot="header">
-      {{ date }} <br> {{ workshop.place.name}}
-    </template>
-    <div class="workshop-body">
-    <div class="workshop-body-teaser">
-      teaser text
-    </div>
-    <div class="workshop-body-tag-container">
-      <VcAFilterTag 
-        class="tag" 
-        v-for="tag in workshop.tags" :key="tag" 
-          field 
-          :value="tag" 
-      />
-    </div>
-    <div class="workshop-body-likes">
-      Likes: {{ workshop.upvotes }}
-    </div>
-    </div>
-  </VcABox>
-</div>
+  <div class="workshop-container">
+    <VcABox
+      id="card"
+      :title="workshop.type"
+      :expand="true"
+      class="vca-blue-background vca-more-shadow workshop"
+    >
+      <template slot="header">
+        <div>
+          {{ date }}
+        </div>
+        <div>
+          {{ workshop.place.name }}
+        </div>
+      </template>
+      <div class="workshop-body">
+        <div class="workshop-body-teaser">
+          {{ workshop.teaser }}
+        </div>
+        <div class="workshop-body-tag-container">
+          <VcAFilterTag
+            class="tag"
+            v-for="tag in workshop.tags"
+            :key="tag"
+            field
+            :value="tag"
+          />
+        </div>
+        <div class="workshop-body-likes">
+          Likes: {{ workshop.upvotes }}
+        </div>
+      </div>
+    </VcABox>
+  </div>
 </template>
 
 <script lang="ts">
@@ -52,8 +58,6 @@ export default class WorkshopCard extends Vue {
     return this.headline + " " + this.date;
   }
 }
-
-
 </script>
 
 <style scoped lang="less">
@@ -111,5 +115,4 @@ export default class WorkshopCard extends Vue {
   font-size: 1em;
   align-content: center;
 }
-
 </style>

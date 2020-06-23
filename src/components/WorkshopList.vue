@@ -42,7 +42,8 @@ export default class WorkshopList extends Vue {
         new Place("Hamburg", "https://goo.gl/maps/mbnen1jr8C81J6vU9"),
         1592212009205,
         ["gelb", "blau", "grün", "rot"],
-        987
+        987,
+        "Ein Workshop teaser."
       )
     );
     this.someWorkshops.push(
@@ -52,7 +53,8 @@ export default class WorkshopList extends Vue {
         new Place("Berlin"),
         1592314101605,
         ["abcd", "fghi", "poiu"],
-        37
+        37,
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ut facilisis metus. Mauris viverra ipsum in sollicitudin porttitor. Aliquam semper dolor ante, eget pellentesque arcu malesuada a."
       )
     );
     this.someWorkshops.push(
@@ -62,7 +64,8 @@ export default class WorkshopList extends Vue {
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
         1591316104625,
         ["hjk", "sdf"],
-        87
+        87,
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       )
     );
     this.someWorkshops.push(
@@ -72,7 +75,8 @@ export default class WorkshopList extends Vue {
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
         1291316104625,
         ["asdads", "asdasd","iuiu","uahduiasdojasd", "uhjoj", "iuoijoi", "ijojoi", "jiuhjiu"],
-        87
+        87,
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       )
     );
     this.someWorkshops.push(
@@ -82,7 +86,8 @@ export default class WorkshopList extends Vue {
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
         1191316104625,
         ["hjk", "sdf","iuoi","ioo easda asdasd"],
-        87
+        87,
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       )
     );
     this.loadDisabled = true;
