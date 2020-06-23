@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div>
     <Button
       class="testButton"
       label="Lade Test Workshops"
@@ -8,23 +9,18 @@
       @click="getWorkshops()"
       :disabled="loadDisabled"
     />
-    <Button
-      class="testButton"
-      label="Setze Workshop Filter"
-      icon="pi pi-check"
-      icon-pos="left"
-      @click="setWorkshopFilter()"
-      :disabled="false"
-    />
-    <AutoComplete 
-      class="testButton"
-      :multiple="true" 
-      v-model="selectedQueries" 
-      :suggestions="filteredQueriesMultiple" 
-      @complete="completeQueries($event)"
-      @item-select="addFilter($event)"
-      @item-unselect="removeFilter($event)"
-     />
+    </div>
+      <div class="myAuto">
+        <AutoComplete 
+          class="testButton"
+          :multiple="true" 
+          v-model="selectedQueries" 
+          :suggestions="filteredQueriesMultiple" 
+          @complete="completeQueries($event)"
+          @item-select="addFilter($event)"
+          @item-unselect="removeFilter($event)"
+        />
+      </div>
     <div class="p-grid">
       <div
         class="p-col-12 p-md-6 p-lg-4 p-xl-3"
@@ -75,33 +71,36 @@ export default class WorkshopList extends Vue {
     this.loadDisabled = true;
   }
 
-  private filterOn = false;
-
-  setWorkshopFilter() {
-    if (!this.filterOn) {
-      this.workshopStore.setFilter(["Berlin", "sdf", 1591316104625]);
-    } else {
-      this.workshopStore.setFilter([]);
-    }
-    this.filterOn = !this.filterOn;
-  }
-
   addFilter(event: any) {
-    console.log("adding: " + event.value)
     this.workshopStore.addFilter(event.value);
   }
 
   removeFilter(event: any) {
-    console.log("removing: " + event.value)
     this.workshopStore.removeFilter(event.value);
   }
 }
-
-// TODO: Get workshops from vuex store and instantiate WorkshopCards
 </script>
 
 <style scoped lang="less">
 .testButton {
   margin: 1em;
 }
+
+.myAuto {
+  display: flex;
+}
+
+.myAuto /deep/ .p-autocomplete {
+  flex: 1;
+  display: unset;
+}
+
+.myAuto /deep/ .p-autocomplete-multiple-container {
+  flex-wrap: wrap;
+}
+
+.myAuto /deep/ .p-autocomplete-token {
+  margin: .05em;
+}
+
 </style>
