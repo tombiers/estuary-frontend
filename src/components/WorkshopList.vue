@@ -16,6 +16,15 @@
       @click="setWorkshopFilter()"
       :disabled="false"
     />
+    <AutoComplete 
+      class="testButton"
+      :multiple="true" 
+      v-model="selectedQueries" 
+      :suggestions="filteredQueriesMultiple" 
+      @complete="completeQueries($event)"
+      @item-select="addFilter($event)"
+      @item-unselect="removeFilter($event)"
+     />
     <div class="p-grid">
       <div
         class="p-col-12 p-md-6 p-lg-4 p-xl-3"
@@ -47,6 +56,16 @@ import WorkshopStore from "@/store/modules/Workshops.ts";
 export default class WorkshopList extends Vue {
   loadDisabled = false;
   workshopStore = getModule(WorkshopStore);
+  selectedQueries: string[] = [];
+	filteredQueriesMultiple: string[] = [];
+
+  public completeQueries(event:any) {
+    const availableQueries =  this.workshopStore.matchingQueries(event.query);
+    if (availableQueries.length == 0) { //enable unkonwn search terms
+        availableQueries.push(event.query) 
+    } 
+    this.filteredQueriesMultiple = availableQueries;
+  }
 
   getWorkshops() {
     if (this.workshopStore.workshops.length == 0) {
@@ -65,6 +84,16 @@ export default class WorkshopList extends Vue {
       this.workshopStore.setFilter([]);
     }
     this.filterOn = !this.filterOn;
+  }
+
+  addFilter(event: any) {
+    console.log("adding: " + event.value)
+    this.workshopStore.addFilter(event.value);
+  }
+
+  removeFilter(event: any) {
+    console.log("removing: " + event.value)
+    this.workshopStore.removeFilter(event.value);
   }
 }
 

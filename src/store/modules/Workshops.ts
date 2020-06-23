@@ -33,9 +33,35 @@ export default class WorkshopStore extends VuexModule {
     });
   }
 
+  get matchingQueries() {
+    return (query: string):string[] => {
+      const possibleQueries: string[] = [];
+      this.allWorkshops.forEach(ws => {
+        if (ws.type.toLowerCase().includes(query.toLowerCase())) possibleQueries.push(ws.type);
+        if (ws.place.name.toLowerCase().includes(query.toLowerCase())) possibleQueries.push(ws.place.name);
+        possibleQueries.push(...ws.tags.filter(tag => tag.toLowerCase().includes(query.toLowerCase())));
+      });
+      return [...new Set(possibleQueries)]; // remove duplicates
+    }
+  }
+
   @Mutation
   public setFilter(query: (string | number)[]) {
     this.filterQuery = query;
+  }
+
+  @Mutation
+  public addFilter(query: string | number) {
+    if (!this.filterQuery.includes(query))
+    this.filterQuery.push(query);
+  }
+
+  @Mutation
+  public removeFilter(query: string | number) {
+    const index = this.filterQuery.indexOf(query);
+    if (index > -1) {
+      this.filterQuery.splice(index, 1);
+    }
   }
 
   @Mutation
