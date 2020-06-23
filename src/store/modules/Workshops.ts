@@ -6,7 +6,7 @@ import store from "@/store";
 @Module({ dynamic: true, store, name: "WorkshopStore" })
 export default class WorkshopStore extends VuexModule {
   allWorkshops: Workshop[] = [];
-  filterQuery: string[] = [];
+  filterQuery: (string | number) [] = [];
 
   get workshops(): Workshop[] {
     return this.allWorkshops;
@@ -16,17 +16,25 @@ export default class WorkshopStore extends VuexModule {
     if (this.filterQuery.length == 0) return this.workshops;
     return this.allWorkshops.filter(ws => {
       return this.filterQuery.every(query => {
-        const res =
-          ws.type.includes(query) ||
-          ws.place.name.includes(query) ||
-          ws.tags.some(tag => tag.includes(query));
+        let res = false;
+        if (typeof query === "string") {
+          res = 
+            ws.type.includes(query) ||
+            ws.place.name.includes(query) ||
+            ws.tags.some(tag => tag.includes(query));
+        } else {
+          const wsDate = new Date(ws.date);
+          const queryDate = new Date(query);
+          res = (wsDate.getFullYear() == queryDate.getFullYear())
+            && (wsDate.getMonth() == queryDate.getMonth());
+        }
         return res;
       });
     });
   }
 
   @Mutation
-  public setFilter(query: string[]) {
+  public setFilter(query: (string | number)[]) {
     this.filterQuery = query;
   }
 

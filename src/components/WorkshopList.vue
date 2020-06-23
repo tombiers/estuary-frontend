@@ -60,7 +60,7 @@ export default class WorkshopList extends Vue {
 
   setWorkshopFilter() {
     if (!this.filterOn) {
-      this.workshopStore.setFilter(["Berlin", "sdf"]);
+      this.workshopStore.setFilter(["Berlin", "sdf", 1591316104625]);
     } else {
       this.workshopStore.setFilter([]);
     }
