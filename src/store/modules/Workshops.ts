@@ -1,19 +1,38 @@
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
 import { Workshop } from "@/shared/models/Workshop.model";
 import { Place } from "@/shared/models/Place.model";
-import store from "@/store"
+import store from "@/store";
 
-@Module({ dynamic: true, store, name: 'workshopStore' })
+@Module({ dynamic: true, store, name: "WorkshopStore" })
 export default class WorkshopStore extends VuexModule {
   allWorkshops: Workshop[] = [];
+  filterQuery: string[] = [];
 
   get workshops(): Workshop[] {
     return this.allWorkshops;
   }
 
+  get filteredWorkshops(): Workshop[] {
+    if (this.filterQuery.length == 0) return this.workshops;
+    return this.allWorkshops.filter(ws => {
+      return this.filterQuery.every(query => {
+        const res =
+          ws.type.includes(query) ||
+          ws.place.name.includes(query) ||
+          ws.tags.some(tag => tag.includes(query));
+        return res;
+      });
+    });
+  }
+
+  @Mutation
+  public setFilter(query: string[]) {
+    this.filterQuery = query;
+  }
+
   @Mutation
   public addWorkshop(workshop: Workshop) {
-    this.allWorkshops.push(workshop)
+    this.allWorkshops.push(workshop);
   }
 
   @Action
@@ -83,6 +102,4 @@ export default class WorkshopStore extends VuexModule {
       )
     );
   }
-
-
 }

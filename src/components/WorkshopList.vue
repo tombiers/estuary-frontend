@@ -8,10 +8,18 @@
       @click="getWorkshops()"
       :disabled="loadDisabled"
     />
+    <Button
+      class="testButton"
+      label="Setze Workshop Filter"
+      icon="pi pi-check"
+      icon-pos="left"
+      @click="setWorkshopFilter()"
+      :disabled="false"
+    />
     <div class="p-grid">
       <div
         class="p-col-12 p-md-6 p-lg-4 p-xl-3"
-        v-for="workshop in workshopStore.workshops"
+        v-for="workshop in workshopStore.filteredWorkshops"
         :key="workshop.id"
       >
         <WorkshopCard :workshop="workshop" />
@@ -38,14 +46,25 @@ import WorkshopStore from "@/store/modules/Workshops.ts";
 })
 export default class WorkshopList extends Vue {
   loadDisabled = false;
-  workshopStore = getModule(WorkshopStore)
+  workshopStore = getModule(WorkshopStore);
 
   getWorkshops() {
     if (this.workshopStore.workshops.length == 0) {
-      console.log("no workshops in store, call test data creator.")
+      console.log("no workshops in store, call test data creator.");
       this.workshopStore.createTestData();
     }
     this.loadDisabled = true;
+  }
+
+  private filterOn = false;
+
+  setWorkshopFilter() {
+    if (!this.filterOn) {
+      this.workshopStore.setFilter(["Berlin", "sdf"]);
+    } else {
+      this.workshopStore.setFilter([]);
+    }
+    this.filterOn = !this.filterOn;
   }
 }
 
