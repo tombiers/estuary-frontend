@@ -9,8 +9,12 @@
       :disabled="loadDisabled"
     />
     <div class="p-grid">
-      <div class="p-col-12 p-md-6 p-lg-4 p-xl-3" v-for="workshop in someWorkshops" :key="workshop.id">
-        <WorkshopCard v-bind:workshop="workshop" />
+      <div
+        class="p-col-12 p-md-6 p-lg-4 p-xl-3"
+        v-for="workshop in someWorkshops"
+        :key="workshop.id"
+      >
+        <WorkshopCard :workshop="workshop" />
       </div>
     </div>
   </div>
@@ -74,7 +78,16 @@ export default class WorkshopList extends Vue {
         "Idea Workshop",
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
         1291316104625,
-        ["asdads", "asdasd","iuiu","uahduiasdojasd", "uhjoj", "iuoijoi", "ijojoi", "jiuhjiu"],
+        [
+          "asdads",
+          "asdasd",
+          "iuiu",
+          "uahduiasdojasd",
+          "uhjoj",
+          "iuoijoi",
+          "ijojoi",
+          "jiuhjiu"
+        ],
         87,
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       )
@@ -85,7 +98,7 @@ export default class WorkshopList extends Vue {
         "Idea Workshop",
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
         1191316104625,
-        ["hjk", "sdf","iuoi","ioo easda asdasd"],
+        ["hjk", "sdf", "iuoi", "ioo easda asdasd"],
         87,
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
       )
@@ -101,5 +114,4 @@ export default class WorkshopList extends Vue {
 .testButton {
   margin: 1em;
 }
-
 </style>

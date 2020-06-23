@@ -9,5 +9,5 @@ export class Workshop {
     public tags: string[],
     public upvotes: number,
     public teaser: string
-  ) { }
+  ) {}
 }
