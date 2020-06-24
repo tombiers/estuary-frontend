@@ -60,6 +60,12 @@ export default class WorkshopList extends Vue {
     if (availableQueries.length == 0) { //enable unkonwn search terms
         availableQueries.push(event.query) 
     } 
+    this.selectedQueries.forEach(element => { //remove already queries from suggestions
+      const index = availableQueries.indexOf(element);
+      if (index > -1) {
+        availableQueries.splice(index, 1);
+      }
+    });
     this.filteredQueriesMultiple = availableQueries;
   }
 
