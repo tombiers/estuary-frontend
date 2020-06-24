@@ -19,9 +19,9 @@ export default class WorkshopStore extends VuexModule {
         let res = false;
         if (typeof query === "string") {
           res = 
-            ws.type.includes(query) ||
-            ws.place.name.includes(query) ||
-            ws.tags.some(tag => tag.includes(query));
+            ws.type.toLowerCase().includes(query.toLowerCase()) ||
+            ws.place.name.toLowerCase().includes(query.toLowerCase()) ||
+            ws.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()));
         } else {
           const wsDate = new Date(ws.date);
           const queryDate = new Date(query);
