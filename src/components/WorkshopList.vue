@@ -19,6 +19,7 @@
           @complete="completeQueries($event)"
           @item-select="addFilter($event)"
           @item-unselect="removeFilter($event)"
+          placeholder="Suche"
         />
       </div>
     <div class="p-grid">
@@ -57,10 +58,8 @@ export default class WorkshopList extends Vue {
 
   public completeQueries(event:any) {
     const availableQueries =  this.workshopStore.matchingQueries(event.query);
-    if (availableQueries.length == 0) { //enable unkonwn search terms
-        availableQueries.push(event.query) 
-    } 
-    this.selectedQueries.forEach(element => { //remove already queries from suggestions
+    availableQueries.unshift(event.query) // allow unkown/incomplete queries
+    this.selectedQueries.forEach(element => { //remove already selected queries from suggestions
       const index = availableQueries.indexOf(element);
       if (index > -1) {
         availableQueries.splice(index, 1);
