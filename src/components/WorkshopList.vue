@@ -10,17 +10,28 @@
       :disabled="loadDisabled"
     />
     </div>
-      <div class="myAuto">
-        <AutoComplete 
-          class="testButton"
-          :multiple="true" 
-          v-model="selectedQueries" 
-          :suggestions="filteredQueriesMultiple" 
+      <div class="searchBar">
+        <AutoComplete
+          class="my-autoComplete"
+          :multiple="true"
+          v-model="selectedQueries"
+          :suggestions="filteredQueriesMultiple"
           @complete="completeQueries($event)"
           @item-select="addFilter($event)"
           @item-unselect="removeFilter($event)"
           placeholder="Suche"
         />
+        <div class="montPicker">
+          <Calendar
+            v-model="value"
+            view="month"
+            dateFormat="mm.yy"
+            :yearNavigator="true"
+            yearRange="2000:2030"
+            placeholder="Datum"
+          />
+        <!--{{ value }}-->
+      </div>
       </div>
     <div class="p-grid">
       <div
@@ -54,7 +65,8 @@ export default class WorkshopList extends Vue {
   loadDisabled = false;
   workshopStore = getModule(WorkshopStore);
   selectedQueries: string[] = [];
-	filteredQueriesMultiple: string[] = [];
+  filteredQueriesMultiple: string[] = [];
+  value:Date|null = null;
 
   public completeQueries(event:any) {
     const availableQueries =  this.workshopStore.matchingQueries(event.query);
@@ -91,21 +103,35 @@ export default class WorkshopList extends Vue {
   margin: 1em;
 }
 
-.myAuto {
+.searchBar {
   display: flex;
-}
-
-.myAuto /deep/ .p-autocomplete {
-  flex: 1;
-  display: unset;
-}
-
-.myAuto /deep/ .p-autocomplete-multiple-container {
+  align-items: stretch;
   flex-wrap: wrap;
 }
 
-.myAuto /deep/ .p-autocomplete-token {
+.my-autoComplete {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.searchBar /deep/ .p-autocomplete {
+  flex: 1;
+  min-width: 10em;
+  display: unset;
+}
+
+.searchBar /deep/ .p-autocomplete-multiple-container {
+  flex-wrap: wrap;
+}
+
+.searchBar /deep/ .p-autocomplete-token {
   margin: .05em;
 }
+
+.montPicker {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
 
 </style>
