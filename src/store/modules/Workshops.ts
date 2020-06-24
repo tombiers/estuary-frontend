@@ -6,7 +6,8 @@ import store from "@/store";
 @Module({ dynamic: true, store, name: "WorkshopStore" })
 export default class WorkshopStore extends VuexModule {
   allWorkshops: Workshop[] = [];
-  filterQuery: (string | number) [] = [];
+  filterQuery: (string | number)[] = [];
+  filterDate: Date|null = null;
 
   get workshops(): Workshop[] {
     return this.allWorkshops;
@@ -18,7 +19,7 @@ export default class WorkshopStore extends VuexModule {
       return this.filterQuery.every(query => {
         let res = false;
         if (typeof query === "string") {
-          res = 
+          res =
             ws.type.toLowerCase().includes(query.toLowerCase()) ||
             ws.place.name.toLowerCase().includes(query.toLowerCase()) ||
             ws.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()));
@@ -29,7 +30,7 @@ export default class WorkshopStore extends VuexModule {
             && (wsDate.getMonth() == queryDate.getMonth());
         }
         return res;
-      });
+      }); 
     });
   }
 

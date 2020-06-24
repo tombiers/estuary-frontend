@@ -10,29 +10,31 @@
       :disabled="loadDisabled"
     />
     </div>
-      <div class="searchBar">
-        <AutoComplete
-          class="my-autoComplete"
-          :multiple="true"
-          v-model="selectedQueries"
-          :suggestions="filteredQueriesMultiple"
-          @complete="completeQueries($event)"
-          @item-select="addFilter($event)"
-          @item-unselect="removeFilter($event)"
-          placeholder="Suche"
-        />
-        <div class="montPicker">
+      <div class="searchBar">        
+        <div class="monthPicker">
           <Calendar
-            v-model="value"
+            v-model="datepicker"
             view="month"
             dateFormat="mm.yy"
             :yearNavigator="true"
             yearRange="2000:2030"
             placeholder="Datum"
+            :showIcon="true"
+            @date-select="filterDate($event)"
           />
-        <!--{{ value }}-->
       </div>
-      </div>
+      <AutoComplete
+        class="my-autoComplete"
+        :multiple="true"
+        v-model="selectedQueries"
+        :suggestions="filteredQueriesMultiple"
+        @complete="completeQueries($event)"
+        @item-select="addFilter($event)"
+        @item-unselect="removeFilter($event)"
+        placeholder="Suche"
+        field="display"
+      />
+    </div>
     <div class="p-grid">
       <div
         class="p-col-12 p-md-6 p-lg-4 p-xl-3"
@@ -52,6 +54,7 @@ import { Workshop } from "@/shared/models/Workshop.model.ts";
 import { Place } from "@/shared/models/Place.model.ts";
 import { getModule } from "vuex-module-decorators";
 import WorkshopStore from "@/store/modules/Workshops.ts";
+import { AutoCompleteItem } from "@/shared/models/AutoCompleteItem.model.ts";
 
 @Component({
   // Specify `components` option.
@@ -64,20 +67,24 @@ import WorkshopStore from "@/store/modules/Workshops.ts";
 export default class WorkshopList extends Vue {
   loadDisabled = false;
   workshopStore = getModule(WorkshopStore);
-  selectedQueries: string[] = [];
-  filteredQueriesMultiple: string[] = [];
-  value:Date|null = null;
+  selectedQueries: AutoCompleteItem[] = [];
+  filteredQueriesMultiple: AutoCompleteItem[] = [];
+  datepicker:Date|null = null;
 
   public completeQueries(event:any) {
     const availableQueries =  this.workshopStore.matchingQueries(event.query);
     availableQueries.unshift(event.query) // allow unkown/incomplete queries
-    this.selectedQueries.forEach(element => { //remove already selected queries from suggestions
-      const index = availableQueries.indexOf(element);
+    this.selectedQueries.forEach(({value}) => { //remove already selected string queries from suggestions
+    if (typeof value === "string") {
+      const index = availableQueries.indexOf(value);
       if (index > -1) {
         availableQueries.splice(index, 1);
-      }
+      }}
     });
-    this.filteredQueriesMultiple = availableQueries;
+    this.filteredQueriesMultiple = []; // remove old items
+    availableQueries.forEach(query => {
+      this.filteredQueriesMultiple.push(new AutoCompleteItem(query));
+    })
   }
 
   getWorkshops() {
@@ -88,14 +95,22 @@ export default class WorkshopList extends Vue {
     this.loadDisabled = true;
   }
 
+  filterDate(event: Date) {
+    this.selectedQueries.push(new AutoCompleteItem(Number(event)));
+    this.workshopStore.addFilter(Number(event));
+    this.datepicker = null;
+
+  }
+
   addFilter(event: any) {
-    this.workshopStore.addFilter(event.value);
+    this.workshopStore.addFilter(event.value.value);
   }
 
   removeFilter(event: any) {
-    this.workshopStore.removeFilter(event.value);
+    this.workshopStore.removeFilter(event.value.value);
   }
 }
+
 </script>
 
 <style scoped lang="less">
@@ -128,10 +143,24 @@ export default class WorkshopList extends Vue {
   margin: .05em;
 }
 
-.montPicker {
+.monthPicker {
   margin-top: 1em;
   margin-bottom: 1em;
+  margin-right: .25em;
+  //margin-left: .25em;
 }
 
+.monthPicker /deep/ .p-inputtext {
+  display: none;
+}
+
+.monthPicker /deep/ .p-monthpicker {
+  width: 15em;
+}
+
+.monthPicker /deep/ .p-button {
+  display: unset;
+  border-radius: 5px;
+}
 
 </style>
