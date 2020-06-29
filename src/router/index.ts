@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
 import WorkshopOverview from "../views/WorkshopOverview.vue";
+import WorkshopDetails from "../views/WorkshopDetails.vue";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,11 @@ const routes: Array<RouteConfig> = [
     path: "/WorkshopOverview",
     name: "WorkshopOverview",
     component: WorkshopOverview
+  },
+  {
+    path: "/WorkshopDetails/:id",
+    name: "WorkshopDetails",
+    component: WorkshopDetails
   }
 ];
 

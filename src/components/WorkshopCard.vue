@@ -1,7 +1,7 @@
 <template>
   <div class="workshop-container">
     <VcABox
-      id="card"
+      :id="workshop.id"
       :title="workshop.type"
       :expand="true"
       class="vca-blue-background vca-more-shadow workshop"
@@ -49,6 +49,16 @@ export default class WorkshopCard extends Vue {
     const fullDate = new Date(this.workshop.date);
     return fullDate.getMonth() + 1 + "." + fullDate.getFullYear(); // months are counted from 0, add 1 for display
   }
+
+  mounted() {
+
+  document.getElementById(this.workshop.id.toString())!.onclick = this.openCard;
+  }
+
+openCard(): void {
+  this.$router.push({ name: 'WorkshopDetails', params: { id: this.workshop.id.toString() } });
+}
+
 }
 </script>
 
@@ -105,5 +115,9 @@ export default class WorkshopCard extends Vue {
   color: blue;
   font-size: 1em;
   align-content: center;
+}
+
+.vca-blue-background:hover {
+  background: whitesmoke;
 }
 </style>
