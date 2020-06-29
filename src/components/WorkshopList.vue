@@ -1,17 +1,44 @@
 <template>
   <div>
-    <Button
-      class="testButton"
-      label="Lade Test Workshops"
-      icon="pi pi-check"
-      icon-pos="left"
-      @click="getWorkshops()"
-      :disabled="loadDisabled"
-    />
+    <div>
+      <Button
+        class="testButton"
+        label="Lade Test Workshops"
+        icon="pi pi-check"
+        icon-pos="left"
+        @click="getWorkshops()"
+        :disabled="loadDisabled"
+      />
+    </div>
+    <div class="searchBar">
+      <div class="monthPicker">
+        <Calendar
+          v-model="datepicker"
+          view="month"
+          dateFormat="mm.yy"
+          :yearNavigator="true"
+          yearRange="2000:2030"
+          placeholder="Datum"
+          :showIcon="true"
+          @date-select="filterDate($event)"
+        />
+      </div>
+      <AutoComplete
+        class="my-autoComplete"
+        :multiple="true"
+        v-model="selectedQueries"
+        :suggestions="filteredQueriesMultiple"
+        @complete="completeQueries($event)"
+        @item-select="addFilter($event)"
+        @item-unselect="removeFilter($event)"
+        placeholder="Suche"
+        field="display"
+      />
+    </div>
     <div class="p-grid">
       <div
         class="p-col-12 p-md-6 p-lg-4 p-xl-3"
-        v-for="workshop in someWorkshops"
+        v-for="workshop in workshopStore.filteredWorkshops"
         :key="workshop.id"
       >
         <WorkshopCard :workshop="workshop" />
@@ -24,7 +51,9 @@
 import { Component, Vue } from "vue-property-decorator";
 import WorkshopCard from "@/components/WorkshopCard.vue";
 import { Workshop } from "@/shared/models/Workshop.model.ts";
-import { Place } from "@/shared/models/Place.model.ts";
+import { getModule } from "vuex-module-decorators";
+import WorkshopStore from "@/store/modules/Workshops.ts";
+import { AutoCompleteItem } from "@/shared/models/AutoCompleteItem.model.ts";
 
 @Component({
   // Specify `components` option.
@@ -35,83 +64,100 @@ import { Place } from "@/shared/models/Place.model.ts";
   }
 })
 export default class WorkshopList extends Vue {
-  someWorkshops: Workshop[] = [];
   loadDisabled = false;
+  workshopStore = getModule(WorkshopStore);
+  selectedQueries: AutoCompleteItem[] = [];
+  filteredQueriesMultiple: AutoCompleteItem[] = [];
+  datepicker: Date | null = null;
+
+  public completeQueries(event: any) {
+    const availableQueries = this.workshopStore.matchingQueries(event.query);
+    availableQueries.unshift(event.query); // allow unkown/incomplete queries
+    this.selectedQueries.forEach(({value}) => { //remove already selected string queries from suggestions
+      if (typeof value === "string") {
+        const index = availableQueries.indexOf(value);
+        if (index > -1) {
+          availableQueries.splice(index, 1);
+        }
+      }
+    });
+    this.filteredQueriesMultiple = []; // remove old items
+    availableQueries.forEach(query => {
+      this.filteredQueriesMultiple.push(new AutoCompleteItem(query));
+    });
+  }
 
   getWorkshops() {
-    this.someWorkshops.push(
-      new Workshop(
-        24,
-        "PS Workshop",
-        new Place("Hamburg", "https://goo.gl/maps/mbnen1jr8C81J6vU9"),
-        1592212009205,
-        ["gelb", "blau", "grün", "rot"],
-        987,
-        "Ein Workshop teaser."
-      )
-    );
-    this.someWorkshops.push(
-      new Workshop(
-        1,
-        "PS Workshop",
-        new Place("Berlin"),
-        1592314101605,
-        ["abcd", "fghi", "poiu"],
-        37,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ut facilisis metus. Mauris viverra ipsum in sollicitudin porttitor. Aliquam semper dolor ante, eget pellentesque arcu malesuada a."
-      )
-    );
-    this.someWorkshops.push(
-      new Workshop(
-        33,
-        "Idea Workshop",
-        new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
-        1591316104625,
-        ["hjk", "sdf"],
-        87,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-      )
-    );
-    this.someWorkshops.push(
-      new Workshop(
-        31,
-        "Idea Workshop",
-        new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
-        1291316104625,
-        [
-          "asdads",
-          "asdasd",
-          "iuiu",
-          "uahduiasdojasd",
-          "uhjoj",
-          "iuoijoi",
-          "ijojoi",
-          "jiuhjiu"
-        ],
-        87,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-      )
-    );
-    this.someWorkshops.push(
-      new Workshop(
-        93,
-        "Idea Workshop",
-        new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
-        1191316104625,
-        ["hjk", "sdf", "iuoi", "ioo easda asdasd"],
-        87,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-      )
-    );
+    if (this.workshopStore.workshops.length == 0) {
+      console.log("no workshops in store, call test data creator.");
+      this.workshopStore.createTestData();
+    }
     this.loadDisabled = true;
   }
-}
 
-// TODO: Get workshops from vuex store and instantiate WorkshopCards
+  filterDate(event: Date) {
+    this.selectedQueries.push(new AutoCompleteItem(Number(event)));
+    this.workshopStore.addFilter(Number(event));
+    this.datepicker = null;
+  }
+
+  addFilter(event: any) {
+    this.workshopStore.addFilter(event.value.value);
+  }
+
+  removeFilter(event: any) {
+    this.workshopStore.removeFilter(event.value.value);
+  }
+}
 </script>
 
 <style scoped lang="less">
 .testButton {
   margin: 1em;
+}
+
+.searchBar {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.my-autoComplete {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.searchBar /deep/ .p-autocomplete {
+  flex: 1;
+  min-width: 10em;
+  display: unset;
+}
+
+.searchBar /deep/ .p-autocomplete-multiple-container {
+  flex-wrap: wrap;
+}
+
+.searchBar /deep/ .p-autocomplete-token {
+  margin: 0.05em;
+}
+
+.monthPicker {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-right: 0.25em;
+  //margin-left: .25em;
+}
+
+.monthPicker /deep/ .p-inputtext {
+  display: none;
+}
+
+.monthPicker /deep/ .p-monthpicker {
+  width: 15em;
+}
+
+.monthPicker /deep/ .p-button {
+  display: unset;
+  border-radius: 5px;
 }
 </style>

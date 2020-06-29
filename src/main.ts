@@ -18,8 +18,12 @@ import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 
 import Button from "primevue/button";
+import AutoComplete from "primevue/autocomplete";
+import Calendar from 'primevue/calendar';
 
 Vue.component("Button", Button);
+Vue.component("AutoComplete", AutoComplete);
+Vue.component("Calendar", Calendar); 
 Vue.component("VcAFrame", VcAFrame);
 Vue.component("VcAColumn", VcAColumn);
 Vue.component("VcABox", VcABox);
