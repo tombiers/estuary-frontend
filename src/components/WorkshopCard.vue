@@ -38,6 +38,8 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Workshop } from "@/shared/models/Workshop.model";
+import WorkshopStore from "@/store/modules/Workshops.ts";
+import { getModule } from "vuex-module-decorators";
 
 @Component
 export default class WorkshopCard extends Vue {
@@ -55,7 +57,11 @@ export default class WorkshopCard extends Vue {
   document.getElementById(this.workshop.id.toString())!.onclick = this.openCard;
   }
 
-openCard(): void {
+ openCard()  {
+  // tell vuex to get full information on the choosen card (workshop) and than open the page 
+  // TODO: this should be done with the router
+  const workshopStore = getModule(WorkshopStore);
+  workshopStore.selectWorkshop(this.workshop.id);
   this.$router.push({ name: 'WorkshopDetails', params: { id: this.workshop.id.toString() } });
 }
 

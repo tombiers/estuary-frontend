@@ -1,5 +1,6 @@
 import { Place } from "./Place.model";
 
+// represents a  shortened workshop model as need for an overview of multiple workshops
 export class Workshop {
   constructor(
     public id: number,
