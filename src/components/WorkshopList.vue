@@ -1,27 +1,27 @@
 <template>
   <div>
     <div>
-    <Button
-      class="testButton"
-      label="Lade Test Workshops"
-      icon="pi pi-check"
-      icon-pos="left"
-      @click="getWorkshops()"
-      :disabled="loadDisabled"
-    />
+      <Button
+        class="testButton"
+        label="Lade Test Workshops"
+        icon="pi pi-check"
+        icon-pos="left"
+        @click="getWorkshops()"
+        :disabled="loadDisabled"
+      />
     </div>
-      <div class="searchBar">        
-        <div class="monthPicker">
-          <Calendar
-            v-model="datepicker"
-            view="month"
-            dateFormat="mm.yy"
-            :yearNavigator="true"
-            yearRange="2000:2030"
-            placeholder="Datum"
-            :showIcon="true"
-            @date-select="filterDate($event)"
-          />
+    <div class="searchBar">
+      <div class="monthPicker">
+        <Calendar
+          v-model="datepicker"
+          view="month"
+          dateFormat="mm.yy"
+          :yearNavigator="true"
+          yearRange="2000:2030"
+          placeholder="Datum"
+          :showIcon="true"
+          @date-select="filterDate($event)"
+        />
       </div>
       <AutoComplete
         class="my-autoComplete"
@@ -69,22 +69,23 @@ export default class WorkshopList extends Vue {
   workshopStore = getModule(WorkshopStore);
   selectedQueries: AutoCompleteItem[] = [];
   filteredQueriesMultiple: AutoCompleteItem[] = [];
-  datepicker:Date|null = null;
+  datepicker: Date | null = null;
 
-  public completeQueries(event:any) {
-    const availableQueries =  this.workshopStore.matchingQueries(event.query);
-    availableQueries.unshift(event.query) // allow unkown/incomplete queries
+  public completeQueries(event: any) {
+    const availableQueries = this.workshopStore.matchingQueries(event.query);
+    availableQueries.unshift(event.query); // allow unkown/incomplete queries
     this.selectedQueries.forEach(({value}) => { //remove already selected string queries from suggestions
-    if (typeof value === "string") {
-      const index = availableQueries.indexOf(value);
-      if (index > -1) {
-        availableQueries.splice(index, 1);
-      }}
+      if (typeof value === "string") {
+        const index = availableQueries.indexOf(value);
+        if (index > -1) {
+          availableQueries.splice(index, 1);
+        }
+      }
     });
     this.filteredQueriesMultiple = []; // remove old items
     availableQueries.forEach(query => {
       this.filteredQueriesMultiple.push(new AutoCompleteItem(query));
-    })
+    });
   }
 
   getWorkshops() {
@@ -99,7 +100,6 @@ export default class WorkshopList extends Vue {
     this.selectedQueries.push(new AutoCompleteItem(Number(event)));
     this.workshopStore.addFilter(Number(event));
     this.datepicker = null;
-
   }
 
   addFilter(event: any) {
@@ -110,7 +110,6 @@ export default class WorkshopList extends Vue {
     this.workshopStore.removeFilter(event.value.value);
   }
 }
-
 </script>
 
 <style scoped lang="less">
@@ -140,13 +139,13 @@ export default class WorkshopList extends Vue {
 }
 
 .searchBar /deep/ .p-autocomplete-token {
-  margin: .05em;
+  margin: 0.05em;
 }
 
 .monthPicker {
   margin-top: 1em;
   margin-bottom: 1em;
-  margin-right: .25em;
+  margin-right: 0.25em;
   //margin-left: .25em;
 }
 
@@ -162,5 +161,4 @@ export default class WorkshopList extends Vue {
   display: unset;
   border-radius: 5px;
 }
-
 </style>

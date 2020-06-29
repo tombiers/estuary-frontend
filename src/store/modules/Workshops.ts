@@ -7,7 +7,7 @@ import store from "@/store";
 export default class WorkshopStore extends VuexModule {
   allWorkshops: Workshop[] = [];
   filterQuery: (string | number)[] = [];
-  filterDate: Date|null = null;
+  filterDate: Date | null = null;
 
   get workshops(): Workshop[] {
     return this.allWorkshops;
@@ -22,28 +22,39 @@ export default class WorkshopStore extends VuexModule {
           res =
             ws.type.toLowerCase().includes(query.toLowerCase()) ||
             ws.place.name.toLowerCase().includes(query.toLowerCase()) ||
-            ws.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()));
+            ws.tags.some(tag =>
+              tag.toLowerCase().includes(query.toLowerCase())
+            );
         } else {
           const wsDate = new Date(ws.date);
           const queryDate = new Date(query);
-          res = (wsDate.getFullYear() == queryDate.getFullYear())
-            && (wsDate.getMonth() == queryDate.getMonth());
+          res =
+            wsDate.getFullYear() == queryDate.getFullYear() &&
+            wsDate.getMonth() == queryDate.getMonth();
         }
         return res;
-      }); 
+      });
     });
   }
 
   get matchingQueries() {
-    return (query: string):string[] => {
+    return (query: string): string[] => {
       const possibleQueries: string[] = [];
       this.allWorkshops.forEach(ws => {
-        if (ws.type.toLowerCase().includes(query.toLowerCase())) possibleQueries.push(ws.type);
-        if (ws.place.name.toLowerCase().includes(query.toLowerCase())) possibleQueries.push(ws.place.name);
-        possibleQueries.push(...ws.tags.filter(tag => tag.toLowerCase().includes(query.toLowerCase())));
+        if (ws.type.toLowerCase().includes(query.toLowerCase())) {
+          possibleQueries.push(ws.type);
+        }
+        if (ws.place.name.toLowerCase().includes(query.toLowerCase())) {
+          possibleQueries.push(ws.place.name);
+        }
+        possibleQueries.push(
+          ...ws.tags.filter(tag =>
+            tag.toLowerCase().includes(query.toLowerCase())
+          )
+        );
       });
       return [...new Set(possibleQueries)]; // remove duplicates
-    }
+    };
   }
 
   @Mutation
@@ -53,8 +64,9 @@ export default class WorkshopStore extends VuexModule {
 
   @Mutation
   public addFilter(query: string | number) {
-    if (!this.filterQuery.includes(query))
-    this.filterQuery.push(query);
+    if (!this.filterQuery.includes(query)) {
+      this.filterQuery.push(query);
+    }
   }
 
   @Mutation
