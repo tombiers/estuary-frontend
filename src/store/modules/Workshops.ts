@@ -8,7 +8,7 @@ import store from "@/store";
 export default class WorkshopStore extends VuexModule {
   allWorkshops: Workshop[] = [];
   filterQuery: (string | number)[] = [];
-  selectedWorkshop: (WorkshopFull | null) = null;
+  selectedFullWorkshop: (WorkshopFull | null) = null;
 
   get workshops(): Workshop[] {
     return this.allWorkshops;
@@ -58,16 +58,13 @@ export default class WorkshopStore extends VuexModule {
     };
   }
 
-  get workshopFull() {
-    return (id: number): WorkshopFull => {
-      console.log("got asked for " + id);
-      return this.selectedWorkshop!;
-    }
+  get selectedWorkshop(): WorkshopFull {
+    return this.selectedFullWorkshop!;
   }
 
   @Mutation
   private setSelectedWorkshop(workshop: WorkshopFull) {
-    this.selectedWorkshop = workshop;
+    this.selectedFullWorkshop = workshop;
     }
 
   @Action

@@ -1,7 +1,19 @@
 <template>
   <div>
-    Hello WorkshopDetailsMeta {{ this.id }}  
-    My status is {{ this.status }}
+    <div class="status">
+      My status is {{ this.status }}
+    </div>  
+    <div class="tags">
+      We got tags
+    </div>  
+    <div class="authors">
+      <ul>
+        <li v-for="author in authors"
+        :key="author"
+        >{{ author }}</li>
+      </ul>
+    </div>
+    <WorkshopTags :tags="workshopStore.selectedWorkshop.tags" />
   </div>
 </template>
 
@@ -10,24 +22,32 @@ import { Component, Vue } from "vue-property-decorator";
 import WorkshopStore from "@/store/modules/Workshops.ts";
 import { WorkshopFull } from "@/shared/models/WorkshopFull.model.ts";
 import { getModule } from "vuex-module-decorators";
+import WorkshopTags from "@/components/WorkshopTags.vue";
 
-@Component
+@Component({
+  components: {
+    WorkshopTags
+  }
+})
 export default class WorkshopDetailsMeta extends Vue{
   workshopStore = getModule(WorkshopStore);
   id = -1;
 
-mounted() {
-  this.id = Number(this.$route.params.id);
-}
+  mounted() {
+    this.id = Number(this.$route.params.id);
+  }
+
+  get authors(): string[] {
+    return this.workshopStore.selectedWorkshop.authors;
+  }
 
   get status(): string {
     if (this.id > -1) {
-      return this.workshopStore.workshopFull(this.id).status;
+      return this.workshopStore.selectedWorkshop.status;
     } else {
       return "";
     }
   }
-
 }
 
 </script>

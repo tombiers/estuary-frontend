@@ -18,15 +18,7 @@
         <div class="workshop-body-teaser">
           {{ workshop.teaser }}
         </div>
-        <div class="workshop-body-tag-container">
-          <VcAFilterTag
-            class="tag"
-            v-for="tag in workshop.tags"
-            :key="tag"
-            field
-            :value="tag"
-          />
-        </div>
+        <WorkshopTags :tags="workshop.tags" />
         <div class="workshop-body-likes">
           Likes: {{ workshop.upvotes }}
         </div>
@@ -40,8 +32,13 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { Workshop } from "@/shared/models/Workshop.model";
 import WorkshopStore from "@/store/modules/Workshops.ts";
 import { getModule } from "vuex-module-decorators";
+import WorkshopTags from "@/components/WorkshopTags.vue";
 
-@Component
+@Component({
+  components: {
+    WorkshopTags
+  }
+})
 export default class WorkshopCard extends Vue {
   @Prop() private workshop!: Workshop;
 
@@ -95,20 +92,9 @@ export default class WorkshopCard extends Vue {
   justify-content: flex-start;
 }
 
-.workshop-body-tag-container {
-  margin: 0.5em;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
 .workshop-body-likes {
   align-self: flex-end;
   margin-top: auto;
-}
-
-.tag {
-  flex-shrink: 1;
 }
 
 .likes-text {
