@@ -7,7 +7,6 @@ import store from "@/store";
 export default class WorkshopStore extends VuexModule {
   allWorkshops: Workshop[] = [];
   filterQuery: (string | number)[] = [];
-  filterDate: Date | null = null;
 
   get workshops(): Workshop[] {
     return this.allWorkshops;
