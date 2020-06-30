@@ -8,15 +8,17 @@
       @click="$emit('close')"
     />
     <div class="status">
-      My status is {{ this.status }}
+      Status: {{ this.status }}
     </div>  
     <div class="tags">
       <WorkshopTags :tags="workshopStore.selectedWorkshop.tags" />
     </div>  
     <div class="authors">
-      <ul>
+      Autoren
+      <ul class="author-list">
         <li v-for="author in authors"
         :key="author"
+        class="author"
         >{{ author }}</li>
       </ul>
     </div>
@@ -65,18 +67,38 @@ export default class WorkshopDetailsMeta extends Vue{
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  border-right-style: solid;
+  border-color: whitesmoke;
 }
 
 .status {
-  background: greenyellow;
+  flex: 1;
+  padding: 10px;
+  border-bottom-style: solid;
+  border-color: whitesmoke;
 }
 
 .authors {
-  background: grey;
+  flex: 1;
+  padding: 10px;
+  border-bottom-style: solid;
+  border-color: whitesmoke;
+}
+
+.author-list {
+  list-style-type: none;
+  padding-left: 0px;
+  margin: unset;
+}
+
+.author {
+  text-align: center;
 }
 
 .tags {
-  background: cyan;
+  flex: 1;
+  border-bottom-style: solid;
+  border-color: whitesmoke;
 }
 
 </style>
