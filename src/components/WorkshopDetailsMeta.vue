@@ -1,10 +1,17 @@
 <template>
-  <div>
+  <div class="pannel">
+    <Button
+      class="testButton"
+      label="close"
+      icon="pi pi-chevron-left"
+      icon-pos="right"
+      @click="$emit('close')"
+    />
     <div class="status">
       My status is {{ this.status }}
     </div>  
     <div class="tags">
-      We got tags
+      <WorkshopTags :tags="workshopStore.selectedWorkshop.tags" />
     </div>  
     <div class="authors">
       <ul>
@@ -13,7 +20,7 @@
         >{{ author }}</li>
       </ul>
     </div>
-    <WorkshopTags :tags="workshopStore.selectedWorkshop.tags" />
+    
   </div>
 </template>
 
@@ -53,5 +60,23 @@ export default class WorkshopDetailsMeta extends Vue{
 </script>
 
 <style scoped lang="less">
+
+.pannel {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.status {
+  background: greenyellow;
+}
+
+.authors {
+  background: grey;
+}
+
+.tags {
+  background: cyan;
+}
 
 </style>

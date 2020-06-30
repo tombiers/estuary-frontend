@@ -4,13 +4,17 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import WorkshopList from "@/components/WorkshopList.vue";
+import { Component, Vue } from "vue-property-decorator";
 
-export default {
-  name: "WorkshopOverview",
+
+@Component({
   components: {
     WorkshopList
   }
-};
+})
+export default class WorkshopOverview extends Vue{
+
+}
 </script>
