@@ -55,10 +55,6 @@ export default class WorkshopCard extends Vue {
   }
 
  openCard()  {
-  // tell vuex to get full information on the choosen card (workshop) and than open the page 
-  // TODO: this should be done with the router
-  const workshopStore = getModule(WorkshopStore);
-  workshopStore.selectWorkshop(this.workshop.id);
   this.$router.push({ name: 'WorkshopDetails', params: { id: this.workshop.id.toString() } });
 }
 

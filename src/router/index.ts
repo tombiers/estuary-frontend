@@ -3,6 +3,8 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
 import WorkshopOverview from "../views/WorkshopOverview.vue";
 import WorkshopDetails from "../views/WorkshopDetails.vue";
+import WorkshopStore from "@/store/modules/Workshops.ts";
+import { getModule } from "vuex-module-decorators";
 
 Vue.use(VueRouter);
 
@@ -29,7 +31,17 @@ const routes: Array<RouteConfig> = [
   {
     path: "/WorkshopDetails/:id",
     name: "WorkshopDetails",
-    component: WorkshopDetails
+    component: WorkshopDetails,
+    beforeEnter: (to, from, next) => {
+      const tryGetWorkshop = getModule(WorkshopStore).selectWorkshop(Number(to.params.id));
+      tryGetWorkshop.then(value => {
+        if (value) {
+          next();
+        } else {
+          next({ path: '/WorkshopOverview' })
+        }
+      });
+    }
   }
 ];
 

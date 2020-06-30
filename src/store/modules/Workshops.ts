@@ -65,26 +65,33 @@ export default class WorkshopStore extends VuexModule {
   @Mutation
   private setSelectedWorkshop(workshop: WorkshopFull) {
     this.selectedFullWorkshop = workshop;
-    }
+  }
 
   @Action
-  public selectWorkshop(id: number) {
+  public async selectWorkshop(id: number): Promise<boolean> {
     // TODO: get the workshop with that id from the backend
-   
+
     // mock data for now
-    const foundWorkshop: Workshop = this.workshops.find(item => item!.id == id)!;
-    const ws = new WorkshopFull(
-      foundWorkshop!.id,
-      foundWorkshop!.type,
-      foundWorkshop!.place,
-      foundWorkshop!.date,
-      foundWorkshop!.tags,
-      foundWorkshop!.upvotes,
-      foundWorkshop!.teaser,
-      ["Anna", "Paul"],
-      "public"
-    );
-    this.setSelectedWorkshop(ws);
+    const foundWorkshop = this.workshops.find(item => item!.id == id);
+    if (typeof foundWorkshop !== "undefined") {
+      const ws = new WorkshopFull(
+        foundWorkshop.id,
+        foundWorkshop.type,
+        foundWorkshop.place,
+        foundWorkshop.date,
+        foundWorkshop.tags,
+        foundWorkshop.upvotes,
+        foundWorkshop.teaser,
+        ["Anna", "Paul"],
+        "public"
+      );
+      this.setSelectedWorkshop(ws);
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
   @Mutation
