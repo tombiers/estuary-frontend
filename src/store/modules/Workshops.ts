@@ -1,5 +1,6 @@
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
 import { Workshop } from "@/shared/models/Workshop.model";
+import { WorkshopFull } from "@/shared/models/WorkshopFull.model";
 import { Place } from "@/shared/models/Place.model";
 import store from "@/store";
 
@@ -7,6 +8,7 @@ import store from "@/store";
 export default class WorkshopStore extends VuexModule {
   allWorkshops: Workshop[] = [];
   filterQuery: (string | number)[] = [];
+  selectedFullWorkshop: (WorkshopFull | null) = null;
 
   get workshops(): Workshop[] {
     return this.allWorkshops;
@@ -54,6 +56,42 @@ export default class WorkshopStore extends VuexModule {
       });
       return [...new Set(possibleQueries)]; // remove duplicates
     };
+  }
+
+  get selectedWorkshop(): WorkshopFull {
+    return this.selectedFullWorkshop!;
+  }
+
+  @Mutation
+  private setSelectedWorkshop(workshop: WorkshopFull) {
+    this.selectedFullWorkshop = workshop;
+  }
+
+  @Action
+  public async selectWorkshop(id: number): Promise<boolean> {
+    // TODO: get the workshop with that id from the backend
+
+    // mock data for now
+    const foundWorkshop = this.workshops.find(item => item!.id == id);
+    if (typeof foundWorkshop !== "undefined") {
+      const ws = new WorkshopFull(
+        foundWorkshop.id,
+        foundWorkshop.type,
+        foundWorkshop.place,
+        foundWorkshop.date,
+        foundWorkshop.tags,
+        foundWorkshop.upvotes,
+        foundWorkshop.teaser,
+        ["Anna", "Paul"],
+        "public"
+      );
+      this.setSelectedWorkshop(ws);
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
   @Mutation

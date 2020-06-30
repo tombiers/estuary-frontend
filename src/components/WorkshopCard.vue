@@ -1,7 +1,7 @@
 <template>
   <div class="workshop-container">
     <VcABox
-      id="card"
+      :id="workshop.id"
       :title="workshop.type"
       :expand="true"
       class="vca-blue-background vca-more-shadow workshop"
@@ -18,15 +18,7 @@
         <div class="workshop-body-teaser">
           {{ workshop.teaser }}
         </div>
-        <div class="workshop-body-tag-container">
-          <VcAFilterTag
-            class="tag"
-            v-for="tag in workshop.tags"
-            :key="tag"
-            field
-            :value="tag"
-          />
-        </div>
+        <WorkshopTags :tags="workshop.tags" />
         <div class="workshop-body-likes">
           Likes: {{ workshop.upvotes }}
         </div>
@@ -38,8 +30,15 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Workshop } from "@/shared/models/Workshop.model";
+import WorkshopStore from "@/store/modules/Workshops.ts";
+import { getModule } from "vuex-module-decorators";
+import WorkshopTags from "@/components/WorkshopTags.vue";
 
-@Component
+@Component({
+  components: {
+    WorkshopTags
+  }
+})
 export default class WorkshopCard extends Vue {
   @Prop() private workshop!: Workshop;
 
@@ -47,8 +46,18 @@ export default class WorkshopCard extends Vue {
   // format date as month.year
   get date() {
     const fullDate = new Date(this.workshop.date);
-    return fullDate.getMonth() + 1 + "." + fullDate.getFullYear(); // months are counted from 0, add 1 for display
+    return (fullDate.getMonth() + 1).toString().padStart(2,"0") + "." + fullDate.getFullYear(); // months are counted from 0, add 1 for display
   }
+
+  mounted() {
+
+  document.getElementById(this.workshop.id.toString())!.onclick = this.openCard;
+  }
+
+ openCard()  {
+  this.$router.push({ name: 'WorkshopDetails', params: { id: this.workshop.id.toString() } });
+}
+
 }
 </script>
 
@@ -79,20 +88,9 @@ export default class WorkshopCard extends Vue {
   justify-content: flex-start;
 }
 
-.workshop-body-tag-container {
-  margin: 0.5em;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
 .workshop-body-likes {
   align-self: flex-end;
   margin-top: auto;
-}
-
-.tag {
-  flex-shrink: 1;
 }
 
 .likes-text {
@@ -105,5 +103,9 @@ export default class WorkshopCard extends Vue {
   color: blue;
   font-size: 1em;
   align-content: center;
+}
+
+.vca-blue-background:hover {
+  background: whitesmoke;
 }
 </style>

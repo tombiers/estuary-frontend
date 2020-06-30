@@ -20,10 +20,12 @@ import "primeflex/primeflex.css";
 import Button from "primevue/button";
 import AutoComplete from "primevue/autocomplete";
 import Calendar from 'primevue/calendar';
+import InputSwitch from 'primevue/inputswitch';
 
 Vue.component("Button", Button);
 Vue.component("AutoComplete", AutoComplete);
-Vue.component("Calendar", Calendar); 
+Vue.component("Calendar", Calendar);
+Vue.component("InputSwitch", InputSwitch);
 Vue.component("VcAFrame", VcAFrame);
 Vue.component("VcAColumn", VcAColumn);
 Vue.component("VcABox", VcABox);
