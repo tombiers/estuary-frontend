@@ -46,7 +46,7 @@ export default class WorkshopCard extends Vue {
   // format date as month.year
   get date() {
     const fullDate = new Date(this.workshop.date);
-    return fullDate.getMonth() + 1 + "." + fullDate.getFullYear(); // months are counted from 0, add 1 for display
+    return (fullDate.getMonth() + 1).toString().padStart(2,"0") + "." + fullDate.getFullYear(); // months are counted from 0, add 1 for display
   }
 
   mounted() {
