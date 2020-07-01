@@ -5,6 +5,7 @@ import { Place } from "@/shared/models/Place.model";
 import store from "@/store";
 import { WorkshopContent } from "@/shared/models/WorkshopContent.model";
 import { ProblemStatementWorkshopContent } from "@/shared/models/ProblemStatementWorkshopContent.model";
+import { ProblemStatement } from '@/shared/models/ProblemStatement.model';
 
 @Module({ dynamic: true, store, name: "WorkshopStore" })
 export default class WorkshopStore extends VuexModule {
@@ -86,7 +87,13 @@ export default class WorkshopStore extends VuexModule {
         foundWorkshop.teaser,
         ["Anna", "Paul"],
         "public",
-        new ProblemStatementWorkshopContent("placeholder")
+        new ProblemStatementWorkshopContent(
+          [
+            new ProblemStatement(1, 456, "Supporter", "dass was passiert", "es passiert nichts", "Gründe", "traurig", []),
+            new ProblemStatement(2, 245, "Supporter", "dass was passiert", "es passiert nichts", "Gründe", "traurig", []),
+            new ProblemStatement(3, 49, "Supporter", "dass was passiert", "es passiert nichts", "Gründe", "traurig", [])
+          ]
+        )
       );
       this.setSelectedWorkshop(ws);
       return true;

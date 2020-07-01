@@ -1,6 +1,14 @@
 <template>
   <div>
-    I have everything for the ps workshops with id {{id}}
+    <div
+        class="ps-card-collection"
+      >
+        <ProblemStatementCard 
+        :problemStatement="ps" 
+        class="ps-card"
+        v-for="ps in workshop.content.problemStatements"
+        :key="ps.id"/>
+      </div>
   </div>
 </template>
 
@@ -8,16 +16,34 @@
 import { Component, Vue } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 import WorkshopStore from "@/store/modules/Workshops.ts";
+import { Workshop } from "@/shared/models/Workshop.model";
+import { ProblemStatementWorkshopContent } from "@/shared/models/ProblemStatementWorkshopContent.model";
+import ProblemStatementCard from "@/components/ProblemStatementCard.vue";
 
-@Component
+@Component({
+  components:{
+    ProblemStatementCard
+    }
+})
 export default class PsWorkshopContent extends Vue {
   workshopStore = getModule(WorkshopStore);
-  id = this.workshopStore.selectedWorkshop.id; 
-
+  workshop: Workshop<ProblemStatementWorkshopContent> = 
+    this.workshopStore.selectedWorkshop as Workshop<ProblemStatementWorkshopContent>;
 }
 
 </script>
 
 <style scoped langs="less">
+
+.ps-card-collection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 5px;
+}
+
+.ps-card {
+  text-align: center;
+}
+
 
 </style>
