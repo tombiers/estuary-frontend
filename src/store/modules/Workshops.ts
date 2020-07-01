@@ -6,9 +6,9 @@ import store from "@/store";
 
 @Module({ dynamic: true, store, name: "WorkshopStore" })
 export default class WorkshopStore extends VuexModule {
-  allWorkshops: Workshop[] = [];
-  filterQuery: (string | number)[] = [];
-  selectedFullWorkshop: (WorkshopFull | null) = null;
+  private allWorkshops: Workshop[] = [];
+  private filterQuery: (string | number)[] = [];
+  private selectedFullWorkshop: (WorkshopFull | null) = null;
 
   get workshops(): Workshop[] {
     return this.allWorkshops;

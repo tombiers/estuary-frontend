@@ -40,7 +40,10 @@
           />
         </div>
       </div>
-      <div class="workshop-main-content"> Placeholder for the main content of a workshop </div>
+      <div class="workshop-main-content"> 
+        <PsWorkshopContent v-if="type == 'PS Workshop'"  />
+        <span v-else> Unkown Workshop Type </span>
+      </div>
     </div>
     <div class="pannel-right" v-bind:class="{ show: !showRightPannel }">
       <Button
@@ -61,10 +64,12 @@ import { Component, Vue } from "vue-property-decorator";
 import WorkshopDetailsMeta from "@/components/WorkshopDetailsMeta.vue";
 import { getModule } from "vuex-module-decorators";
 import WorkshopStore from "@/store/modules/Workshops.ts";
+import PsWorkshopContent from "@/components/PsWorkshopContent.vue";
 
 @Component({
   components: {
-    WorkshopDetailsMeta
+    WorkshopDetailsMeta,
+    PsWorkshopContent
   }
 })
 export default class WorkshopDetails extends Vue{
