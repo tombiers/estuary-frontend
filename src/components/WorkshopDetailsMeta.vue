@@ -29,7 +29,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import WorkshopStore from "@/store/modules/Workshops.ts";
-import { WorkshopFull } from "@/shared/models/WorkshopFull.model.ts";
+import { Workshop } from "@/shared/models/Workshop.model.ts";
 import { getModule } from "vuex-module-decorators";
 import WorkshopTags from "@/components/WorkshopTags.vue";
 
