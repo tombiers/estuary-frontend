@@ -18,7 +18,11 @@
         </div>
         </template>
       <div class="ps-links">
-        Links to other PS
+        <ProblemStatementLinkComponent 
+        :problemStatementLink="psLink" 
+        class="ps-card"
+        v-for="psLink in problemStatement.linked"
+        :key="psLink.id"/>
       </div>
     </VcABox>
   </div>
@@ -29,9 +33,12 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import WorkshopStore from "@/store/modules/Workshops.ts";
 import { getModule } from "vuex-module-decorators";
 import { ProblemStatement } from "@/shared/models/ProblemStatement.model";
+import ProblemStatementLinkComponent  from "@/components/ProblemStatementLinkComponent.vue"
 
 @Component({
-  components: {}
+  components: {
+    ProblemStatementLinkComponent
+  }
 })
 export default class ProblemStatementCard extends Vue {
   @Prop() private problemStatement!: ProblemStatement;
@@ -44,9 +51,6 @@ export default class ProblemStatementCard extends Vue {
     );
   }
 
-  mounted() {
-    console.log(this.text);
-  }
 }
 </script>
 
@@ -76,7 +80,7 @@ export default class ProblemStatementCard extends Vue {
 
 .ps-links {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
 }
 

@@ -6,6 +6,7 @@ import store from "@/store";
 import { WorkshopContent } from "@/shared/models/WorkshopContent.model";
 import { ProblemStatementWorkshopContent } from "@/shared/models/ProblemStatementWorkshopContent.model";
 import { ProblemStatement } from '@/shared/models/ProblemStatement.model';
+import { ProblemStatementLink } from '@/shared/models/ProblemStatementLink.model';
 
 @Module({ dynamic: true, store, name: "WorkshopStore" })
 export default class WorkshopStore extends VuexModule {
@@ -89,9 +90,28 @@ export default class WorkshopStore extends VuexModule {
         "public",
         new ProblemStatementWorkshopContent(
           [
-            new ProblemStatement(1, 456, "Supporter", "dass was passiert", "es passiert nichts", "Gründe", "traurig", []),
-            new ProblemStatement(2, 245, "Supporter", "dass was passiert", "es passiert nichts", "Gründe", "traurig", []),
-            new ProblemStatement(3, 49, "Supporter", "dass was passiert", "es passiert nichts", "Gründe", "traurig", [])
+            new ProblemStatement(1, 456, "Supporter", "dass was passiert", "es passiert nichts", "Gründe", "traurig", [
+              new ProblemStatementLink(2, ["grün", "blau"]),
+              new ProblemStatementLink(3, ["vier", "esel"]),
+              new ProblemStatementLink(4, [])
+            ]),
+            new ProblemStatement(2, 245, "Supporter", "dass was passiert", "es passiert nichts", "keine Ahnung", "komisch", []),
+            new ProblemStatement(3, 49, "Supporter", "dass was passiert", "es passiert nichts", "Gründe", "traurig", []),
+            new ProblemStatement(4, 12, "Entwickler", "Kekse", "ich bekomme keine", "jemand alle aufgegessen hat", "hungrig", [
+              new ProblemStatementLink(2, ["grün", "blau"]),
+              new ProblemStatementLink(3, ["vier", "esel"]),
+              new ProblemStatementLink(4, []),
+              new ProblemStatementLink(1, ["sieben", "ipsum", "doret", "lalum"])
+            ]),
+            new ProblemStatement(5, 347, "Lorem ipsum",
+              "dolor sit amet, consetetur sadipscing elitr",
+              "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat",
+              "sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
+              "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+              [
+                new ProblemStatementLink(3, [])
+              ]
+            )
           ]
         )
       );
