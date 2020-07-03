@@ -6,15 +6,19 @@
       :expand="true"
       class="vca-blue-background vca-more-shadow ps"
     >
-      <template slot="header"></template>
-      <div class="ps-body">
-        <div class="ps-body-teaser">
-          <span class="p-overlay-badge">
+      <template slot="header">
+        <div class="ps-header">
+          <span class="p-overlay-badge like-button">
             <span class="p-badge">{{problemStatement.likes}}</span>
             <i class="pi pi-thumbs-up" style="font-size: 2em"></i>
           </span>
-          {{ text }}
+          <div class="ps-text">
+           {{ text }}
+          </div>
         </div>
+        </template>
+      <div class="ps-links">
+        Links to other PS
       </div>
     </VcABox>
   </div>
@@ -60,28 +64,20 @@ export default class ProblemStatementCard extends Vue {
   flex: 1;
 }
 
+.ps-container /deep/ .el-card__header {
+  height: 100%;
+}
+
 .ps {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.ps-body {
-  height: 100%;
+.ps-links {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-}
-
-.ps-body-likes {
-  align-self: flex-end;
-  margin-top: auto;
-}
-
-.likes-text {
-  color: blue;
-  font-size: 2em;
-  align-content: center;
 }
 
 .likes-thumb {
@@ -90,8 +86,11 @@ export default class ProblemStatementCard extends Vue {
   align-content: center;
 }
 
-// i don't want the header
-.ps-container /deep/ .el-card__header {
-  display: none;
+.like-button {
+  float: right
+}
+
+.ps-text {
+  text-align: left;
 }
 </style>

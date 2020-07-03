@@ -189,11 +189,11 @@ export default class WorkshopDetails extends Vue{
 .pannel-right {
   flex: 1;
 }
-
+/*
 .workshop-main-content {
   border-style: solid;
 }
-
+*/
 .show {
   display: none
 }
