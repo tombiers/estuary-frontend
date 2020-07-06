@@ -1,15 +1,8 @@
 <template>
   <div class="ps-link-container">
-    <VcABox
-      :id="problemStatementLink.id"
-      :title="problemStatementLink.id"
-      :expand="true"
-      class="vca-blue-background vca-more-shadow ps-link"
-    >
-    <div>
-      <WorkshopTags :tags="problemStatementLink.tags" />
-    </div>
-    </VcABox>
+    <VcAFilterTag :field="id" class="ps-link-tag">
+      {{ tags }}
+    </VcAFilterTag>
   </div>
 </template>
 
@@ -25,9 +18,15 @@ import WorkshopTags from "@/components/WorkshopTags.vue"
 })
 export default class ProblemStatementLinkComponent extends Vue {
   @Prop() private problemStatementLink!: ProblemStatementLink;
+  @Prop({default: true}) private detailed!: boolean;
 
   get id() {
     return this.problemStatementLink.id
+  }
+
+  get tags() {
+    if (!this.detailed || this.problemStatementLink.tags.length == 0) return " ";
+    return this.problemStatementLink.tags.reduce( (acc, cur) => acc + ", " + cur);
   }
 }
 </script>
@@ -35,8 +34,14 @@ export default class ProblemStatementLinkComponent extends Vue {
 <style scoped lang="less">
 
 .ps-link-container {
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ps-link-tag {
+  flex: 1;
 }
 
 .vca-blue-background:hover {

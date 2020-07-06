@@ -4,7 +4,8 @@
         class="ps-card-collection"
       >
         <ProblemStatementCard 
-        :problemStatement="ps" 
+        :problemStatement="ps"
+        :detailed="detailed"
         class="ps-card"
         v-for="ps in workshop.content.problemStatements"
         :key="ps.id"/>
@@ -13,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 import WorkshopStore from "@/store/modules/Workshops.ts";
 import { Workshop } from "@/shared/models/Workshop.model";
@@ -26,6 +27,8 @@ import ProblemStatementCard from "@/components/ProblemStatementCard.vue";
     }
 })
 export default class PsWorkshopContent extends Vue {
+  @Prop({default: true}) private detailed!: boolean;
+
   workshopStore = getModule(WorkshopStore);
   workshop: Workshop<ProblemStatementWorkshopContent> = 
     this.workshopStore.selectedWorkshop as Workshop<ProblemStatementWorkshopContent>;

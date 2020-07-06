@@ -22,10 +22,10 @@
           </div>
           <div class="lod-switch">
             <div class="lod-switch-text">
-              Ansicht {{ isSimple  }}
+              Ansicht {{ lod  }}
             </div>
             <div class="lod-switch-switch">
-              <InputSwitch v-model="simplified" />
+              <InputSwitch v-model="detailed" />
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="workshop-main-content"> 
-        <PsWorkshopContent v-if="type == 'PS Workshop'"  />
+        <PsWorkshopContent v-if="type == 'PS Workshop'" :detailed="detailed" />
         <span v-else> Unkown Workshop Type </span>
       </div>
     </div>
@@ -77,7 +77,7 @@ export default class WorkshopDetails extends Vue{
   showRightPannel = false;
   workshopStore = getModule(WorkshopStore);
   id = -1;
-  simplified = false;
+  detailed = false;
 
   mounted() {
     this.id = Number(this.$route.params.id);
@@ -96,8 +96,8 @@ export default class WorkshopDetails extends Vue{
     return this.workshopStore.selectedWorkshop.place.name;
   }
 
-  get isSimple() {
-    if (this.simplified) {
+  get lod() {
+    if (this.detailed) {
       return "Vollständig"
     } else {
       return "Vereinfacht"

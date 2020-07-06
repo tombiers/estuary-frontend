@@ -19,7 +19,8 @@
         </template>
       <div class="ps-links">
         <ProblemStatementLinkComponent 
-        :problemStatementLink="psLink" 
+        :problemStatementLink="psLink"
+        :detailed="detailed"
         class="ps-card"
         v-for="psLink in problemStatement.linked"
         :key="psLink.id"/>
@@ -42,6 +43,7 @@ import ProblemStatementLinkComponent  from "@/components/ProblemStatementLinkCom
 })
 export default class ProblemStatementCard extends Vue {
   @Prop() private problemStatement!: ProblemStatement;
+  @Prop({default: true}) private detailed!: boolean;
 
   get text() {
     return (
