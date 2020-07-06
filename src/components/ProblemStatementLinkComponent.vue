@@ -1,9 +1,7 @@
 <template>
-  <div class="ps-link-container">
-    <VcAFilterTag :field="id" class="ps-link-tag">
-      {{ tags }}
-    </VcAFilterTag>
-  </div>
+    <a class="link" :href="linkToPS">
+      {{ id }}
+    </a>
 </template>
 
 <script lang="ts">
@@ -21,7 +19,11 @@ export default class ProblemStatementLinkComponent extends Vue {
   @Prop({default: true}) private detailed!: boolean;
 
   get id() {
-    return this.problemStatementLink.id
+    return "PS" + this.problemStatementLink.id;
+  }
+
+  get linkToPS() {
+    return "/ProblemStatement/" + this.problemStatementLink.id;
   }
 
   get tags() {
@@ -32,6 +34,10 @@ export default class ProblemStatementLinkComponent extends Vue {
 </script>
 
 <style scoped lang="less">
+
+.link {
+  margin-right: 5px;
+}
 
 .ps-link-container {
   margin-left: 10px;
