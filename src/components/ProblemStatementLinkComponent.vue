@@ -44,8 +44,9 @@ export default class ProblemStatementLinkComponent extends Vue {
   flex: 1;
 }
 
-.vca-blue-background:hover {
-  background: whitesmoke;
+.ps-link-container /deep/ .field {
+  font-size: 0.8em;
+  font-weight: 700;
 }
 
 .ps-link-container /deep/ .el-card__header {

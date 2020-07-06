@@ -18,12 +18,13 @@
         </div>
         </template>
       <div class="ps-links">
-        <ProblemStatementLinkComponent 
-        :problemStatementLink="psLink"
-        :detailed="detailed"
-        class="ps-card"
-        v-for="psLink in problemStatement.linked"
-        :key="psLink.id"/>
+        <ProblemStatementLinkComponent
+          class="ps-card"
+          v-for="psLink in problemStatement.linked"
+          :key="psLink.id"
+          :problemStatementLink="psLink"
+          :detailed="detailed"
+        />
       </div>
     </VcABox>
   </div>
@@ -84,6 +85,7 @@ export default class ProblemStatementCard extends Vue {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .likes-thumb {
