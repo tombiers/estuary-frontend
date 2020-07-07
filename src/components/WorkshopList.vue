@@ -66,7 +66,7 @@ import { AutoCompleteItem } from "@/shared/models/AutoCompleteItem.model.ts";
 export default class WorkshopList extends Vue {
   loadDisabled = false;
   workshopStore = getModule(WorkshopStore);
-  selectedQueries: AutoCompleteItem[] = [];
+  selectedQueries: AutoCompleteItem[] = this.workshopStore.activeFilterQueries.map(query =>  new AutoCompleteItem(query));
   filteredQueriesMultiple: AutoCompleteItem[] = [];
   datepicker: Date | null = null;
 

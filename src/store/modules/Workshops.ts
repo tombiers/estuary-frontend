@@ -62,6 +62,10 @@ export default class WorkshopStore extends VuexModule {
     };
   }
 
+  get activeFilterQueries() {
+    return this.filterQuery;
+  }
+
   get selectedWorkshop(): Workshop<WorkshopContent> {
     return this.selectedFullWorkshop!;
   }
