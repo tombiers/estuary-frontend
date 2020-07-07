@@ -1,16 +1,33 @@
 <template>
   <div class="workshop-body-tag-container">
-    <VcAFilterTag class="tag" v-for="tag in tags" :key="tag" field :value="tag" />
+    <WorkshopTag v-for="tag in tags" :key="tag" :tag="tag" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import WorkshopTag from "@/components/WorkshopTag.vue";
 
-@Component
+@Component({
+  components: {
+    WorkshopTag
+  }
+})
 export default class WorkshopTags extends Vue {
   @Prop() private tags!: string[];
+
+  clicked(event: any) {
+    console.log("hi tag " + event);
+    console.log(event);
+    console.log(event.srcElement);
+    console.log(event.srcElement.id);
+  }
+
+  invoke = (event:any) => {
+    this.clicked(event)
+  }
 }
+
 </script>
 
 <style scoped lang="less">
