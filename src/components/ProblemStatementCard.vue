@@ -38,10 +38,9 @@
 
         </div>
         <div class="ps-interaction-info">
-          <span>{{ likes }}
+          <span>{{ likes }}</span>
         </div>
-
-        </div>
+      </div>
     </VcABox>
   </div>
 </template>
