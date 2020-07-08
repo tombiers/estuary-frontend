@@ -18,7 +18,7 @@
     </div>
     
     <div class="tags">
-      <WorkshopTags :tags="workshopStore.selectedWorkshop.tags" />
+      <WorkshopTags :tags="workshopStore.selectedWorkshop.tags" linkTagsToSearch="true" />
     </div>  
     <div class="authors">
       <span class="authors-headline">Autoren</span>

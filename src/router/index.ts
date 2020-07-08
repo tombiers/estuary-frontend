@@ -26,7 +26,13 @@ const routes: Array<RouteConfig> = [
   {
     path: "/WorkshopOverview",
     name: "WorkshopOverview",
-    component: WorkshopOverview
+    component: WorkshopOverview,
+    beforeEnter: (to, from, next) => {
+      if (typeof to.params.searchTerm !== "undefined") {
+        getModule(WorkshopStore).addFilter(to.params.searchTerm);
+      }
+      next();
+    }
   },
   {
     path: "/WorkshopDetails/:id",
