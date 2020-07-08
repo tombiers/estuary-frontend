@@ -1,7 +1,16 @@
 <template>
   <div>
     <div
+      v-if="detailed"
+    >
+      <ProblemStatementDetails 
+        :problemStatement="detailedPS"
+        :Workshop="workshop"
+      />
+    </div>
+    <div
         class="ps-card-collection"
+        v-else
       >
         <ProblemStatementCard 
         :problemStatement="ps"
@@ -20,10 +29,12 @@ import WorkshopStore from "@/store/modules/Workshops.ts";
 import { Workshop } from "@/shared/models/Workshop.model";
 import { ProblemStatementWorkshopContent } from "@/shared/models/ProblemStatementWorkshopContent.model";
 import ProblemStatementCard from "@/components/ProblemStatementCard.vue";
+import ProblemStatementDetails from "@/components/ProblemStatementDetails.vue";
 
 @Component({
   components:{
-    ProblemStatementCard
+    ProblemStatementCard,
+    ProblemStatementDetails
     }
 })
 export default class PsWorkshopContent extends Vue {
@@ -32,6 +43,8 @@ export default class PsWorkshopContent extends Vue {
   workshopStore = getModule(WorkshopStore);
   workshop: Workshop<ProblemStatementWorkshopContent> = 
     this.workshopStore.selectedWorkshop as Workshop<ProblemStatementWorkshopContent>;
+  showSinglePsDetails = false;
+  detailedPS = this.workshop.content.problemStatements[0];
 }
 
 </script>
