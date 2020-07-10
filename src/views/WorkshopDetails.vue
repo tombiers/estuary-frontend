@@ -17,7 +17,7 @@
         </div>
 
         <div class="workshop-info">
-          <div class="workshop-info-title">
+          <div class="workshop-info-title" id="workshop-title">
             {{ type }}  {{ date }}  {{ place }}
           </div>
           <div class="lod-switch">
@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="workshop-main-content"> 
-        <PsWorkshopContent v-if="type == 'PS Workshop'" :detailed="detailed" />
+        <PsWorkshopContent v-if="type == 'PS Workshop'" :detailed="detailed" :showPsComparison.sync="showPsComparison" />
         <span v-else> Unkown Workshop Type </span>
       </div>
     </div>
@@ -78,9 +78,16 @@ export default class WorkshopDetails extends Vue{
   workshopStore = getModule(WorkshopStore);
   id = -1;
   detailed = false;
+  showPsComparison = false;
 
   mounted() {
     this.id = Number(this.$route.params.id);
+    document.getElementById("workshop-title")!.onclick = this.openCard;
+    
+  }
+
+  openCard() {
+    this.showPsComparison = false;
   }
 
   get date() {

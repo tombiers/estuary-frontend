@@ -12,8 +12,9 @@
            {{ text }}
         </div>
       <div class="ps-links" v-if="problemStatement.linked.length != 0">
-        In Beziehung zu:
-        <div 
+        <div class="ps-link-elements">In Beziehung zu: </div>
+        <div
+          class="ps-link-elements" 
           v-for="pslink in problemStatement.linked"
           :key="pslink.id"
         >
@@ -21,9 +22,10 @@
           :problemStatementLink="pslink"
         />
         </div>
+      <Button @click="clicked($event)" label="" icon="pi pi-search-plus" iconPos="left" class="p-button-secondary p-button-text ps-interaction-button-details"/>
       </div>
-        <div class="ps-interaction">
-        <div class="ps-interaction-buttons">
+      <div class="ps-interaction">
+      <div class="ps-interaction-buttons">
 
           <button 
             class="ps-interaction-button p-button-secondary p-button-text p-button p-component" 
@@ -63,6 +65,10 @@ export default class ProblemStatementCard extends Vue {
 
   private iconClass = "pi pi-thumbs-up new-button-icon"
 
+  // mounted() {
+  // document.getElementById("anId")!.onclick = this.clicked;
+  // }
+
   get id() {
     return "PS" + this.problemStatement.id;
   }
@@ -94,6 +100,10 @@ export default class ProblemStatementCard extends Vue {
 
   comment(event: any) {
     console.log("comment");
+  }
+
+  clicked() {
+    this.$emit('select')
   }
 
 }
@@ -132,6 +142,10 @@ export default class ProblemStatementCard extends Vue {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.ps-link-elements {
+  align-self: center;
 }
 
 .ps-links {
@@ -178,6 +192,15 @@ export default class ProblemStatementCard extends Vue {
 .ps-interaction-info {
   margin-top: 20px;
   text-align: left;
+}
+
+.ps-interaction-button-details:extend(.ps-interaction-button){
+  margin-left: 5px;
+  border-radius: 50%;
+}
+
+.ps-links /deep/ .p-button.p-button-icon-only {
+  padding: 5px;
 }
 
 .mine:extend(.pi .pi-thumbs-up) {

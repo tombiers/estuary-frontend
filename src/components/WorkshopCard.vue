@@ -50,8 +50,7 @@ export default class WorkshopCard extends Vue {
   }
 
   mounted() {
-
-  document.getElementById(this.workshop.id.toString())!.onclick = this.openCard;
+    document.getElementById(this.workshop.id.toString())!.onclick = this.openCard;
   }
 
  openCard()  {

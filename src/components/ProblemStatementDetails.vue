@@ -3,7 +3,9 @@
   <div class="main-ps">
     <ProblemStatementCard 
       :problemStatement="problemStatement"
-      class="ps-card"/>
+      class="ps-card"
+      @select="eventHandler(problemStatement.id)"
+    />
   </div>
   <div class="linked-ps">
     <ProblemStatementCard 
@@ -11,6 +13,7 @@
       :key="ps.id"
       :problemStatement="ps"
       class="ps-card-linked"
+      @select="eventHandler(ps.id)"
     />
   </div>
 </div>
@@ -40,7 +43,9 @@ export default class ProblemStatementDetails extends Vue {
     );
   }
 
-
+  eventHandler(id: any) {
+    this.$emit('selectPS', id)
+  }
 }
 
 </script>
@@ -56,14 +61,15 @@ export default class ProblemStatementDetails extends Vue {
 
 .ps-column {
   flex: 1;
-  min-width: 400px;
   margin: 0px 10px 0px 10px;
 }
 
 .main-ps:extend(.ps-column) {
+  min-width: 300px;
 }
 
 .linked-ps:extend(.ps-column) {
+  min-width: 400px;
 }
 
 .ps-card-linked {
@@ -71,7 +77,7 @@ export default class ProblemStatementDetails extends Vue {
 }
 
 .linked-ps /deep/ .el-card {
-  opacity: 75%;
+  opacity: 55%;
 }
 
 

@@ -1,11 +1,12 @@
 <template>
   <div>
     <div
-      v-if="detailed"
+      v-if="showPsComparison"
     >
       <ProblemStatementDetails 
         :problemStatement="detailedPS"
         :Workshop="workshop"
+        @selectPS="eventHandler($event)"
       />
     </div>
     <div
@@ -17,7 +18,8 @@
         :detailed="detailed"
         class="ps-card"
         v-for="ps in workshop.content.problemStatements"
-        :key="ps.id"/>
+        :key="ps.id"
+        @select="eventHandler(ps.id)"/>
       </div>
   </div>
 </template>
@@ -30,6 +32,7 @@ import { Workshop } from "@/shared/models/Workshop.model";
 import { ProblemStatementWorkshopContent } from "@/shared/models/ProblemStatementWorkshopContent.model";
 import ProblemStatementCard from "@/components/ProblemStatementCard.vue";
 import ProblemStatementDetails from "@/components/ProblemStatementDetails.vue";
+import { ProblemStatement } from '../shared/models/ProblemStatement.model';
 
 @Component({
   components:{
@@ -39,12 +42,18 @@ import ProblemStatementDetails from "@/components/ProblemStatementDetails.vue";
 })
 export default class PsWorkshopContent extends Vue {
   @Prop({default: true}) private detailed!: boolean;
+  @Prop({default: false}) private showPsComparison!: boolean;
 
   workshopStore = getModule(WorkshopStore);
   workshop: Workshop<ProblemStatementWorkshopContent> = 
     this.workshopStore.selectedWorkshop as Workshop<ProblemStatementWorkshopContent>;
   showSinglePsDetails = false;
-  detailedPS = this.workshop.content.problemStatements[0];
+  detailedPS:ProblemStatement|null = null;
+
+  eventHandler(i: any) {
+    this.detailedPS = this.workshop.content.problemStatements[i-1];
+    this.$emit('update:showPsComparison', true);
+  }
 }
 
 </script>
