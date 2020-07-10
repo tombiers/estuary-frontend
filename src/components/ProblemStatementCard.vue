@@ -7,7 +7,10 @@
       class="vca-blue-background vca-more-shadow ps"
     >
       <template slot="header">
-        </template>
+        <div class="ps-header">
+          <Button @click="clicked($event)" label="" icon="pi pi-search-plus" iconPos="left" class="p-button-secondary p-button-text ps-interaction-button-details"/>
+        </div>
+      </template>
         <div class="ps-content">
            {{ text }}
         </div>
@@ -64,10 +67,6 @@ export default class ProblemStatementCard extends Vue {
   @Prop({default: true}) private detailed!: boolean;
 
   private iconClass = "pi pi-thumbs-up new-button-icon"
-
-  // mounted() {
-  // document.getElementById("anId")!.onclick = this.clicked;
-  // }
 
   get id() {
     return "PS" + this.problemStatement.id;
@@ -203,7 +202,4 @@ export default class ProblemStatementCard extends Vue {
   padding: 5px;
 }
 
-.mine:extend(.pi .pi-thumbs-up) {
-  color: cyan;
-}
 </style>
