@@ -20,6 +20,7 @@
           <div class="workshop-info-title" id="workshop-title">
             {{ type }}  {{ date }}  {{ place }}
           </div>
+          <!--
           <div class="lod-switch">
             <div class="lod-switch-text">
               Ansicht {{ lod  }}
@@ -28,6 +29,7 @@
               <InputSwitch v-model="detailed" />
             </div>
           </div>
+          -->
         </div>
 
         <div class="button-open-right" v-bind:class="{ show: showRightPannel }">
