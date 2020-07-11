@@ -3,6 +3,7 @@
   <div class="main-ps">
     <ProblemStatementCard 
       :problemStatement="problemStatement"
+      :detailed="true"
       class="ps-card"
       @openLink="eventHandler($event)"
     />

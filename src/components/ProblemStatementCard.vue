@@ -20,6 +20,22 @@
         <div class="ps-content">
            {{ text }}
         </div>
+
+      <div v-if="detailed">
+        <div v-for="linkTag in linkTags" :key="linkTag">
+          <div class="ps-links">
+            <div class="ps-link-elements">{{linkTag}}: </div>
+            {{ getLinksbyTag(linkTag)}}
+
+          </div>
+        </div>
+
+
+
+        link tags: {{ linkTags }}
+      </div>
+
+    <div v-else>
       <div class="ps-links" v-if="problemStatement.linked.length != 0">
         <Button 
           @click="clicked($event)" 
@@ -40,6 +56,7 @@
         />
         </div>
       </div>
+    </div>
       <div class="ps-interaction">
       <div class="ps-interaction-buttons">
 
@@ -69,6 +86,7 @@ import WorkshopStore from "@/store/modules/Workshops.ts";
 import { getModule } from "vuex-module-decorators";
 import { ProblemStatement } from "@/shared/models/ProblemStatement.model";
 import ProblemStatementLinkComponent  from "@/components/ProblemStatementLinkComponent.vue"
+import { ProblemStatementLink } from '../shared/models/ProblemStatementLink.model';
 
 @Component({
   components: {
@@ -77,7 +95,7 @@ import ProblemStatementLinkComponent  from "@/components/ProblemStatementLinkCom
 })
 export default class ProblemStatementCard extends Vue {
   @Prop() private problemStatement!: ProblemStatement;
-  @Prop({default: true}) private detailed!: boolean;
+  @Prop({default: false}) private detailed!: boolean;
 
   private iconClass = "pi pi-thumbs-up new-button-icon"
 
@@ -103,6 +121,18 @@ export default class ProblemStatementCard extends Vue {
 
   get likes() {
     return "Likes: " + this.problemStatement.likes;
+  }
+
+  get linkTags(): string[] {
+    const linkTags:string[] = []
+    this.problemStatement.linked.forEach(link => {
+      linkTags.push(...link.tags)
+    })
+    return [...new Set(linkTags)];  // remove duplicates
+  }
+
+  getLinksbyTag(tag: string): ProblemStatementLink[] {
+    return this.problemStatement.linked.filter(link => link.tags.some(linkTag => linkTag.match(tag)));
   }
 
   like(event: any) {
