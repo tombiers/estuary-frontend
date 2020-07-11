@@ -8,13 +8,26 @@
     >
       <template slot="header">
         <div class="ps-header">
-          <Button @click="clicked($event)" label="" icon="pi pi-search-plus" iconPos="left" class="p-button-secondary p-button-text ps-interaction-button-details"/>
+          <Button 
+            @click="clicked($event)" 
+            label="" 
+            icon="pi pi-search-plus" 
+            iconPos="left" 
+            class="p-button-secondary p-button-text ps-interaction-button-details"
+          />
         </div>
       </template>
         <div class="ps-content">
            {{ text }}
         </div>
       <div class="ps-links" v-if="problemStatement.linked.length != 0">
+        <Button 
+          @click="clicked($event)" 
+          label="" 
+          icon="pi pi-search-plus" 
+          iconPos="left" 
+          class="p-button-secondary p-button-text ps-interaction-button-details"
+        />
         <div class="ps-link-elements">In Beziehung zu: </div>
         <div
           class="ps-link-elements" 
@@ -26,7 +39,6 @@
           @openLink="openLink"
         />
         </div>
-      <Button @click="clicked($event)" label="" icon="pi pi-search-plus" iconPos="left" class="p-button-secondary p-button-text ps-interaction-button-details"/>
       </div>
       <div class="ps-interaction">
       <div class="ps-interaction-buttons">
@@ -103,11 +115,9 @@ export default class ProblemStatementCard extends Vue {
   }
 
   clicked() {
-    this.$emit('select')
     this.$emit("openLink",this.problemStatement.id)
   }
   openLink(id: string) {
-    console.log("got openLnk event with id " + id);
     this.$emit("openLink",id)
   }
 

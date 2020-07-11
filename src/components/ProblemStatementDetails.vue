@@ -4,7 +4,7 @@
     <ProblemStatementCard 
       :problemStatement="problemStatement"
       class="ps-card"
-      @select="eventHandler(problemStatement.id)"
+      @openLink="eventHandler($event)"
     />
   </div>
   <div class="linked-ps">
@@ -13,7 +13,7 @@
       :key="ps.id"
       :problemStatement="ps"
       class="ps-card-linked"
-      @select="eventHandler(ps.id)"
+      @openLink="eventHandler($event)"
     />
   </div>
 </div>
@@ -44,7 +44,7 @@ export default class ProblemStatementDetails extends Vue {
   }
 
   eventHandler(id: any) {
-    this.$emit('selectPS', id)
+    this.$emit('openLink', id)
   }
 }
 

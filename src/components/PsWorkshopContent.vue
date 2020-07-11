@@ -6,7 +6,7 @@
       <ProblemStatementDetails 
         :problemStatement="detailedPS"
         :Workshop="workshop"
-        @selectPS="eventHandler($event)"
+        @openLink="eventHandler($event)"
       />
     </div>
     <div
@@ -19,7 +19,6 @@
           class="ps-card"
           v-for="ps in workshop.content.problemStatements"
           :key="ps.id"
-          @select="eventHandler(ps.id)"
           @openLink="eventHandler($event)"
         />
       </div>
@@ -53,8 +52,6 @@ export default class PsWorkshopContent extends Vue {
   detailedPS:ProblemStatement|null = null;
 
   eventHandler(id: number) {
-    console.log("selectPS with id " + id);
-    console.log(id);
     this.detailedPS = this.workshop.content.problemStatements[id-1];
     this.$emit('update:showPsComparison', true);
   }
