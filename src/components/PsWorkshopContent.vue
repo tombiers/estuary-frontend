@@ -14,12 +14,14 @@
         v-else
       >
         <ProblemStatementCard 
-        :problemStatement="ps"
-        :detailed="detailed"
-        class="ps-card"
-        v-for="ps in workshop.content.problemStatements"
-        :key="ps.id"
-        @select="eventHandler(ps.id)"/>
+          :problemStatement="ps"
+          :detailed="detailed"
+          class="ps-card"
+          v-for="ps in workshop.content.problemStatements"
+          :key="ps.id"
+          @select="eventHandler(ps.id)"
+          @openLink="eventHandler($event)"
+        />
       </div>
   </div>
 </template>
@@ -50,8 +52,10 @@ export default class PsWorkshopContent extends Vue {
   showSinglePsDetails = false;
   detailedPS:ProblemStatement|null = null;
 
-  eventHandler(i: any) {
-    this.detailedPS = this.workshop.content.problemStatements[i-1];
+  eventHandler(id: number) {
+    console.log("selectPS with id " + id);
+    console.log(id);
+    this.detailedPS = this.workshop.content.problemStatements[id-1];
     this.$emit('update:showPsComparison', true);
   }
 }

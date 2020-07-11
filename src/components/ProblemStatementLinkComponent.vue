@@ -1,6 +1,6 @@
 <template>
-    <a class="link" :href="linkToPS">
-      {{ id }}
+    <a class="link" :href="linkToPS" :id="uniqueId">
+      {{ PSid }}
     </a>
 </template>
 
@@ -8,22 +8,37 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { ProblemStatementLink } from "@/shared/models/ProblemStatementLink.model";
 import WorkshopTags from "@/components/WorkshopTags.vue"
+import { mixins } from 'vue-class-component';
+import UidMixin from "@/mixins/UidMixin";
 
 @Component({
   components: {
     WorkshopTags
   }
 })
-export default class ProblemStatementLinkComponent extends Vue {
+export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
   @Prop() private problemStatementLink!: ProblemStatementLink;
   @Prop({default: true}) private detailed!: boolean;
 
-  get id() {
+  mounted() {
+    document.getElementById(this.uniqueId)!.onclick = this.openLink;
+  }
+
+  openLink() {
+    this.$emit('openLink',this.problemStatementLink.id);
+  }
+
+  get uniqueId() {
+    return this.uid + this.PSid;
+  }
+
+  get PSid() {
     return "PS" + this.problemStatementLink.id;
   }
 
   get linkToPS() {
-    return "/ProblemStatement/" + this.problemStatementLink.id;
+    return '#' + this.PSid;
+    //return "/ProblemStatement/" + this.problemStatementLink.id;
   }
 
   get tags() {

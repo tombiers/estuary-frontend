@@ -23,6 +23,7 @@
         >
         <ProblemStatementLinkComponent 
           :problemStatementLink="pslink"
+          @openLink="openLink"
         />
         </div>
       <Button @click="clicked($event)" label="" icon="pi pi-search-plus" iconPos="left" class="p-button-secondary p-button-text ps-interaction-button-details"/>
@@ -103,6 +104,11 @@ export default class ProblemStatementCard extends Vue {
 
   clicked() {
     this.$emit('select')
+    this.$emit("openLink",this.problemStatement.id)
+  }
+  openLink(id: string) {
+    console.log("got openLnk event with id " + id);
+    this.$emit("openLink",id)
   }
 
 }
