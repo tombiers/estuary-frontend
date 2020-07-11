@@ -24,16 +24,37 @@
       <div v-if="detailed">
         <div v-for="linkTag in linkTags" :key="linkTag">
           <div class="ps-links">
-            <div class="ps-link-elements">{{linkTag}}: </div>
-            {{ getLinksbyTag(linkTag)}}
-
+            <div class="ps-link-elements">
+              {{linkTag}}: 
+            </div>
+            <div
+              class="ps-link-elements" 
+              v-for="pslink in getLinksbyTag(linkTag)"
+              :key="pslink.id"
+            >
+              <ProblemStatementLinkComponent 
+                :problemStatementLink="pslink"
+                @openLink="openLink"
+              />
+            </div>
           </div>
         </div>
-
-
-
-        link tags: {{ linkTags }}
-      </div>
+        <div class="ps-links" v-if="LinksWithoutTag.length > 0" >  <!-- links without a tag -->
+            <div class="ps-link-elements">
+              ohne Tag: 
+            </div>
+            <div
+              class="ps-link-elements" 
+              v-for="pslink in LinksWithoutTag"
+              :key="pslink.id"
+            >
+              <ProblemStatementLinkComponent 
+                :problemStatementLink="pslink"
+                @openLink="openLink"
+              />
+            </div>
+          </div>
+        </div>
 
     <div v-else>
       <div class="ps-links" v-if="problemStatement.linked.length != 0">
@@ -133,6 +154,12 @@ export default class ProblemStatementCard extends Vue {
 
   getLinksbyTag(tag: string): ProblemStatementLink[] {
     return this.problemStatement.linked.filter(link => link.tags.some(linkTag => linkTag.match(tag)));
+  }
+
+  get LinksWithoutTag(): ProblemStatementLink[] {
+    const linksWithoutTag:ProblemStatementLink[] = [];
+    linksWithoutTag.push(...this.problemStatement.linked.filter(link => link.tags.length == 0));
+    return linksWithoutTag;
   }
 
   like(event: any) {

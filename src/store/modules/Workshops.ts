@@ -96,16 +96,16 @@ export default class WorkshopStore extends VuexModule {
           [
             new ProblemStatement(1, 456, "Supporter", "dass was passiert", "es passiert nichts", "Gründe", "traurig", [
               new ProblemStatementLink(2, ["grün", "blau"]),
-              new ProblemStatementLink(3, ["vier", "esel"]),
+              new ProblemStatementLink(3, ["blau", "rot"]),
               new ProblemStatementLink(4, [])
             ]),
             new ProblemStatement(2, 245, "Supporter", "dass was passiert", "es passiert nichts", "keine Ahnung", "komisch", []),
             new ProblemStatement(3, 49, "Supporter", "dass was passiert", "es passiert nichts", "Gründe", "traurig", []),
             new ProblemStatement(4, 12, "Entwickler", "Kekse", "ich bekomme keine", "jemand alle aufgegessen hat", "hungrig", [
               new ProblemStatementLink(2, ["grün", "blau"]),
-              new ProblemStatementLink(3, ["vier", "esel"]),
+              new ProblemStatementLink(3, ["blau", "rot"]),
               new ProblemStatementLink(4, []),
-              new ProblemStatementLink(1, ["sieben", "ipsum", "doret", "lalum"])
+              new ProblemStatementLink(1, ["ipsum", "doret"])
             ]),
             new ProblemStatement(5, 347, "Lorem ipsum",
               "dolor sit amet, consetetur sadipscing elitr",
