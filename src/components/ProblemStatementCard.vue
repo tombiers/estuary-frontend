@@ -21,7 +21,10 @@
            {{ text }}
         </div>
 
-      <div v-if="detailed">
+      <div v-if="detailed" class="ps-links-top">
+        <div class="ps-links">
+          <div class="ps-link-elements">Beziehungen: </div>
+        </div>
         <div v-for="linkTag in linkTags" :key="linkTag">
           <div class="ps-links">
             <div class="ps-link-elements">
@@ -34,7 +37,7 @@
             >
               <ProblemStatementLinkComponent 
                 :problemStatementLink="pslink"
-                @openLink="openLink"
+                @openLink="highlight"
               />
             </div>
           </div>
@@ -50,13 +53,13 @@
             >
               <ProblemStatementLinkComponent 
                 :problemStatementLink="pslink"
-                @openLink="openLink"
+                @openLink="highlight"
               />
             </div>
           </div>
         </div>
 
-    <div v-else>
+    <div v-else class="ps-links-top">
       <div class="ps-links" v-if="problemStatement.linked.length != 0">
         <Button 
           @click="clicked($event)" 
@@ -68,7 +71,7 @@
         <div class="ps-link-elements">In Beziehung zu: </div>
         <div
           class="ps-link-elements" 
-          v-for="pslink in problemStatement.linked"
+          v-for="pslink in orderedPsLinks"
           :key="pslink.id"
         >
         <ProblemStatementLinkComponent 
@@ -152,6 +155,10 @@ export default class ProblemStatementCard extends Vue {
     return [...new Set(linkTags)];  // remove duplicates
   }
 
+  get orderedPsLinks(): ProblemStatementLink[] {
+    return this.problemStatement.linked.sort((a, b) => a.id - b.id);
+  }
+
   getLinksbyTag(tag: string): ProblemStatementLink[] {
     return this.problemStatement.linked.filter(link => link.tags.some(linkTag => linkTag.match(tag)));
   }
@@ -176,6 +183,11 @@ export default class ProblemStatementCard extends Vue {
   }
   openLink(id: string) {
     this.$emit("openLink",id)
+  }
+
+  highlight(id: string) {
+    //alert("highlight " + id);
+    this.$emit("highlight", id);
   }
 
 }
@@ -223,6 +235,15 @@ export default class ProblemStatementCard extends Vue {
 .ps-links {
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  //border-bottom: 1px solid #ebeef5;
+  padding: 5px 0px;
+}
+
+.ps-links-top {
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   flex-wrap: wrap;
   border-bottom: 1px solid #ebeef5;

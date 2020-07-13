@@ -6,9 +6,18 @@
       :detailed="true"
       class="ps-card"
       @openLink="eventHandler($event)"
+      @highlight="highlight"
     />
   </div>
   <div class="linked-ps">
+    <transition name="fade" mode="out-in">
+    <ProblemStatementCard
+      v-if="highlightId > -1"
+      :problemStatement="highlightedPS"
+      class="ps-card-linked-highlight"
+      @openLink="eventHandler($event)"
+    />
+    </transition>
     <ProblemStatementCard 
       v-for="ps in linkedWorkshops"
       :key="ps.id"
@@ -36,16 +45,29 @@ export default class ProblemStatementDetails extends Vue {
   @Prop() private Workshop!: Workshop<ProblemStatementWorkshopContent>;
   @Prop() private problemStatement!: ProblemStatement;
 
+  private highlightId = -1;
+
   get linkedWorkshops(): ProblemStatement[] {
-    return this.problemStatement.linked.map(
+    return this.problemStatement.linked
+    .filter(link => link.id != this.highlightId)
+    .map(
       link => {
         return this.Workshop.content.problemStatements.find(ps => ps.id == link.id)!
       }
-    );
+    ).sort((a, b) => a.id - b.id);
+  }
+
+  get highlightedPS(): ProblemStatement | undefined {
+    return this.Workshop.content.problemStatements.find(ps=> ps.id == this.highlightId);
   }
 
   eventHandler(id: any) {
     this.$emit('openLink', id)
+  }
+
+  highlight(id: any) {
+    this.highlightId = -1;
+    this.highlightId = id;
   }
 }
 
@@ -77,9 +99,70 @@ export default class ProblemStatementDetails extends Vue {
   margin-bottom: 10px;
 }
 
-.linked-ps /deep/ .el-card {
+.ps-card-linked /deep/ .el-card {
   opacity: 55%;
 }
+
+.ps-card-linked-highlight:extend(.ps-card-linked) {
+  //background-color: cyan;
+}
+
+.ps-card-linked-highlight /deep/ .el-card {
+  background-color: moccasin;
+}
+
+
+
+// vue animations
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+
+// animation testing
+
+.ps-card-linked-highlight-breakit /deep/ .el-card {
+
+    -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 1s; /* Firefox < 16 */
+        -ms-animation: fadein 1s; /* Internet Explorer */
+         -o-animation: fadein 1s; /* Opera < 12.1 */
+            animation: fadein 1s;
+}
+
+@keyframes fadein {
+    from { opacity: 0.55; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0.55; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0.55; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0.55; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0.55; }
+    to   { opacity: 1; }
+}
+
 
 
 </style>
