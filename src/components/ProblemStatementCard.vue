@@ -88,7 +88,7 @@
             @click="like($event)"
             >
             <div :class="iconClass"></div>
-            <span class="p-button-label">Mir ist das wichtig</span>
+            <span class="p-button-label">{{$t('like')}}</span>
           </button>
 
           <Button @click="comment($event)" label="comment" icon="pi pi-comments" iconPos="left" class="p-button-secondary p-button-text ps-interaction-button"/>
