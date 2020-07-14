@@ -10,8 +10,9 @@
     />
   </div>
   <div class="linked-ps">
-    <transition name="fade" mode="out-in">
+    <transition name="slide-fade" mode="out-in">
     <ProblemStatementCard
+      :key="highlightId"
       v-if="highlightId > -1"
       :problemStatement="highlightedPS"
       class="ps-card-linked-highlight"
@@ -108,7 +109,7 @@ export default class ProblemStatementDetails extends Vue {
 }
 
 .ps-card-linked-highlight /deep/ .el-card {
-  background-color: moccasin;
+  //background-color: moccasin;
 }
 
 
@@ -122,47 +123,16 @@ export default class ProblemStatementDetails extends Vue {
   opacity: 0;
 }
 
-
-// animation testing
-
-.ps-card-linked-highlight-breakit /deep/ .el-card {
-
-    -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
-       -moz-animation: fadein 1s; /* Firefox < 16 */
-        -ms-animation: fadein 1s; /* Internet Explorer */
-         -o-animation: fadein 1s; /* Opera < 12.1 */
-            animation: fadein 1s;
+.slide-fade-enter-active {
+  transition: all .5s ease;
 }
-
-@keyframes fadein {
-    from { opacity: 0.55; }
-    to   { opacity: 1; }
+.slide-fade-leave-active {
+  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
-
-/* Firefox < 16 */
-@-moz-keyframes fadein {
-    from { opacity: 0.55; }
-    to   { opacity: 1; }
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for <2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
 }
-
-/* Safari, Chrome and Opera > 12.1 */
-@-webkit-keyframes fadein {
-    from { opacity: 0.55; }
-    to   { opacity: 1; }
-}
-
-/* Internet Explorer */
-@-ms-keyframes fadein {
-    from { opacity: 0.55; }
-    to   { opacity: 1; }
-}
-
-/* Opera < 12.1 */
-@-o-keyframes fadein {
-    from { opacity: 0.55; }
-    to   { opacity: 1; }
-}
-
-
 
 </style>
