@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { Workshop } from "@/shared/models/Workshop.model";
+import { BaseWorkshop } from "@/shared/models/BaseWorkshop.model";
 import WorkshopStore from "@/store/modules/Workshops.ts";
 import { getModule } from "vuex-module-decorators";
 import WorkshopTags from "@/components/WorkshopTags.vue";
@@ -40,7 +40,7 @@ import WorkshopTags from "@/components/WorkshopTags.vue";
   }
 })
 export default class WorkshopCard extends Vue {
-  @Prop() private workshop!: Workshop;
+  @Prop() private workshop!: BaseWorkshop;
 
   // computed getter
   // format date as month.year
@@ -50,8 +50,7 @@ export default class WorkshopCard extends Vue {
   }
 
   mounted() {
-
-  document.getElementById(this.workshop.id.toString())!.onclick = this.openCard;
+    document.getElementById(this.workshop.id.toString())!.onclick = this.openCard;
   }
 
  openCard()  {

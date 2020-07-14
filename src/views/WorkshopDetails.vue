@@ -17,17 +17,19 @@
         </div>
 
         <div class="workshop-info">
-          <div class="workshop-info-title">
+          <div class="workshop-info-title" id="workshop-title">
             {{ type }}  {{ date }}  {{ place }}
           </div>
+          <!--
           <div class="lod-switch">
             <div class="lod-switch-text">
-              Ansicht {{ isSimple  }}
+              Ansicht {{ lod  }}
             </div>
             <div class="lod-switch-switch">
-              <InputSwitch v-model="simplified" />
+              <InputSwitch v-model="detailed" />
             </div>
           </div>
+          -->
         </div>
 
         <div class="button-open-right" v-bind:class="{ show: showRightPannel }">
@@ -40,7 +42,10 @@
           />
         </div>
       </div>
-      <div class="workshop-main-content"> Placeholder for the main content of a workshop </div>
+      <div class="workshop-main-content"> 
+        <PsWorkshopContent v-if="type == 'PS Workshop'" :detailed="detailed" :showPsComparison.sync="showPsComparison" />
+        <span v-else> Unkown Workshop Type </span>
+      </div>
     </div>
     <div class="pannel-right" v-bind:class="{ show: !showRightPannel }">
       <Button
@@ -61,10 +66,12 @@ import { Component, Vue } from "vue-property-decorator";
 import WorkshopDetailsMeta from "@/components/WorkshopDetailsMeta.vue";
 import { getModule } from "vuex-module-decorators";
 import WorkshopStore from "@/store/modules/Workshops.ts";
+import PsWorkshopContent from "@/components/PsWorkshopContent.vue";
 
 @Component({
   components: {
-    WorkshopDetailsMeta
+    WorkshopDetailsMeta,
+    PsWorkshopContent
   }
 })
 export default class WorkshopDetails extends Vue{
@@ -72,10 +79,17 @@ export default class WorkshopDetails extends Vue{
   showRightPannel = false;
   workshopStore = getModule(WorkshopStore);
   id = -1;
-  simplified = false;
+  detailed = false;
+  showPsComparison = false;
 
   mounted() {
     this.id = Number(this.$route.params.id);
+    document.getElementById("workshop-title")!.onclick = this.openCard;
+    
+  }
+
+  openCard() {
+    this.showPsComparison = false;
   }
 
   get date() {
@@ -91,8 +105,8 @@ export default class WorkshopDetails extends Vue{
     return this.workshopStore.selectedWorkshop.place.name;
   }
 
-  get isSimple() {
-    if (this.simplified) {
+  get lod() {
+    if (this.detailed) {
       return "Vollständig"
     } else {
       return "Vereinfacht"
@@ -184,11 +198,11 @@ export default class WorkshopDetails extends Vue{
 .pannel-right {
   flex: 1;
 }
-
+/*
 .workshop-main-content {
   border-style: solid;
 }
-
+*/
 .show {
   display: none
 }

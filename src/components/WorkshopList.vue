@@ -50,7 +50,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import WorkshopCard from "@/components/WorkshopCard.vue";
-import { Workshop } from "@/shared/models/Workshop.model.ts";
+import { BaseWorkshop } from "@/shared/models/BaseWorkshop.model.ts";
 import { getModule } from "vuex-module-decorators";
 import WorkshopStore from "@/store/modules/Workshops.ts";
 import { AutoCompleteItem } from "@/shared/models/AutoCompleteItem.model.ts";
@@ -66,7 +66,7 @@ import { AutoCompleteItem } from "@/shared/models/AutoCompleteItem.model.ts";
 export default class WorkshopList extends Vue {
   loadDisabled = false;
   workshopStore = getModule(WorkshopStore);
-  selectedQueries: AutoCompleteItem[] = [];
+  selectedQueries: AutoCompleteItem[] = this.workshopStore.activeFilterQueries.map(query =>  new AutoCompleteItem(query));
   filteredQueriesMultiple: AutoCompleteItem[] = [];
   datepicker: Date | null = null;
 

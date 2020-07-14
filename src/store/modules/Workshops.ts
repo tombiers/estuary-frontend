@@ -1,20 +1,24 @@
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
+import { BaseWorkshop } from "@/shared/models/BaseWorkshop.model";
 import { Workshop } from "@/shared/models/Workshop.model";
-import { WorkshopFull } from "@/shared/models/WorkshopFull.model";
 import { Place } from "@/shared/models/Place.model";
 import store from "@/store";
+import { WorkshopContent } from "@/shared/models/WorkshopContent.model";
+import { ProblemStatementWorkshopContent } from "@/shared/models/ProblemStatementWorkshopContent.model";
+import { ProblemStatement } from '@/shared/models/ProblemStatement.model';
+import { ProblemStatementLink } from '@/shared/models/ProblemStatementLink.model';
 
 @Module({ dynamic: true, store, name: "WorkshopStore" })
 export default class WorkshopStore extends VuexModule {
-  allWorkshops: Workshop[] = [];
-  filterQuery: (string | number)[] = [];
-  selectedFullWorkshop: (WorkshopFull | null) = null;
+  private allWorkshops: BaseWorkshop[] = [];
+  private filterQuery: (string | number)[] = [];
+  private selectedFullWorkshop: (Workshop<WorkshopContent> | null) = null;
 
-  get workshops(): Workshop[] {
+  get workshops(): BaseWorkshop[] {
     return this.allWorkshops;
   }
 
-  get filteredWorkshops(): Workshop[] {
+  get filteredWorkshops(): BaseWorkshop[] {
     if (this.filterQuery.length == 0) return this.workshops;
     return this.allWorkshops.filter(ws => {
       return this.filterQuery.every(query => {
@@ -58,12 +62,16 @@ export default class WorkshopStore extends VuexModule {
     };
   }
 
-  get selectedWorkshop(): WorkshopFull {
+  get activeFilterQueries() {
+    return this.filterQuery;
+  }
+
+  get selectedWorkshop(): Workshop<WorkshopContent> {
     return this.selectedFullWorkshop!;
   }
 
   @Mutation
-  private setSelectedWorkshop(workshop: WorkshopFull) {
+  private setSelectedWorkshop(workshop: Workshop<WorkshopContent>) {
     this.selectedFullWorkshop = workshop;
   }
 
@@ -74,7 +82,7 @@ export default class WorkshopStore extends VuexModule {
     // mock data for now
     const foundWorkshop = this.workshops.find(item => item!.id == id);
     if (typeof foundWorkshop !== "undefined") {
-      const ws = new WorkshopFull(
+      const ws = new Workshop<WorkshopContent>(
         foundWorkshop.id,
         foundWorkshop.type,
         foundWorkshop.place,
@@ -83,7 +91,36 @@ export default class WorkshopStore extends VuexModule {
         foundWorkshop.upvotes,
         foundWorkshop.teaser,
         ["Anna", "Paul"],
-        "public"
+        "public",
+        new ProblemStatementWorkshopContent(
+          [
+            new ProblemStatement(1, 456, "Supporter", "dass was passiert", "es passiert nichts", "Gründe", "traurig", [
+              new ProblemStatementLink(2, ["grün", "blau"]),
+              new ProblemStatementLink(3, ["blau", "rot"]),
+              new ProblemStatementLink(4, [])
+            ]),
+            new ProblemStatement(2, 245, "Supporter", "dass was passiert", "es passiert nichts", "keine Ahnung", "komisch", [
+              new ProblemStatementLink(1, ["grün", "blau"])
+            ]),
+            new ProblemStatement(3, 49, "Supporter", "dass was passiert", "es passiert nichts", "Gründe", "traurig", [
+              new ProblemStatementLink(1, ["blau", "rot"])
+            ]),
+            new ProblemStatement(4, 12, "Entwickler", "Kekse", "ich bekomme keine", "jemand alle aufgegessen hat", "hungrig", [
+              new ProblemStatementLink(2, ["grün", "blau"]),
+              new ProblemStatementLink(3, ["blau", "rot"]),
+              new ProblemStatementLink(1, []),
+            ]),
+            new ProblemStatement(5, 347, "Lorem ipsum",
+              "dolor sit amet, consetetur sadipscing elitr",
+              "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat",
+              "sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
+              "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+              [
+                new ProblemStatementLink(3, [])
+              ]
+            )
+          ]
+        )
       );
       this.setSelectedWorkshop(ws);
       return true;
@@ -115,14 +152,14 @@ export default class WorkshopStore extends VuexModule {
   }
 
   @Mutation
-  public addWorkshop(workshop: Workshop) {
+  public addWorkshop(workshop: BaseWorkshop) {
     this.allWorkshops.push(workshop);
   }
 
   @Action
   public createTestData() {
     this.addWorkshop(
-      new Workshop(
+      new BaseWorkshop(
         24,
         "PS Workshop",
         new Place("Hamburg", "https://goo.gl/maps/mbnen1jr8C81J6vU9"),
@@ -133,7 +170,7 @@ export default class WorkshopStore extends VuexModule {
       )
     );
     this.addWorkshop(
-      new Workshop(
+      new BaseWorkshop(
         1,
         "PS Workshop",
         new Place("Berlin"),
@@ -144,7 +181,7 @@ export default class WorkshopStore extends VuexModule {
       )
     );
     this.addWorkshop(
-      new Workshop(
+      new BaseWorkshop(
         33,
         "Idea Workshop",
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
@@ -155,7 +192,7 @@ export default class WorkshopStore extends VuexModule {
       )
     );
     this.addWorkshop(
-      new Workshop(
+      new BaseWorkshop(
         31,
         "Idea Workshop",
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
@@ -175,7 +212,7 @@ export default class WorkshopStore extends VuexModule {
       )
     );
     this.addWorkshop(
-      new Workshop(
+      new BaseWorkshop(
         93,
         "Idea Workshop",
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),

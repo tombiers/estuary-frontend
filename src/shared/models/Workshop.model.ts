@@ -1,14 +1,21 @@
 import { Place } from "./Place.model";
+import { BaseWorkshop } from './BaseWorkshop.model';
+import { WorkshopContent } from './WorkshopContent.model';
 
-// represents a  shortened workshop model as need for an overview of multiple workshops
-export class Workshop {
+// represents a  complete workshop model as need for the detail view
+export class Workshop<T extends WorkshopContent> extends BaseWorkshop{
   constructor(
-    public id: number,
-    public type: string,
-    public place: Place,
-    public date: number,
-    public tags: string[],
-    public upvotes: number,
-    public teaser: string
-  ) {}
+    id: number,
+    type: string,
+    place: Place,
+    date: number,
+    tags: string[],
+    upvotes: number,
+    teaser: string,
+    public authors: string[],
+    public status: string,
+    public content: T
+  ) {
+    super (id, type, place, date, tags, upvotes, teaser)
+  }
 }
