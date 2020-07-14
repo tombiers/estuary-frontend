@@ -2,7 +2,7 @@
   <div class="workshop-container">
     <VcABox
       :id="workshop.id"
-      :title="workshop.type"
+      :title="workshop.workshopTypeLocale"
       :expand="true"
       class="vca-blue-background vca-more-shadow workshop"
     >
@@ -20,7 +20,7 @@
         </div>
         <WorkshopTags :tags="workshop.tags" />
         <div class="workshop-body-likes">
-          Likes: {{ workshop.upvotes }}
+          {{$t('showLike')}}: {{ workshop.upvotes }}
         </div>
       </div>
     </VcABox>
@@ -29,10 +29,11 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { BaseWorkshop } from "@/shared/models/BaseWorkshop.model";
+import { BaseWorkshop, WorkshopType } from "@/shared/models/BaseWorkshop.model";
 import WorkshopStore from "@/store/modules/Workshops.ts";
 import { getModule } from "vuex-module-decorators";
 import WorkshopTags from "@/components/WorkshopTags.vue";
+import { i18n } from "@/main";
 
 @Component({
   components: {
@@ -53,9 +54,9 @@ export default class WorkshopCard extends Vue {
     document.getElementById(this.workshop.id.toString())!.onclick = this.openCard;
   }
 
- openCard()  {
-  this.$router.push({ name: 'WorkshopDetails', params: { id: this.workshop.id.toString() } });
-}
+  openCard()  {
+    this.$router.push({ name: 'WorkshopDetails', params: { id: this.workshop.id.toString() } });
+  }
 
 }
 </script>

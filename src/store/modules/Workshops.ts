@@ -1,5 +1,5 @@
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
-import { BaseWorkshop } from "@/shared/models/BaseWorkshop.model";
+import { BaseWorkshop, WorkshopType } from "@/shared/models/BaseWorkshop.model";
 import { Workshop } from "@/shared/models/Workshop.model";
 import { Place } from "@/shared/models/Place.model";
 import store from "@/store";
@@ -25,7 +25,7 @@ export default class WorkshopStore extends VuexModule {
         let res = false;
         if (typeof query === "string") {
           res =
-            ws.type.toLowerCase().includes(query.toLowerCase()) ||
+            ws.workshopTypeLocale.toLowerCase().includes(query.toLowerCase()) ||
             ws.place.name.toLowerCase().includes(query.toLowerCase()) ||
             ws.tags.some(tag =>
               tag.toLowerCase().includes(query.toLowerCase())
@@ -46,8 +46,8 @@ export default class WorkshopStore extends VuexModule {
     return (query: string): string[] => {
       const possibleQueries: string[] = [];
       this.allWorkshops.forEach(ws => {
-        if (ws.type.toLowerCase().includes(query.toLowerCase())) {
-          possibleQueries.push(ws.type);
+        if (ws.workshopTypeLocale.toLowerCase().includes(query.toLowerCase())) {
+          possibleQueries.push(ws.workshopTypeLocale);
         }
         if (ws.place.name.toLowerCase().includes(query.toLowerCase())) {
           possibleQueries.push(ws.place.name);
@@ -161,7 +161,7 @@ export default class WorkshopStore extends VuexModule {
     this.addWorkshop(
       new BaseWorkshop(
         24,
-        "PS Workshop",
+        WorkshopType.PS,
         new Place("Hamburg", "https://goo.gl/maps/mbnen1jr8C81J6vU9"),
         1592212009205,
         ["gelb", "blau", "grün", "rot"],
@@ -172,7 +172,7 @@ export default class WorkshopStore extends VuexModule {
     this.addWorkshop(
       new BaseWorkshop(
         1,
-        "PS Workshop",
+        WorkshopType.PS,
         new Place("Berlin"),
         1592314101605,
         ["abcd", "fghi", "poiu"],
@@ -183,7 +183,7 @@ export default class WorkshopStore extends VuexModule {
     this.addWorkshop(
       new BaseWorkshop(
         33,
-        "Idea Workshop",
+        WorkshopType.IDEA,
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
         1591316104625,
         ["hjk", "sdf"],
@@ -194,7 +194,7 @@ export default class WorkshopStore extends VuexModule {
     this.addWorkshop(
       new BaseWorkshop(
         31,
-        "Idea Workshop",
+        WorkshopType.IDEA,
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
         1291316104625,
         [
@@ -214,7 +214,7 @@ export default class WorkshopStore extends VuexModule {
     this.addWorkshop(
       new BaseWorkshop(
         93,
-        "Idea Workshop",
+        WorkshopType.IDEA,
         new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
         1191316104625,
         ["hjk", "sdf", "iuoi", "ioo easda asdasd"],

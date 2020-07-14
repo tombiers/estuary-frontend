@@ -1,12 +1,12 @@
 import { Place } from "./Place.model";
-import { BaseWorkshop } from './BaseWorkshop.model';
+import { BaseWorkshop, WorkshopType } from './BaseWorkshop.model';
 import { WorkshopContent } from './WorkshopContent.model';
 
 // represents a  complete workshop model as need for the detail view
 export class Workshop<T extends WorkshopContent> extends BaseWorkshop{
   constructor(
     id: number,
-    type: string,
+    type: WorkshopType,
     place: Place,
     date: number,
     tags: string[],

@@ -1,3 +1,25 @@
 {
-  "like":"Mir ist das wichtig"
+  "doLike": "Mir ist das wichtig",
+  "showLike": "Wichtig für",
+  "doComment": "An Diskussion teilnehmen",
+  "showComment": "Beiträge",
+  "search": "Suche",
+  "date": "Datum",
+  "place": "Ort",
+  "related":"In Beziehung zu",
+  "details": "Details",
+  "workshopType": {
+    "ps": "PS Workshop",
+    "idea": "Ideen Workshop",
+    "unkonwn": "unbekannter Workshop Typ"
+  },
+  "problemStatement": {
+    "problemStatement": "Problem Statement",
+    "iAm": "Ich als ",
+    "iWant": "möchte, ",
+    "but": "Aber ",
+    "because": "weil ",
+    "feel": "Darum fühle ich mich "
+  }
+
 }
