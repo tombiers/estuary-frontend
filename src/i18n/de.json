@@ -8,10 +8,17 @@
   "place": "Ort",
   "related":"In Beziehung zu",
   "details": "Details",
+  "authors": "Autoren",
+  "status": "Status",
   "workshopType": {
-    "ps": "PS Workshop",
+    "ps": "Problem Statement Workshop",
     "idea": "Ideen Workshop",
     "unkonwn": "unbekannter Workshop Typ"
+  },
+  "workshopStatus": {
+    "wip": "In Bearbeitung",
+    "public": "Veröffentlichst",
+    "unkown": "Unbekannt"
   },
   "problemStatement": {
     "problemStatement": "Problem Statement",

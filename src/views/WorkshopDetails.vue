@@ -18,7 +18,7 @@
 
         <div class="workshop-info">
           <div class="workshop-info-title" id="workshop-title">
-            {{ type }}  {{ date }}  {{ place }}
+            {{ typeLocale }}  {{ date }}  {{ place }}
           </div>
           <!--
           <div class="lod-switch">
@@ -43,8 +43,8 @@
         </div>
       </div>
       <div class="workshop-main-content"> 
-        <PsWorkshopContent v-if="type == 'PS Workshop'" :detailed="detailed" :showPsComparison.sync="showPsComparison" />
-        <span v-else> Unkown Workshop Type </span>
+        <PsWorkshopContent v-if="type == WorkshopType.PS" :detailed="detailed" :showPsComparison.sync="showPsComparison" />
+        <span v-else> {{$t("workshopType.unkonwn")}} </span>
       </div>
     </div>
     <div class="pannel-right" v-bind:class="{ show: !showRightPannel }">
@@ -67,6 +67,7 @@ import WorkshopDetailsMeta from "@/components/WorkshopDetailsMeta.vue";
 import { getModule } from "vuex-module-decorators";
 import WorkshopStore from "@/store/modules/Workshops.ts";
 import PsWorkshopContent from "@/components/PsWorkshopContent.vue";
+import { WorkshopType } from "@/shared/models/BaseWorkshop.model";
 
 @Component({
   components: {
@@ -81,6 +82,7 @@ export default class WorkshopDetails extends Vue{
   id = -1;
   detailed = false;
   showPsComparison = false;
+  WorkshopType = WorkshopType; // make the enum available in the template
 
   mounted() {
     this.id = Number(this.$route.params.id);
@@ -99,6 +101,10 @@ export default class WorkshopDetails extends Vue{
 
   get type() {
     return this.workshopStore.selectedWorkshop.type;
+  }
+
+  get typeLocale() {
+    return this.workshopStore.selectedWorkshop.workshopTypeLocale
   }
   
   get place() {

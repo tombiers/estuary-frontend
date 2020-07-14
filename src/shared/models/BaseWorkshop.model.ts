@@ -1,7 +1,6 @@
 import { Place } from "./Place.model";
 import { i18n } from "@/main"
 
-
 export enum WorkshopType {
   PS,
   IDEA

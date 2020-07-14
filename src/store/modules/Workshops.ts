@@ -1,6 +1,6 @@
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
 import { BaseWorkshop, WorkshopType } from "@/shared/models/BaseWorkshop.model";
-import { Workshop } from "@/shared/models/Workshop.model";
+import { Workshop, workshopStatus } from "@/shared/models/Workshop.model";
 import { Place } from "@/shared/models/Place.model";
 import store from "@/store";
 import { WorkshopContent } from "@/shared/models/WorkshopContent.model";
@@ -91,7 +91,7 @@ export default class WorkshopStore extends VuexModule {
         foundWorkshop.upvotes,
         foundWorkshop.teaser,
         ["Anna", "Paul"],
-        "public",
+        workshopStatus.PUBLIC,
         new ProblemStatementWorkshopContent(
           [
             new ProblemStatement(1, 456, "Supporter", "dass was passiert", "es passiert nichts", "Gründe", "traurig", [
