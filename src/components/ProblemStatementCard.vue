@@ -10,9 +10,7 @@
         <div class="ps-header">
           <Button 
             @click="clicked($event)" 
-            label="" 
-            icon="pi pi-search-plus" 
-            iconPos="left" 
+            label="Details" 
             class="p-button-secondary p-button-text ps-interaction-button-details"
           />
         </div>
@@ -90,7 +88,7 @@
             @click="like($event)"
             >
             <div :class="iconClass"></div>
-            <span class="p-button-label">like</span>
+            <span class="p-button-label">Mir ist das wichtig</span>
           </button>
 
           <Button @click="comment($event)" label="comment" icon="pi pi-comments" iconPos="left" class="p-button-secondary p-button-text ps-interaction-button"/>
@@ -268,16 +266,24 @@ export default class ProblemStatementCard extends Vue {
 
 .ps-interaction {
   padding: 20px 20px 0px 20px;
+  align-content: flex-start;
 }
 
 .ps-interaction-buttons {
-  display: flex;
+  text-align: left;
+  //flex: 1;
+  //display: inline-flex;
+  //align-self: flex-start;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
 }
 
 .ps-interaction-button {
+  margin-right: 5px;
+}
+
+.ps-interaction-button-magnify {
   flex: 0;
   margin-right: 5px;
 }
@@ -288,6 +294,7 @@ export default class ProblemStatementCard extends Vue {
 }
 
 .ps-interaction-button-details:extend(.ps-interaction-button){
+  flex: 0;
   margin-left: 5px;
   border-radius: 50%;
 }
