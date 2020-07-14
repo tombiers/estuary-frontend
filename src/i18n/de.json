@@ -1,0 +1,32 @@
+{
+  "doLike": "Mir ist das wichtig",
+  "showLike": "Wichtig für",
+  "doComment": "An Diskussion teilnehmen",
+  "showComment": "Beiträge",
+  "search": "Suche",
+  "date": "Datum",
+  "place": "Ort",
+  "related":"In Beziehung zu",
+  "details": "Details",
+  "authors": "Autoren",
+  "status": "Status",
+  "workshopType": {
+    "ps": "Problem Statement Workshop",
+    "idea": "Ideen Workshop",
+    "unkonwn": "unbekannter Workshop Typ"
+  },
+  "workshopStatus": {
+    "wip": "In Bearbeitung",
+    "public": "Veröffentlichst",
+    "unkown": "Unbekannt"
+  },
+  "problemStatement": {
+    "problemStatement": "Problem Statement",
+    "iAm": "Ich als ",
+    "iWant": "möchte, ",
+    "but": "Aber ",
+    "because": "weil ",
+    "feel": "Darum fühle ich mich "
+  }
+
+}

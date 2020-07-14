@@ -8,7 +8,7 @@
       @click="$emit('close')"
     />
     <div class="status" v-if="editeMode">
-      Status: {{ this.status }}
+      {{ $t("status")}}: {{ this.status }}
     </div>
     <div class="status">
       {{ this.place }}
@@ -21,7 +21,7 @@
       <WorkshopTags :tags="workshopStore.selectedWorkshop.tags" linkTagsToSearch="true" />
     </div>  
     <div class="authors">
-      <span class="authors-headline">Autoren</span>
+      <span class="authors-headline">{{$t("authors")}}</span>
       <ul class="author-list">
         <li v-for="author in authors"
         :key="author"
@@ -60,7 +60,7 @@ export default class WorkshopDetailsMeta extends Vue{
 
   get status(): string {
     if (this.id > -1) {
-      return this.workshopStore.selectedWorkshop.status;
+      return this.workshopStore.selectedWorkshop.statusLocale;
     } else {
       return "";
     }

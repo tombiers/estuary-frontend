@@ -10,7 +10,7 @@
         <div class="ps-header">
           <Button 
             @click="clicked($event)" 
-            label="Details" 
+            :label="$t('details')" 
             class="p-button-secondary p-button-text ps-interaction-button-details"
           />
         </div>
@@ -21,7 +21,7 @@
 
       <div v-if="detailed" class="ps-links-top">
         <div class="ps-links">
-          <div class="ps-link-elements">Beziehungen: </div>
+          <div class="ps-link-elements">{{$t('related')}}: </div>
         </div>
         <div v-for="linkTag in linkTags" :key="linkTag">
           <div class="ps-links">
@@ -66,7 +66,7 @@
           iconPos="left" 
           class="p-button-secondary p-button-text ps-interaction-button-details"
         />
-        <div class="ps-link-elements">In Beziehung zu: </div>
+        <div class="ps-link-elements">{{$t('related')}}: </div>
         <div
           class="ps-link-elements" 
           v-for="pslink in orderedPsLinks"
@@ -88,10 +88,10 @@
             @click="like($event)"
             >
             <div :class="iconClass"></div>
-            <span class="p-button-label">Mir ist das wichtig</span>
+            <span class="p-button-label">{{$t('doLike')}}</span>
           </button>
 
-          <Button @click="comment($event)" label="comment" icon="pi pi-comments" iconPos="left" class="p-button-secondary p-button-text ps-interaction-button"/>
+          <Button @click="comment($event)" :label="$t('doComment')" icon="pi pi-comments" iconPos="left" class="p-button-secondary p-button-text ps-interaction-button"/>
 
         </div>
         <div class="ps-interaction-info">
@@ -109,6 +109,7 @@ import { getModule } from "vuex-module-decorators";
 import { ProblemStatement } from "@/shared/models/ProblemStatement.model";
 import ProblemStatementLinkComponent  from "@/components/ProblemStatementLinkComponent.vue"
 import { ProblemStatementLink } from '../shared/models/ProblemStatementLink.model';
+import { i18n } from "@/main";
 
 @Component({
   components: {
@@ -127,9 +128,11 @@ export default class ProblemStatementCard extends Vue {
 
   get text() {
     return (
-      `Ich als ${this.problemStatement.iAm} möchte, ${this.problemStatement.iWant}. ` +
-      `Aber ${this.problemStatement.but}, weil ${this.problemStatement.because}. ` +
-      `Darum fühle ich mich ${this.problemStatement.feel}.`
+      i18n.t("problemStatement.iAm").toString() + this.problemStatement.iAm + " " +
+      i18n.t("problemStatement.iWant").toString() + this.problemStatement.iWant + ". " +
+      i18n.t("problemStatement.but").toString() + this.problemStatement.but + ", " +
+      i18n.t("problemStatement.because").toString() + this.problemStatement.because + ". " +
+      i18n.t("problemStatement.feel").toString() + this.problemStatement.feel
     );
   }
 
@@ -142,7 +145,7 @@ export default class ProblemStatementCard extends Vue {
   }
 
   get likes() {
-    return "Likes: " + this.problemStatement.likes;
+    return i18n.t('showLike').toString() + ": " + this.problemStatement.likes;
   }
 
   get linkTags(): string[] {

@@ -13,7 +13,7 @@
             />
           </div>
           <div class="linked-ps">
-            <h2>Verbundene PS</h2>
+            <h2>{{$t('related')}}</h2>
             <transition name="slide-fade" mode="out-in">
               <ProblemStatementCard
                 :key="highlightId"
