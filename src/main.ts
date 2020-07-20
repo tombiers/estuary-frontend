@@ -24,12 +24,14 @@ import AutoComplete from "primevue/autocomplete";
 import Calendar from 'primevue/calendar';
 import InputSwitch from 'primevue/inputswitch';
 import Textarea from 'primevue/textarea';
+import ToggleButton from 'primevue/togglebutton';
 
 Vue.component("Button", Button);
 Vue.component("AutoComplete", AutoComplete);
 Vue.component("Calendar", Calendar);
 Vue.component("InputSwitch", InputSwitch);
 Vue.component("Textarea", Textarea);
+Vue.component("ToggleButton", ToggleButton);
 Vue.component("VcAFrame", VcAFrame);
 Vue.component("VcAColumn", VcAColumn);
 Vue.component("VcABox", VcABox);

@@ -7,6 +7,7 @@
             <ProblemStatementCard
               :problemStatement="problemStatement"
               :detailed="true"
+              :editable="true"
               class="ps-card"
               @openLink="eventHandler($event)"
               @highlight="highlight"

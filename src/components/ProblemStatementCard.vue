@@ -14,6 +14,13 @@
             :label="$t('details')" 
             class="p-button-secondary p-button-text ps-interaction-button-details"
           />
+          <ToggleButton 
+            v-if="editable" 
+            v-model="editMode" 
+            onIcon="pi pi-save" 
+            offIcon="pi pi-pencil" 
+            style="border-radius: 50%;"
+            @change="toggleEditMode()"/>
         </div>
       </template>
         <div v-if="editMode" class="ps-content">
@@ -155,6 +162,7 @@ import { i18n } from "@/main";
 export default class ProblemStatementCard extends Vue {
   @Prop() private problemStatement!: ProblemStatement;
   @Prop({default: false}) private detailed!: boolean;
+  @Prop({default: false}) private editable!: boolean;
 
   private editMode = false;
 
@@ -223,6 +231,12 @@ export default class ProblemStatementCard extends Vue {
     const linksWithoutTag:ProblemStatementLink[] = [];
     linksWithoutTag.push(...this.problemStatement.linked.filter(link => link.tags.length == 0));
     return linksWithoutTag;
+  }
+
+  toggleEditMode() {
+    if (this.editMode == false) { // finished editing, 
+      // TODO: send changes to vuex
+    }
   }
 
   like(event: any) {
@@ -422,6 +436,10 @@ export default class ProblemStatementCard extends Vue {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
+}
+
+.ps-container /deep/ .p-togglebutton {
+  background-color: white;
 }
 
 .ps-interaction-button {

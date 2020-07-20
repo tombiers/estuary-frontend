@@ -16,6 +16,7 @@
         <ProblemStatementCard 
           :problemStatement="ps"
           :detailed="detailed"
+          :editable="true"
           class="ps-card"
           v-for="ps in workshop.content.problemStatements"
           :key="ps.id"
