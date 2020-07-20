@@ -323,6 +323,23 @@ export default class ProblemStatementCard extends Vue {
   font-weight: 500;
   color:#000;
   background:#ffc;
+  border-bottom-right-radius: 60px 5px;
+}
+
+.ps-container /deep/ .box-card:after {     
+    content: "";
+  position:absolute;
+  z-index:-1;
+  right:-0px; bottom:20px;
+  width:200px;
+  height: 25px;
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow:2px 15px 5px rgba(0, 0, 0, 0.40);
+    -moz-transform: matrix(-1, -0.1, 0, 1, 0, 0);
+ -webkit-transform: matrix(-1, -0.1, 0, 1, 0, 0);
+      -o-transform: matrix(-1, -0.1, 0, 1, 0, 0);
+     -ms-transform: matrix(-1, -0.1, 0, 1, 0, 0);
+         transform: matrix(-1, -0.1, 0, 1, 0, 0);
 }
 
 .my-textarea {
