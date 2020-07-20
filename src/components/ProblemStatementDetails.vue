@@ -74,6 +74,7 @@ export default class ProblemStatementDetails extends Vue {
 
   eventHandler(id: any) {
     this.$emit("openLink", id);
+    this.highlightId = -1;
     window.scrollTo({
       top: 0,
       left: 0,
@@ -92,7 +93,6 @@ export default class ProblemStatementDetails extends Vue {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  background: whitesmoke;
 }
 
 .ps-column {
@@ -112,12 +112,13 @@ export default class ProblemStatementDetails extends Vue {
   margin-bottom: 10px;
 }
 
-.ps-card-linked /deep/ .el-card {
+.ps-card-linked  {
   opacity: 55%;
 }
 
 .ps-card-linked-highlight:extend(.ps-card-linked) {
   //background-color: cyan;
+  opacity: 100%;
 }
 
 .ps-card-linked-highlight /deep/ .el-card {
