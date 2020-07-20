@@ -1,12 +1,5 @@
 <template>
-  <div class="ps-container" 
-  style="{ 
-    transform: ['rotate(-1deg)',
-    '-webkit-transform:rotate(-1deg)',
-    '-moz-transform:rotate(-1deg)',
-    '-ms-transform:rotate(-1deg)']
-    
-    }">
+  <div :class="psClass">
 
     <VcABox
       :id="problemStatement.id"
@@ -168,6 +161,22 @@ export default class ProblemStatementCard extends Vue {
   private likeIconClass = "pi pi-thumbs-up new-button-icon";
   private commentIconClass = "pi pi-comments new-button-icon";
 
+  private psClass = "ps-container";
+
+  mounted() {
+    switch (Math.round(Math.random() * 3)) {
+      case 0: this.psClass += " tilt-left-2"
+      break;
+      case 1: this.psClass += " tilt-left-1"
+      break;
+      case 2: this.psClass += " tilt-right-1"
+      break;
+      case 3: this.psClass += " tilt-right-2"
+      break;
+    }
+    
+  }
+
   get id() {
     return "PS" + this.problemStatement.id;
   }
@@ -256,12 +265,49 @@ export default class ProblemStatementCard extends Vue {
 
 .ps-container {
   height: auto;
-  margin: 1em; /*
-    transform:rotate(-1deg);
-    -webkit-transform:rotate(-1deg);
-    -moz-transform:rotate(-1deg);
-    -ms-transform:rotate(-1deg);*/
+  margin: 1em;
 }
+.tilt-left-2 {
+  deg: -2deg;
+  transform:rotate($deg);
+    -webkit-transform:rotate($deg);
+    -moz-transform:rotate($deg);
+    -ms-transform:rotate($deg);
+}
+
+.tilt-left-1 {
+  deg: -1deg;
+  transform:rotate($deg);
+    -webkit-transform:rotate($deg);
+    -moz-transform:rotate($deg);
+    -ms-transform:rotate($deg);
+}
+
+
+.tilt-base {
+  deg: 0deg;
+  transform:rotate($deg);
+    -webkit-transform:rotate($deg);
+    -moz-transform:rotate($deg);
+    -ms-transform:rotate($deg);
+}
+
+.tilt-right-1 {
+  deg: 1deg;
+  transform:rotate($deg);
+    -webkit-transform:rotate($deg);
+    -moz-transform:rotate($deg);
+    -ms-transform:rotate($deg);
+}
+
+.tilt-right-2 {
+  deg: 2deg;
+  transform:rotate($deg);
+    -webkit-transform:rotate($deg);
+    -moz-transform:rotate($deg);
+    -ms-transform:rotate($deg);
+}
+
 /*
 .ps-container:hover {
     transform:scale(1.1);
