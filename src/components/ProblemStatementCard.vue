@@ -353,14 +353,12 @@ export default class ProblemStatementCard extends Vue {
 
 .ps-container /deep/ .el-card__body {
   flex: 1;
-  padding-left: 0;
-  padding-right: 0;
-  padding-bottom: 5px;
+  padding: 10px 0px 10px 0px;
 }
 
-// .ps-container /deep/ .el-card__header {
-//   height: 100%;
-// }
+ .ps-container /deep/ .el-card__header {
+  padding: 10px 20px 5px 20px;
+ }
 
 .ps {
   height: 100%;
