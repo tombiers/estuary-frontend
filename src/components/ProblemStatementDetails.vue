@@ -97,15 +97,15 @@ export default class ProblemStatementDetails extends Vue {
 
 .ps-column {
   flex: 1;
-  margin: 0px 10px 0px 10px;
+  //margin: 0px 10px 0px 10px;
 }
 
 .main-ps:extend(.ps-column) {
-  min-width: 300px;
+  min-width: 425px;
 }
 
 .linked-ps:extend(.ps-column) {
-  min-width: 400px;
+  min-width: 425px;
 }
 
 .ps-card-linked {

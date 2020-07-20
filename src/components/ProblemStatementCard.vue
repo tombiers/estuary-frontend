@@ -1,5 +1,13 @@
 <template>
-  <div class="ps-container">
+  <div class="ps-container" 
+  style="{ 
+    transform: ['rotate(-1deg)',
+    '-webkit-transform:rotate(-1deg)',
+    '-moz-transform:rotate(-1deg)',
+    '-ms-transform:rotate(-1deg)']
+    
+    }">
+
     <VcABox
       :id="problemStatement.id"
       :title="id"
@@ -15,7 +23,35 @@
           />
         </div>
       </template>
-        <div class="ps-content">
+        <div v-if="editMode" class="ps-content">
+          <div>
+            <span> {{$t("problemStatement.iAm")}}: </span>
+            <br>
+            <Textarea v-model="problemStatement.iAm" :autoResize="true" rows="1" cols="40" />
+          </div>
+          <div>
+            <span> {{$t("problemStatement.iWant")}} </span>
+            <br>
+            <Textarea v-model="problemStatement.iWant" :autoResize="true" rows="5" cols="40" />
+          </div>
+          <div>
+            <span> {{$t("problemStatement.but")}} </span>
+            <br>
+            <Textarea v-model="problemStatement.but" :autoResize="true" rows="5" cols="40" />
+          </div>
+          <div>
+            <span> {{$t("problemStatement.because")}} </span>
+            <br>
+            <Textarea v-model="problemStatement.because" :autoResize="true" rows="5" cols="40" />
+          </div>
+          <div>
+            <span> {{$t("problemStatement.feel")}} </span>
+            <br>
+            <Textarea v-model="problemStatement.feel" :autoResize="true" rows="2" cols="40" />
+          </div>
+           
+        </div>
+        <div v-else class="ps-content">
            {{ text }}
         </div>
 
@@ -87,11 +123,18 @@
             type="button" 
             @click="like($event)"
             >
-            <div :class="iconClass"></div>
+            <div :class="likeIconClass" style="font-size: 75%"></div>
             <span class="p-button-label">{{$t('doLike')}}</span>
           </button>
 
-          <Button @click="comment($event)" :label="$t('doComment')" icon="pi pi-comments" iconPos="left" class="p-button-secondary p-button-text ps-interaction-button"/>
+          <button 
+            class="ps-interaction-button p-button-secondary p-button-text p-button p-component" 
+            type="button" 
+            @click="comment($event)"
+            >
+            <div :class="commentIconClass" style="font-size: 75%"></div>
+            <span class="p-button-label">{{$t('doComment')}}</span>
+          </button>
 
         </div>
         <div class="ps-interaction-info">
@@ -120,7 +163,10 @@ export default class ProblemStatementCard extends Vue {
   @Prop() private problemStatement!: ProblemStatement;
   @Prop({default: false}) private detailed!: boolean;
 
-  private iconClass = "pi pi-thumbs-up new-button-icon"
+  private editMode = false;
+
+  private likeIconClass = "pi pi-thumbs-up new-button-icon";
+  private commentIconClass = "pi pi-comments new-button-icon";
 
   get id() {
     return "PS" + this.problemStatement.id;
@@ -172,7 +218,7 @@ export default class ProblemStatementCard extends Vue {
 
   like(event: any) {
     console.log("like");
-    this.iconClass = "pi pi-thumbs-up new-button-icon-used"
+    this.likeIconClass = "pi pi-thumbs-up new-button-icon-used"
   }
 
   comment(event: any) {
@@ -204,19 +250,49 @@ export default class ProblemStatementCard extends Vue {
   color: blue;
 }
 
-.ps-container {
-  height: auto;
+.ps-container /deep/ .p-inputtext {
+  width: 100%;
 }
 
+.ps-container {
+  height: auto;
+  margin: 1em; /*
+    transform:rotate(-1deg);
+    -webkit-transform:rotate(-1deg);
+    -moz-transform:rotate(-1deg);
+    -ms-transform:rotate(-1deg);*/
+}
+/*
+.ps-container:hover {
+    transform:scale(1.1);
+    -webkit-transform:scale(1.1);
+    -moz-transform:scale(1.1);
+    -ms-transform:scale(1.1);
+}*/
+
+.ps-container /deep/ .box-card {
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif ,arial,sans-serif;
+  font-style: oblique;
+  font-size: 1.25em;
+  font-weight: 500;
+  color:#000;
+  background:#ffc;
+}
+
+.my-textarea {
+  width: 100%;
+}
 // overwrite the 2em margin-top of VcABox
 .ps-container /deep/ .box-card.tail {
   margin: 0;
+  //font-size: 0.75em;
 }
 
 .ps-container /deep/ .el-card__body {
   flex: 1;
   padding-left: 0;
   padding-right: 0;
+  padding-bottom: 5px;
 }
 
 // .ps-container /deep/ .el-card__header {
@@ -240,6 +316,7 @@ export default class ProblemStatementCard extends Vue {
   flex-wrap: wrap;
   //border-bottom: 1px solid #ebeef5;
   padding: 5px 0px;
+  font-size: 0.75em;
 }
 
 .ps-links-top {
@@ -248,17 +325,21 @@ export default class ProblemStatementCard extends Vue {
   justify-content: flex-start;
   flex-wrap: wrap;
   border-bottom: 1px solid #ebeef5;
-  padding: 20px;
+  padding: 5px 20px 5px 20px;
 }
 
 .likes-thumb {
   color: blue;
-  font-size: 1em;
+  font-size: 75%;
   align-content: center;
 }
 
+.p-button-label {
+  font-size: 75%;
+}
+
 .like-button {
-  float: right
+  float: right;
 }
 
 .ps-content {
@@ -268,7 +349,7 @@ export default class ProblemStatementCard extends Vue {
 }
 
 .ps-interaction {
-  padding: 20px 20px 0px 20px;
+  padding: 5px 20px 0px 20px;
   align-content: flex-start;
 }
 
@@ -292,8 +373,9 @@ export default class ProblemStatementCard extends Vue {
 }
 
 .ps-interaction-info {
-  margin-top: 20px;
+  margin-top: 5px;
   text-align: left;
+  font-size: 75%;
 }
 
 .ps-interaction-button-details:extend(.ps-interaction-button){
