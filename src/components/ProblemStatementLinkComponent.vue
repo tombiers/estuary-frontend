@@ -1,7 +1,17 @@
 <template>
-    <a class="link" :href="linkToPS" :id="uniqueId">
+    <div>
+      <div v-if="detailed" class="badge" :href="linkToPS" :id="uniqueId">
+        {{ PSid }}
+        <div v-if="tags != ''" class="badge-inner">
+          {{ tags }}
+        </div>
+      </div>
+
+
+    <a v-else class="link" :href="linkToPS" :id="uniqueId">
       {{ PSid }}
     </a>
+    </div>
 </template>
 
 <script lang="ts">
@@ -18,7 +28,7 @@ import UidMixin from "@/mixins/UidMixin";
 })
 export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
   @Prop() private problemStatementLink!: ProblemStatementLink;
-  @Prop({default: true}) private detailed!: boolean;
+  @Prop({default: false}) private detailed!: boolean;
 
   mounted() {
     document.getElementById(this.uniqueId)!.onclick = this.openLink;
@@ -42,7 +52,7 @@ export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
   }
 
   get tags() {
-    if (!this.detailed || this.problemStatementLink.tags.length == 0) return " ";
+    if (!this.detailed || this.problemStatementLink.tags.length == 0) return "";
     return this.problemStatementLink.tags.reduce( (acc, cur) => acc + ", " + cur);
   }
 }
@@ -73,10 +83,30 @@ export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
 .ps-link-container /deep/ .el-card__header {
   padding: 10px;
 }
-/*
-.ps-link-container /deep/ .el-card__body {
-  display: none
+
+.badge {
+  background-color: greenyellow;
+  border: none;
+  color: black;
+  padding: 2.5px 10px 2.5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 16px;
 }
-*/
+
+.badge-inner {
+  background-color: whitesmoke;
+  border: none;
+  color: black;
+  padding: 2.5px 10px 2.5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 16px;
+}
 
 </style>

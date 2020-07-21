@@ -55,45 +55,7 @@
            {{ text }}
         </div>
 
-      <div v-if="detailed" class="ps-links-top">
-        <div class="ps-links">
-          <div class="ps-link-elements">{{$t('related')}}: </div>
-        </div>
-        <div v-for="linkTag in linkTags" :key="linkTag">
-          <div class="ps-links">
-            <div class="ps-link-elements">
-              {{linkTag}}: 
-            </div>
-            <div
-              class="ps-link-elements" 
-              v-for="pslink in getLinksbyTag(linkTag)"
-              :key="pslink.id"
-            >
-              <ProblemStatementLinkComponent 
-                :problemStatementLink="pslink"
-                @openLink="highlight"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="ps-links" v-if="LinksWithoutTag.length > 0" >  <!-- links without a tag -->
-            <div class="ps-link-elements">
-              ohne Tag: 
-            </div>
-            <div
-              class="ps-link-elements" 
-              v-for="pslink in LinksWithoutTag"
-              :key="pslink.id"
-            >
-              <ProblemStatementLinkComponent 
-                :problemStatementLink="pslink"
-                @openLink="highlight"
-              />
-            </div>
-          </div>
-        </div>
-
-    <div v-else class="ps-links-top">
+    <div class="ps-links-top">
       <div class="ps-links" v-if="problemStatement.linked.length != 0">
         <Button 
           @click="clicked($event)" 
@@ -108,10 +70,23 @@
           v-for="pslink in orderedPsLinks"
           :key="pslink.id"
         >
+
+<div v-if="detailed">
+        <ProblemStatementLinkComponent 
+          :problemStatementLink="pslink"
+          @openLink="highlight"
+          :detailed="detailed"
+        />
+</div>
+<div v-else>
         <ProblemStatementLinkComponent 
           :problemStatementLink="pslink"
           @openLink="openLink"
+          :detailed="detailed"
         />
+</div>
+
+
         </div>
       </div>
     </div>
