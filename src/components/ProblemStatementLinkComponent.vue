@@ -1,24 +1,34 @@
 <template>
-    <div>
-      <div v-if="detailed" class="badge" :href="linkToPS" :id="uniqueId">
-        {{ PSid }}
-        <div v-if="tags != ''" class="badge-inner">
-          {{ tags }}
+  <div :id="uniqueId">
+    <div v-if="editMode">
+      <div v-if="detailed" class="badge" :href="linkToPS">
+        PS
+        <input v-model="problemStatementLink.id" placeholder class="id-input" />
+        <div class="badge-inner">
+          <div v-for="(tag, index) in problemStatementLink.tags" :key="index">
+            <input v-model="problemStatementLink.tags[index]" placeholder />
+          </div>
         </div>
       </div>
 
-
-    <a v-else class="link" :href="linkToPS" :id="uniqueId">
-      {{ PSid }}
-    </a>
+      <a v-else class="link" :href="linkToPS" :id="uniqueId">{{ PSid }}</a>
     </div>
+    <div v-else>
+      <div v-if="detailed" class="badge" :href="linkToPS">
+        {{ PSid }}
+        <div v-if="tags != ''" class="badge-inner">{{ tags }}</div>
+      </div>
+
+      <a v-else class="link" :href="linkToPS">{{ PSid }}</a>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { ProblemStatementLink } from "@/shared/models/ProblemStatementLink.model";
-import WorkshopTags from "@/components/WorkshopTags.vue"
-import { mixins } from 'vue-class-component';
+import WorkshopTags from "@/components/WorkshopTags.vue";
+import { mixins } from "vue-class-component";
 import UidMixin from "@/mixins/UidMixin";
 
 @Component({
@@ -28,14 +38,15 @@ import UidMixin from "@/mixins/UidMixin";
 })
 export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
   @Prop() private problemStatementLink!: ProblemStatementLink;
-  @Prop({default: false}) private detailed!: boolean;
+  @Prop({ default: false }) private detailed!: boolean;
+  @Prop({ default: false }) private editMode!: boolean;
 
   mounted() {
     document.getElementById(this.uniqueId)!.onclick = this.openLink;
   }
 
   openLink() {
-    this.$emit('openLink',this.problemStatementLink.id);
+    this.$emit("openLink", this.problemStatementLink.id);
   }
 
   get uniqueId() {
@@ -47,19 +58,20 @@ export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
   }
 
   get linkToPS() {
-    return '#' + this.PSid;
+    return "#" + this.PSid;
     //return "/ProblemStatement/" + this.problemStatementLink.id;
   }
 
   get tags() {
     if (!this.detailed || this.problemStatementLink.tags.length == 0) return "";
-    return this.problemStatementLink.tags.reduce( (acc, cur) => acc + ", " + cur);
+    return this.problemStatementLink.tags.reduce(
+      (acc, cur) => acc + ", " + cur
+    );
   }
 }
 </script>
 
 <style scoped lang="less">
-
 .link {
   margin-right: 5px;
 }
@@ -109,4 +121,7 @@ export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
   border-radius: 16px;
 }
 
+.id-input {
+  width: 4em;
+}
 </style>
