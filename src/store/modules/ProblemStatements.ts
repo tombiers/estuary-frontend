@@ -5,19 +5,26 @@ import { ProblemStatementLink } from '@/shared/models/ProblemStatementLink.model
 
 @Module({ dynamic: true, store, name: "ProblemStatementStore" })
 export default class ProblemStatementStore extends VuexModule {
-  private problemStatements: ProblemStatement[] = [];
+  private problemStatements: Map<number, ProblemStatement> = new Map();
 
 
   // returns problem statement with matching id or undefined
   get problemStatement() {
     return (id: number): ProblemStatement | undefined=> {
-      return this.problemStatements.find(ps => ps.id == id);
+      return this.problemStatements.get(id);
     };
   }
 
   @Mutation
-  public addProblemStatement(problemStatement: ProblemStatement) {
-    this.problemStatements.push(problemStatement);
+  public add(problemStatement: ProblemStatement) {
+    this.problemStatements.set(problemStatement.id, problemStatement);
+  }
+
+  @Action
+  public update(problemStatement: ProblemStatement) {
+    // TODO: send updated problemstatement to backend
+    // the update is only done in vuex for now
+    this.add(problemStatement);
   }
 
   @Action
@@ -48,7 +55,7 @@ export default class ProblemStatementStore extends VuexModule {
           new ProblemStatementLink(3, [])
         ]
       )
-    ].forEach(ps => this.addProblemStatement(ps));
+    ].forEach(ps => this.add(ps));
 
 
   }

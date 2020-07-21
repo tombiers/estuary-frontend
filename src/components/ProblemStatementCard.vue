@@ -153,6 +153,7 @@ import { ProblemStatement } from "@/shared/models/ProblemStatement.model";
 import ProblemStatementLinkComponent  from "@/components/ProblemStatementLinkComponent.vue"
 import { ProblemStatementLink } from '../shared/models/ProblemStatementLink.model';
 import { i18n } from "@/main";
+import ProblemStatementStore from '../store/modules/ProblemStatements';
 
 @Component({
   components: {
@@ -236,6 +237,7 @@ export default class ProblemStatementCard extends Vue {
   toggleEditMode() {
     if (this.editMode == false) { // finished editing, 
       // TODO: send changes to vuex
+      getModule(ProblemStatementStore).update(this.problemStatement);
     }
   }
 
