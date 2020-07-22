@@ -7,6 +7,8 @@
         :problemStatement="detailedPS"
         :Workshop="workshop"
         @openLink="eventHandler($event)"
+        :editable="true"
+        :openInEditMode="openInEditMode"
       />
     </div>
     <div
@@ -21,6 +23,7 @@
           v-for="ps in workshop.content.problemStatements"
           :key="ps.id"
           @openLink="eventHandler($event)"
+          @openLinkAndEdit="eventHandlerEdit($event)"
         />
       </div>
   </div>
@@ -46,6 +49,8 @@ export default class PsWorkshopContent extends Vue {
   @Prop({default: true}) private detailed!: boolean;
   @Prop({default: false}) private showPsComparison!: boolean;
 
+  private openInEditMode = false;
+
   workshopStore = getModule(WorkshopStore);
   workshop: Workshop<ProblemStatementWorkshopContent> = 
     this.workshopStore.selectedWorkshop as Workshop<ProblemStatementWorkshopContent>;
@@ -53,9 +58,27 @@ export default class PsWorkshopContent extends Vue {
   detailedPS:ProblemStatement|null = null;
 
   eventHandler(id: number) {
+    this.openInEditMode = false
     this.detailedPS = this.workshop.content.problemStatements[id-1];
     this.$emit('update:showPsComparison', true);
+    this.goToTop();
   }
+
+  eventHandlerEdit(id: number) {
+    this.openInEditMode = true
+    this.detailedPS = this.workshop.content.problemStatements[id-1];
+    this.$emit('update:showPsComparison', true);
+    this.goToTop();
+  }
+
+  goToTop() {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth"
+    });
+  }
+
 }
 
 </script>

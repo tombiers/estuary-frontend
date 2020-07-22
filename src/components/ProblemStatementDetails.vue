@@ -7,7 +7,8 @@
             <ProblemStatementCard
               :problemStatement="problemStatement"
               :detailed="true"
-              :editable="true"
+              :editable="editable"
+              :openInEditMode="openInEditMode"
               class="ps-card"
               @openLink="eventHandler($event)"
               @highlight="highlight"
@@ -53,7 +54,9 @@ import { ProblemStatementWorkshopContent } from "@/shared/models/ProblemStatemen
 export default class ProblemStatementDetails extends Vue {
   @Prop() private Workshop!: Workshop<ProblemStatementWorkshopContent>;
   @Prop() private problemStatement!: ProblemStatement;
-
+  @Prop({ default: false }) private openInEditMode!: boolean;
+  @Prop({ default: false }) private editable!: boolean;
+  
   private highlightId = -1;
 
   get linkedWorkshops(): ProblemStatement[] {

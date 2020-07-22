@@ -2,17 +2,26 @@
   <div :id="uniqueId" class="layer-low">
     <div v-show="editMode">
       <div class="badge" :href="linkToPS">
+<div class="badge-flex">
+<div class="badge-id">
+
         PS
         <input type="number" v-model="problemStatementLink.id" placeholder class="id-input" />
+</div>
         <div class="badge-inner">
             <input v-model="problemStatementLink.tag" placeholder />
         </div>
         <div v-if="newMode" class="badge-inner marker-class" :id="uniqueNewId" v-tooltip="$t('problemStatement.addLink')">
-            +
+            <div class="badge-id">
+            <i class="pi pi-check"></i>
+            </div>
         </div>
         <div :class="hide" class="badge-inner marker-class layer-high" :id="uniqueRemoveId" v-tooltip="$t('problemStatement.removeLink')">
-            -
+            <div class="badge-id">
+            <i class="pi pi-trash"></i>
+            </div>
         </div>
+</div>
       </div>
     </div>
     <div v-show="!editMode">
@@ -62,6 +71,7 @@ export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
   }
 
   addLink() {
+    console.log(this.problemStatementLink.id + " " + this.problemStatementLink.tag);
   this.$emit("addLink");
   }
 
@@ -73,7 +83,6 @@ export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
   }
 
   openLink() {
-    console.log("open");
     this.$emit("openLink", this.problemStatementLink.id);
   }
 
@@ -129,33 +138,41 @@ export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
   padding: 10px;
 }
 
-.badge {
-  background-color: greenyellow;
+.badge-base {
   border: none;
   color: black;
   padding: 2.5px 10px 2.5px 10px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  margin: 4px 2px;
   cursor: pointer;
   border-radius: 16px;
 }
 
-.badge-inner {
+.badge:extend(.badge-base) {
+  background-color: greenyellow;
+  margin: 4px 2px;
+}
+
+.badge-inner:extend(.badge-base) {
   background-color: whitesmoke;
-  border: none;
-  color: black;
-  padding: 2.5px 10px 2.5px 10px;
-  text-align: center;
-  text-decoration: none;
+}
+
+.badge-flex {
+  display: flex;
+}
+
+.badge-id {
   display: inline-block;
-  cursor: pointer;
-  border-radius: 16px;
+  margin: auto;
 }
 
 .id-input {
   width: 4em;
+}
+
+.badge-id /deep/ i {
+  margin: 3px;
 }
 
 .layer-low {

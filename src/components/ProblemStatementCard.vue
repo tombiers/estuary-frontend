@@ -32,17 +32,17 @@
         <div>
           <span>{{$t("problemStatement.iWant")}}</span>
           <br />
-          <Textarea v-model="problemStatement.iWant" :autoResize="true" rows="5" cols="40" />
+          <Textarea v-model="problemStatement.iWant" :autoResize="true" rows="3" cols="40" />
         </div>
         <div>
           <span>{{$t("problemStatement.but")}}</span>
           <br />
-          <Textarea v-model="problemStatement.but" :autoResize="true" rows="5" cols="40" />
+          <Textarea v-model="problemStatement.but" :autoResize="true" rows="3" cols="40" />
         </div>
         <div>
           <span>{{$t("problemStatement.because")}}</span>
           <br />
-          <Textarea v-model="problemStatement.because" :autoResize="true" rows="5" cols="40" />
+          <Textarea v-model="problemStatement.because" :autoResize="true" rows="3" cols="40" />
         </div>
         <div>
           <span>{{$t("problemStatement.feel")}}</span>
@@ -139,8 +139,9 @@ export default class ProblemStatementCard extends Vue {
   @Prop() private problemStatement!: ProblemStatement;
   @Prop({ default: false }) private detailed!: boolean;
   @Prop({ default: false }) private editable!: boolean;
+  @Prop({ default: false }) private openInEditMode!: boolean;
 
-  private editMode = false;
+  private editMode = this.openInEditMode;
   private showAddButton = "hide";
   public newPsLink = new ProblemStatementLink(0,"");
 
@@ -236,6 +237,9 @@ export default class ProblemStatementCard extends Vue {
       this.showAddButton = "hide"
       getModule(ProblemStatementStore).update(this.problemStatement);
     } else { // edit mode has ben enabled
+      if (this.detailed == false ) { // switch to detailed mode for editing
+        this.$emit("openLinkAndEdit", this.problemStatement.id);
+      }
       this.showAddButton = "";
     }
   }
@@ -251,7 +255,7 @@ export default class ProblemStatementCard extends Vue {
       this.newPsLink.id = 0;
       this.newPsLink.tag = "";
     } else {
-      // link the invalid
+      // link id invalid
       // TODO: user feedback
     }
   }
@@ -278,7 +282,6 @@ export default class ProblemStatementCard extends Vue {
   }
 
   highlight(id: string) {
-    //alert("highlight " + id);
     this.$emit("highlight", id);
   }
 }
@@ -344,12 +347,15 @@ export default class ProblemStatementCard extends Vue {
 
 /*
 .ps-container:hover {
-    transform:scale(1.1);
-    -webkit-transform:scale(1.1);
-    -moz-transform:scale(1.1);
-    -ms-transform:scale(1.1);
-}*/
+  deg: 0deg;
+    transform:scale(1.05)rotate($deg);
+    -webkit-transform:scale(1.05)rotate($deg);
+    -moz-transform:scale(1.05)rotate($deg);
+    -ms-transform:scale(1.05)rotate($deg);
+}
+*/
 
+// make it look like a stick note
 .ps-container /deep/ .box-card {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif,
     arial, sans-serif;
@@ -361,6 +367,7 @@ export default class ProblemStatementCard extends Vue {
   border-bottom-right-radius: 60px 5px;
 }
 
+// add a shadow to the sticky note
 .ps-container /deep/ .box-card:after {
   content: "";
   position: absolute;
@@ -384,7 +391,6 @@ export default class ProblemStatementCard extends Vue {
 // overwrite the 2em margin-top of VcABox
 .ps-container /deep/ .box-card.tail {
   margin: 0;
-  //font-size: 0.75em;
 }
 
 .ps-container /deep/ .el-card__body {
@@ -411,7 +417,6 @@ export default class ProblemStatementCard extends Vue {
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
-  //border-bottom: 1px solid #ebeef5;
   padding: 5px 0px;
   font-size: 0.75em;
 }
@@ -452,9 +457,6 @@ export default class ProblemStatementCard extends Vue {
 
 .ps-interaction-buttons {
   text-align: left;
-  //flex: 1;
-  //display: inline-flex;
-  //align-self: flex-start;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -489,29 +491,24 @@ export default class ProblemStatementCard extends Vue {
   padding: 5px;
 }
 
-.badge {
-  background-color: greenyellow;
+.badge-base {
   border: none;
   color: black;
   padding: 2.5px 10px 2.5px 10px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  margin: 4px 2px;
   cursor: pointer;
   border-radius: 16px;
 }
 
-.badge-inner {
+.badge:extend(.badge-base) {
+  background-color: greenyellow;
+  margin: 4px 2px;
+}
+
+.badge-inner:extend(.badge-base) {
   background-color: whitesmoke;
-  border: none;
-  color: black;
-  padding: 2.5px 10px 2.5px 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  border-radius: 16px;
 }
 
 .hide {
