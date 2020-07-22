@@ -80,6 +80,15 @@
               />
             </div>
           </div>
+            <div :class="showAddButton" class="ps-link-elements">
+              <ProblemStatementLinkComponent
+                :problemStatementLink="newPsLink"
+                :detailed="true"
+                :editMode="true"
+                :newMode="true"
+                @addLink="addPsLink"
+              />
+            </div>
         </div>
       </div>
       <div class="ps-interaction">
@@ -131,6 +140,8 @@ export default class ProblemStatementCard extends Vue {
   @Prop({ default: false }) private editable!: boolean;
 
   private editMode = false;
+  private showAddButton = "hide";
+  public newPsLink = new ProblemStatementLink(0,"");
 
   private likeIconClass = "pi pi-thumbs-up new-button-icon";
   private commentIconClass = "pi pi-comments new-button-icon";
@@ -183,7 +194,7 @@ export default class ProblemStatementCard extends Vue {
     return (
       "In Beziehung zu: " +
       this.problemStatement.linked
-        .map(link => "PS" + link.id.toString())
+        .map(link => "PS" + link.id!.toString())
         .reduce((acc, cur) => acc + ", " + cur)
     );
   }
@@ -201,7 +212,7 @@ export default class ProblemStatementCard extends Vue {
   }
 
   get orderedPsLinks(): ProblemStatementLink[] {
-    return this.problemStatement.linked.sort((a, b) => a.id - b.id);
+    return this.problemStatement.linked.sort((a, b) => a.id! - b.id!);
   }
 
   getLinksbyTag(tag: string): ProblemStatementLink[] {
@@ -221,8 +232,26 @@ export default class ProblemStatementCard extends Vue {
   toggleEditMode() {
     if (this.editMode == false) {
       // finished editing,
-      // TODO: send changes to vuex
+      this.showAddButton = "hide"
       getModule(ProblemStatementStore).update(this.problemStatement);
+    } else { // edit mode has ben enabled
+      this.showAddButton = "";
+    }
+  }
+
+  addPsLink() {
+    if (
+      this.newPsLink.id > 0 && // id is "valid"- TODO: this should be checked with the backend
+      this.problemStatement.linked.every(link => link.id != this.newPsLink.id) && // link id is unique
+      this.problemStatement.id != this.newPsLink.id // can't link to yourself
+    ) { 
+      // link is valid, add it
+      this.problemStatement.linked.push(new ProblemStatementLink(this.newPsLink.id, this.newPsLink.tag));
+      this.newPsLink.id = 0;
+      this.newPsLink.tag = "";
+    } else {
+      // link the invalid
+      // TODO: user feedback
     }
   }
 
@@ -453,4 +482,34 @@ export default class ProblemStatementCard extends Vue {
 .ps-links /deep/ .p-button.p-button-icon-only {
   padding: 5px;
 }
+
+.badge {
+  background-color: greenyellow;
+  border: none;
+  color: black;
+  padding: 2.5px 10px 2.5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+.badge-inner {
+  background-color: whitesmoke;
+  border: none;
+  color: black;
+  padding: 2.5px 10px 2.5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+.hide {
+  display: none;
+}
+
 </style>

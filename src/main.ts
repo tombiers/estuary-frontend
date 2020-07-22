@@ -25,6 +25,7 @@ import Calendar from 'primevue/calendar';
 import InputSwitch from 'primevue/inputswitch';
 import Textarea from 'primevue/textarea';
 import ToggleButton from 'primevue/togglebutton';
+import Tooltip from 'primevue/tooltip';
 
 Vue.component("Button", Button);
 Vue.component("AutoComplete", AutoComplete);
@@ -37,6 +38,8 @@ Vue.component("VcAColumn", VcAColumn);
 Vue.component("VcABox", VcABox);
 Vue.component("VcAInfoBox", VcAInfoBox);
 Vue.component("VcAFilterTag", VcAFilterTag);
+
+Vue.directive('tooltip', Tooltip);
 
 Vue.config.productionTip = false;
 

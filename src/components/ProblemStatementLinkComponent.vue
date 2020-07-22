@@ -1,16 +1,16 @@
 <template>
   <div :id="uniqueId">
     <div v-if="editMode">
-      <div v-if="detailed" class="badge" :href="linkToPS">
+      <div class="badge" :href="linkToPS">
         PS
-        <input v-model="problemStatementLink.id" placeholder class="id-input" />
+        <input type="number" v-model="problemStatementLink.id" placeholder class="id-input" />
         <div class="badge-inner">
             <input v-model="problemStatementLink.tag" placeholder />
-          
+        </div>
+        <div v-if="newMode" class="badge-inner marker-class" :id="uniqueNewId" v-tooltip="$t('problemStatement.addLink')">
+            +
         </div>
       </div>
-
-      <a v-else class="link" :href="linkToPS" :id="uniqueId">{{ PSid }}</a>
     </div>
     <div v-else>
       <div v-if="detailed" class="badge" :href="linkToPS">
@@ -39,9 +39,18 @@ export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
   @Prop() private problemStatementLink!: ProblemStatementLink;
   @Prop({ default: false }) private detailed!: boolean;
   @Prop({ default: false }) private editMode!: boolean;
+  @Prop({ default: false }) private newMode!: boolean;
 
   mounted() {
+    if (!this.newMode){
     document.getElementById(this.uniqueId)!.onclick = this.openLink;
+    } else {
+      document.getElementById(this.uniqueNewId)!.onclick = this.addLink;
+    }
+  }
+
+  addLink() {
+  this.$emit("addLink");
   }
 
   openLink() {
@@ -50,6 +59,10 @@ export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
 
   get uniqueId() {
     return this.uid + this.PSid;
+  }
+
+  get uniqueNewId() {
+    return this.uid + "new";
   }
 
   get PSid() {
