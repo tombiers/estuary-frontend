@@ -195,7 +195,7 @@ export default class ProblemStatementCard extends Vue {
   get linkTags(): string[] {
     const linkTags: string[] = [];
     this.problemStatement.linked.forEach(link => {
-      linkTags.push(...link.tags);
+      linkTags.push(link.tag);
     });
     return [...new Set(linkTags)]; // remove duplicates
   }
@@ -206,14 +206,14 @@ export default class ProblemStatementCard extends Vue {
 
   getLinksbyTag(tag: string): ProblemStatementLink[] {
     return this.problemStatement.linked.filter(link =>
-      link.tags.some(linkTag => linkTag.match(tag))
+      link.tag.match(tag)
     );
   }
 
   get LinksWithoutTag(): ProblemStatementLink[] {
     const linksWithoutTag: ProblemStatementLink[] = [];
     linksWithoutTag.push(
-      ...this.problemStatement.linked.filter(link => link.tags.length == 0)
+      ...this.problemStatement.linked.filter(link => link.tag === "")
     );
     return linksWithoutTag;
   }

@@ -5,9 +5,8 @@
         PS
         <input v-model="problemStatementLink.id" placeholder class="id-input" />
         <div class="badge-inner">
-          <div v-for="(tag, index) in problemStatementLink.tags" :key="index">
-            <input v-model="problemStatementLink.tags[index]" placeholder />
-          </div>
+            <input v-model="problemStatementLink.tag" placeholder />
+          
         </div>
       </div>
 
@@ -16,7 +15,7 @@
     <div v-else>
       <div v-if="detailed" class="badge" :href="linkToPS">
         {{ PSid }}
-        <div v-if="tags != ''" class="badge-inner">{{ tags }}</div>
+        <div v-if="problemStatementLink.tag != ''" class="badge-inner">{{ problemStatementLink.tag }}</div>
       </div>
 
       <a v-else class="link" :href="linkToPS">{{ PSid }}</a>
@@ -63,10 +62,7 @@ export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
   }
 
   get tags() {
-    if (!this.detailed || this.problemStatementLink.tags.length == 0) return "";
-    return this.problemStatementLink.tags.reduce(
-      (acc, cur) => acc + ", " + cur
-    );
+    return this.problemStatementLink.tag
   }
 }
 </script>
