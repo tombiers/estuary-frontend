@@ -27,7 +27,8 @@
     "but": "Aber ",
     "because": "weil ",
     "feel": "Darum fühle ich mich ",
-    "addLink": "Problem Statement verknüpfen"
+    "addLink": "Problem Statement verknüpfen",
+    "removeLink": "Verknüpfung löschen"
   }
 
 }

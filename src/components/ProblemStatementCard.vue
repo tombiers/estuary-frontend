@@ -53,7 +53,7 @@
       <div v-else class="ps-content">{{ text }}</div>
 
       <div class="ps-links-top">
-        <div class="ps-links" v-if="problemStatement.linked.length != 0">
+        <div class="ps-links">
           <Button
             @click="clicked($event)"
             label
@@ -69,6 +69,7 @@
                 @openLink="highlight"
                 :detailed="detailed"
                 :editMode="editMode"
+                @removeLink="removeLink"
               />
             </div>
             <div v-else>
@@ -253,6 +254,11 @@ export default class ProblemStatementCard extends Vue {
       // link the invalid
       // TODO: user feedback
     }
+  }
+
+  removeLink(id: number) {
+    const position = this.problemStatement.linked.findIndex(link => link.id == id);
+    this.problemStatement.linked.splice(position, 1)
   }
 
   like(event: any) {
