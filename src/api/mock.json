@@ -1,0 +1,53 @@
+{
+  "workshops": [
+    { "id": 24,
+      "type": 1,
+      "place": "Hamburg",
+      "date": 1592212009205,
+      "tags": ["gelb", "blau", "grün", "rot"],
+      "likes": 987,
+      "teaser": "Ein Workshop teaser."
+    },
+    { "id": 1,
+      "type": 1,
+      "place": "Berlin",
+      "date": 1592314101605,
+      "tags": ["abcd", "fghi", "poiu"],
+      "likes": 37,
+      "teaser": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ut facilisis metus. Mauris viverra ipsum in sollicitudin porttitor. Aliquam semper dolor ante, eget pellentesque arcu malesuada a."
+    },
+    { "id": 33,
+      "type": 2,
+      "place": "Berlin",
+      "date": 1591316104625,
+      "tags": ["hjk", "sdf"],
+      "likes": 87,
+      "teaser": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    },
+    { "id": 31,
+      "type": 2,
+      "place": "Berlin",
+      "date": 1291316104625,
+      "tags": [
+        "asdads",
+        "asdasd",
+        "iuiu",
+        "uahduiasdojasd",
+        "uhjoj",
+        "iuoijoi",
+        "ijojoi",
+        "jiuhjiu"
+      ],
+      "likes": 317,
+      "teaser": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    },
+    { "id": 13,
+      "type": 2,
+      "place": "Berlin",
+      "date": 1191316104625,
+      "tags": ["hjk", "sdf", "iuoi", "ioo easda asdasd"],
+      "likes": 158,
+      "teaser": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    }
+  ]
+}

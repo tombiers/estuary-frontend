@@ -55,6 +55,7 @@ import { getModule } from "vuex-module-decorators";
 import WorkshopStore from "@/store/modules/Workshops.ts";
 import { AutoCompleteItem } from "@/shared/models/AutoCompleteItem.model.ts";
 import ProblemStatementStore from '../store/modules/ProblemStatements';
+import APIservice from "@/api/api.service";
 
 @Component({
   // Specify `components` option.
@@ -89,6 +90,7 @@ export default class WorkshopList extends Vue {
   }
 
   getWorkshops() {
+    APIservice.getWorkshops();
     if (this.workshopStore.workshops.length == 0) {
       console.log("no workshops in store, call test data creator.");
       this.workshopStore.createTestData();
