@@ -7,6 +7,7 @@ import { WorkshopContent } from "@/shared/models/WorkshopContent.model";
 import { ProblemStatementWorkshopContent } from "@/shared/models/ProblemStatementWorkshopContent.model";
 import { ProblemStatement } from '@/shared/models/ProblemStatement.model';
 import { ProblemStatementLink } from '@/shared/models/ProblemStatementLink.model';
+import APIservice from '@/api/api.service';
 
 @Module({ dynamic: true, store, name: "WorkshopStore" })
 export default class WorkshopStore extends VuexModule {
@@ -129,70 +130,13 @@ export default class WorkshopStore extends VuexModule {
   }
 
   @Action
-  public createTestData() {
-    this.addWorkshop(
-      new BaseWorkshop(
-        24,
-        WorkshopType.PS,
-        new Place("Hamburg", "https://goo.gl/maps/mbnen1jr8C81J6vU9"),
-        1592212009205,
-        ["gelb", "blau", "grün", "rot"],
-        987,
-        "Ein Workshop teaser."
-      )
-    );
-    this.addWorkshop(
-      new BaseWorkshop(
-        1,
-        WorkshopType.PS,
-        new Place("Berlin"),
-        1592314101605,
-        ["abcd", "fghi", "poiu"],
-        37,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ut facilisis metus. Mauris viverra ipsum in sollicitudin porttitor. Aliquam semper dolor ante, eget pellentesque arcu malesuada a."
-      )
-    );
-    this.addWorkshop(
-      new BaseWorkshop(
-        33,
-        WorkshopType.IDEA,
-        new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
-        1591316104625,
-        ["hjk", "sdf"],
-        87,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-      )
-    );
-    this.addWorkshop(
-      new BaseWorkshop(
-        31,
-        WorkshopType.IDEA,
-        new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
-        1291316104625,
-        [
-          "asdads",
-          "asdasd",
-          "iuiu",
-          "uahduiasdojasd",
-          "uhjoj",
-          "iuoijoi",
-          "ijojoi",
-          "jiuhjiu"
-        ],
-        87,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-      )
-    );
-    this.addWorkshop(
-      new BaseWorkshop(
-        93,
-        WorkshopType.IDEA,
-        new Place("Berlin", "https://goo.gl/maps/TS79zqdFXi2tsekE6"),
-        1191316104625,
-        ["hjk", "sdf", "iuoi", "ioo easda asdasd"],
-        87,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-      )
-    );
+  public async fetchWorkshops() {
+    const httpResult = await APIservice.getWorkshops();
+    if (httpResult.status == 200 && typeof httpResult.content !== "undefined") { // everything ok 
+      this.allWorkshops.push(...httpResult.content)
+    }
+    else {
+      // something went wrong in the request => throw an error? try again?
+    }
   }
 }

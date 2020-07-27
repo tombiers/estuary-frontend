@@ -2,7 +2,10 @@
   "workshops": [
     { "id": 24,
       "type": 1,
-      "place": "Hamburg",
+      "place": {
+        "name": "Hamburg",
+        "mapLink": "https://goo.gl/maps/mbnen1jr8C81J6vU9"
+      },
       "date": 1592212009205,
       "tags": ["gelb", "blau", "grün", "rot"],
       "likes": 987,
@@ -10,7 +13,10 @@
     },
     { "id": 1,
       "type": 1,
-      "place": "Berlin",
+      "place": {
+        "name": "Berlin",
+        "mapLink": ""
+      },
       "date": 1592314101605,
       "tags": ["abcd", "fghi", "poiu"],
       "likes": 37,
@@ -18,7 +24,10 @@
     },
     { "id": 33,
       "type": 2,
-      "place": "Berlin",
+      "place": {
+        "name": "Berlin",
+        "mapLink": "https://goo.gl/maps/TS79zqdFXi2tsekE6"
+      },
       "date": 1591316104625,
       "tags": ["hjk", "sdf"],
       "likes": 87,
@@ -26,7 +35,10 @@
     },
     { "id": 31,
       "type": 2,
-      "place": "Berlin",
+      "place": {
+        "name": "Berlin",
+        "mapLink": "https://goo.gl/maps/TS79zqdFXi2tsekE6"
+      },
       "date": 1291316104625,
       "tags": [
         "asdads",
@@ -43,7 +55,10 @@
     },
     { "id": 13,
       "type": 2,
-      "place": "Berlin",
+      "place": {
+        "name": "Berlin",
+        "mapLink": "https://goo.gl/maps/TS79zqdFXi2tsekE6"
+      },
       "date": 1191316104625,
       "tags": ["hjk", "sdf", "iuoi", "ioo easda asdasd"],
       "likes": 158,
