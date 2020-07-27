@@ -7,6 +7,8 @@
             <ProblemStatementCard
               :problemStatement="problemStatement"
               :detailed="true"
+              :editable="editable"
+              :openInEditMode="openInEditMode"
               class="ps-card"
               @openLink="eventHandler($event)"
               @highlight="highlight"
@@ -52,7 +54,9 @@ import { ProblemStatementWorkshopContent } from "@/shared/models/ProblemStatemen
 export default class ProblemStatementDetails extends Vue {
   @Prop() private Workshop!: Workshop<ProblemStatementWorkshopContent>;
   @Prop() private problemStatement!: ProblemStatement;
-
+  @Prop({ default: false }) private openInEditMode!: boolean;
+  @Prop({ default: false }) private editable!: boolean;
+  
   private highlightId = -1;
 
   get linkedWorkshops(): ProblemStatement[] {
@@ -74,6 +78,7 @@ export default class ProblemStatementDetails extends Vue {
 
   eventHandler(id: any) {
     this.$emit("openLink", id);
+    this.highlightId = -1;
     window.scrollTo({
       top: 0,
       left: 0,
@@ -92,32 +97,32 @@ export default class ProblemStatementDetails extends Vue {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  background: whitesmoke;
 }
 
 .ps-column {
   flex: 1;
-  margin: 0px 10px 0px 10px;
+  //margin: 0px 10px 0px 10px;
 }
 
 .main-ps:extend(.ps-column) {
-  min-width: 300px;
+  min-width: 425px;
 }
 
 .linked-ps:extend(.ps-column) {
-  min-width: 400px;
+  min-width: 425px;
 }
 
 .ps-card-linked {
   margin-bottom: 10px;
 }
 
-.ps-card-linked /deep/ .el-card {
+.ps-card-linked  {
   opacity: 55%;
 }
 
 .ps-card-linked-highlight:extend(.ps-card-linked) {
   //background-color: cyan;
+  opacity: 100%;
 }
 
 .ps-card-linked-highlight /deep/ .el-card {

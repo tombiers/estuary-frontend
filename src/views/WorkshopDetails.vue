@@ -9,7 +9,7 @@
         <div class="button-open-left" v-bind:class="{ show: showLeftPannel }">
           <Button
             class="testButton"
-            label="Infos"
+            :label='$t("metaData")'
             icon="pi pi-chevron-right"
             icon-pos="right"
             @click="open('left')"
@@ -20,22 +20,12 @@
           <div class="workshop-info-title" id="workshop-title">
             {{ typeLocale }}  {{ date }}  {{ place }}
           </div>
-          <!--
-          <div class="lod-switch">
-            <div class="lod-switch-text">
-              Ansicht {{ lod  }}
-            </div>
-            <div class="lod-switch-switch">
-              <InputSwitch v-model="detailed" />
-            </div>
-          </div>
-          -->
         </div>
 
         <div class="button-open-right" v-bind:class="{ show: showRightPannel }">
           <Button
             class="testButton"
-            label="Blog"
+            :label='$t("comments")'
             icon="pi pi-chevron-left"
             icon-pos="left"
             @click="open('right')"
@@ -140,12 +130,12 @@ export default class WorkshopDetails extends Vue{
 }
 
 .button-open-left{
-  flex:1;
+  flex:auto;
   text-align: left;
 }
 
 .button-open-right{
-  flex: 1;
+  flex: auto;
   text-align: right;
 }
 
@@ -204,11 +194,7 @@ export default class WorkshopDetails extends Vue{
 .pannel-right {
   flex: 1;
 }
-/*
-.workshop-main-content {
-  border-style: solid;
-}
-*/
+
 .show {
   display: none
 }
