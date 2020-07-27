@@ -1,6 +1,6 @@
 import { Place } from "./Place.model";
 import { i18n } from "@/main"
-import { BaseWorkshopDTO } from '@/api/dto/APIWorkshop';
+import { BaseWorkshopDTO } from '@/api/dto/BaseWorkshopDTO';
 
 export enum WorkshopType {
   UNKOWN,
