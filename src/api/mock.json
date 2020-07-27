@@ -1,39 +1,55 @@
 {
   "workshops": [
-    { "id": 24,
+    {
+      "id": 24,
       "type": 1,
       "place": {
         "name": "Hamburg",
         "mapLink": "https://goo.gl/maps/mbnen1jr8C81J6vU9"
       },
       "date": 1592212009205,
-      "tags": ["gelb", "blau", "grün", "rot"],
+      "tags": [
+        "gelb",
+        "blau",
+        "grün",
+        "rot"
+      ],
       "likes": 987,
       "teaser": "Ein Workshop teaser."
     },
-    { "id": 1,
+    {
+      "id": 1,
       "type": 1,
       "place": {
         "name": "Berlin",
         "mapLink": ""
       },
       "date": 1592314101605,
-      "tags": ["abcd", "fghi", "poiu"],
+      "tags": [
+        "abcd",
+        "fghi",
+        "poiu"
+      ],
       "likes": 37,
       "teaser": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ut facilisis metus. Mauris viverra ipsum in sollicitudin porttitor. Aliquam semper dolor ante, eget pellentesque arcu malesuada a."
     },
-    { "id": 33,
+    {
+      "id": 33,
       "type": 2,
       "place": {
         "name": "Berlin",
         "mapLink": "https://goo.gl/maps/TS79zqdFXi2tsekE6"
       },
       "date": 1591316104625,
-      "tags": ["hjk", "sdf"],
+      "tags": [
+        "hjk",
+        "sdf"
+      ],
       "likes": 87,
       "teaser": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     },
-    { "id": 31,
+    {
+      "id": 31,
       "type": 2,
       "place": {
         "name": "Berlin",
@@ -53,16 +69,115 @@
       "likes": 317,
       "teaser": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     },
-    { "id": 13,
+    {
+      "id": 13,
       "type": 2,
       "place": {
         "name": "Berlin",
         "mapLink": "https://goo.gl/maps/TS79zqdFXi2tsekE6"
       },
       "date": 1191316104625,
-      "tags": ["hjk", "sdf", "iuoi", "ioo easda asdasd"],
+      "tags": [
+        "hjk",
+        "sdf",
+        "iuoi",
+        "ioo easda asdasd"
+      ],
       "likes": 158,
       "teaser": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    }
+  ],
+  "problemStatements": [
+    {
+      "id": 1,
+      "likes": 456,
+      "iAm": "Supporter",
+      "iWant": "dass was passiert",
+      "but": "es passiert nichts",
+      "because": "Gründe",
+      "feel": "traurig",
+      "linked": [
+        {
+          "id": 2,
+          "tag": "blau"
+        },
+        {
+          "id": 3,
+          "tag": "blau"
+        },
+        {
+          "id": 4,
+          "tag": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "likes": 245,
+      "iAm": "Supporter",
+      "iWant": "dass was passiert",
+      "but": "es passiert nichts",
+      "because": "keine Ahnung",
+      "feel": "komisch",
+      "linked": [
+        {
+          "id": 1,
+          "tag": "blau"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "likes": 49,
+      "iAm": "Supporter",
+      "iWant": "dass was passiert",
+      "but": "es passiert nichts",
+      "because": "Gründe",
+      "feel": "komisch",
+      "linked": [
+        {
+          "id": 1,
+          "tag": "blau"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "likes": 12,
+      "iAm": "Entwickler",
+      "iWant": "Kekse",
+      "but": "ich bekomme keine",
+      "because": "jemand alle aufgegessen hat",
+      "feel": "hungrig",
+      "linked": [
+        {
+          "id": 2,
+          "tag": "grün"
+        },
+        {
+          "id": 3,
+          "tag": "blau"
+        },
+        {
+          "id": 1,
+          "tag": ""
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "likes": 347,
+      "iAm": "Lorem ipsum",
+      "iWant": "dolor sit amet, consetetur sadipscing elitr",
+      "but": "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat",
+      "because": "sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.",
+      "feel": "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.At vero eos et accusam et justo duo dolores et ea rebum.Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+      "linked": [
+        {
+          "id": 3,
+          "tag": ""
+        }
+      ]
     }
   ]
 }

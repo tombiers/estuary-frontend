@@ -1,4 +1,5 @@
 import { ProblemStatementLink } from './ProblemStatementLink.model';
+import { ProblemStatementDTO } from '@/api/dto/ProblemStatementDTO';
 
 export class ProblemStatement {
   constructor(
@@ -10,5 +11,19 @@ export class ProblemStatement {
     public because: string,
     public feel: string,
     public linked: ProblemStatementLink[]
-  ) {}
+  ) { }
+  
+  public static fromDTO(dto: ProblemStatementDTO): ProblemStatement {
+    const links: ProblemStatementLink[] = dto.linked.map(linkDTO => new ProblemStatementLink(linkDTO.id, linkDTO.tag));
+    return new ProblemStatement(
+      dto.id,
+      dto.likes,
+      dto.iAm,
+      dto.iWant,
+      dto.but,
+      dto.because,
+      dto.feel,
+      links
+    )
+  }
 }
