@@ -94,6 +94,7 @@
       </div>
       <div class="ps-interaction">
         <div class="ps-interaction-buttons">
+          <!-- like button -->
           <button
             class="ps-interaction-button p-button-secondary p-button-text p-button p-component"
             type="button"
@@ -102,7 +103,7 @@
             <div :class="likeIconClass" style="font-size: 75%"></div>
             <span class="p-button-label">{{$t('doLike')}}</span>
           </button>
-
+          <!-- comment button -->
           <button
             class="ps-interaction-button p-button-secondary p-button-text p-button p-component"
             type="button"
@@ -148,21 +149,25 @@ export default class ProblemStatementCard extends Vue {
   private likeIconClass = "pi pi-thumbs-up new-button-icon";
   private commentIconClass = "pi pi-comments new-button-icon";
 
-  private psClass = "ps-container";
+  private tilt = "ps-container";
+
+  get psClass(): string {
+    return "ps-container " + (this.editMode ? "tilt-base" : this.tilt); // disable tilt when editing
+  }
 
   mounted() {
     switch (Math.round(Math.random() * 3)) {
       case 0:
-        this.psClass += " tilt-left-2";
+        this.tilt = "tilt-left-2";
         break;
       case 1:
-        this.psClass += " tilt-left-1";
+        this.tilt = "tilt-left-1";
         break;
       case 2:
-        this.psClass += " tilt-right-1";
+        this.tilt = "tilt-right-1";
         break;
       case 3:
-        this.psClass += " tilt-right-2";
+        this.tilt = "tilt-right-2";
         break;
     }
   }
@@ -255,8 +260,8 @@ export default class ProblemStatementCard extends Vue {
       this.newPsLink.id = 0;
       this.newPsLink.tag = "";
     } else {
-      // link id invalid
-      // TODO: user feedback
+      // link id invalid, tell the user
+      alert(this.$i18n.t("problemStatement.unkonwn"));
     }
   }
 

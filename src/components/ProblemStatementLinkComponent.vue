@@ -2,32 +2,44 @@
   <div :id="uniqueId" class="layer-low">
     <div v-show="editMode">
       <div class="badge" :href="linkToPS">
-<div class="badge-flex">
-<div class="badge-id">
-
-        PS
-        <input type="number" v-model="problemStatementLink.id" placeholder class="id-input" />
-</div>
-        <div class="badge-inner">
+        <div class="badge-flex">
+          <div class="badge-id">
+            PS
+            <input type="number" v-model="problemStatementLink.id" placeholder class="id-input" />
+          </div>
+          <div class="badge-inner">
             <input v-model="problemStatementLink.tag" placeholder />
-        </div>
-        <div v-if="newMode" class="badge-inner marker-class" :id="uniqueNewId" v-tooltip="$t('problemStatement.addLink')">
+          </div>
+          <div
+            v-if="newMode"
+            class="badge-inner marker-class"
+            :id="uniqueNewId"
+            v-tooltip="$t('problemStatement.addLink')"
+          >
             <div class="badge-id">
-            <i class="pi pi-check"></i>
+              <i class="pi pi-check"></i>
             </div>
-        </div>
-        <div :class="hide" class="badge-inner marker-class layer-high" :id="uniqueRemoveId" v-tooltip="$t('problemStatement.removeLink')">
+          </div>
+          <div
+            :class="hide"
+            class="badge-inner marker-class layer-high"
+            :id="uniqueRemoveId"
+            v-tooltip="$t('problemStatement.removeLink')"
+          >
             <div class="badge-id">
-            <i class="pi pi-trash"></i>
+              <i class="pi pi-trash"></i>
             </div>
+          </div>
         </div>
-</div>
       </div>
     </div>
     <div v-show="!editMode">
       <div v-if="detailed" class="badge" :href="linkToPS">
         {{ PSid }}
-        <div v-if="problemStatementLink.tag != ''" class="badge-inner">{{ problemStatementLink.tag }}</div>
+        <div
+          v-if="problemStatementLink.tag != ''"
+          class="badge-inner"
+        >{{ problemStatementLink.tag }}</div>
       </div>
 
       <a v-else class="link" :href="linkToPS">{{ PSid }}</a>
@@ -62,7 +74,7 @@ export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
   }
 
   mounted() {
-    if(this.newMode) {
+    if (this.newMode) {
       document.getElementById(this.uniqueNewId)!.onclick = this.addLink;
     } else {
       document.getElementById(this.uniqueId)!.onclick = this.openLink;
@@ -71,13 +83,15 @@ export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
   }
 
   addLink() {
-    console.log(this.problemStatementLink.id + " " + this.problemStatementLink.tag);
-  this.$emit("addLink");
+    console.log(
+      this.problemStatementLink.id + " " + this.problemStatementLink.tag
+    );
+    this.$emit("addLink");
   }
 
   removeLink() {
-    if (typeof event !== "undefined" ){
-      event!.cancelBubble = true; // stop the event from bubbling up to the next onclick handler, so openLink() dosn't get triggered 
+    if (typeof event !== "undefined") {
+      event!.cancelBubble = true; // stop the event from bubbling up to the next onclick handler, so openLink() dosn't get triggered
     }
     this.$emit("removeLink", this.problemStatementLink.id);
   }
@@ -108,7 +122,7 @@ export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
   }
 
   get tags() {
-    return this.problemStatementLink.tag
+    return this.problemStatementLink.tag;
   }
 }
 </script>

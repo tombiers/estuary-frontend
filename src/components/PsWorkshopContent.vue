@@ -95,5 +95,4 @@ export default class PsWorkshopContent extends Vue {
   text-align: center;
 }
 
-
 </style>

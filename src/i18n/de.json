@@ -8,6 +8,8 @@
   "place": "Ort",
   "related":"In Beziehung zu",
   "details": "Details",
+  "metaData": "Meta Infos",
+  "comments": "Kommentare",
   "authors": "Autoren",
   "status": "Status",
   "workshopType": {
@@ -28,7 +30,8 @@
     "because": "weil ",
     "feel": "Darum fühle ich mich ",
     "addLink": "Problem Statement verknüpfen",
-    "removeLink": "Verknüpfung löschen"
+    "removeLink": "Verknüpfung löschen",
+    "unkonwn": "Problem Statement nicht gefunden"
   }
 
 }
