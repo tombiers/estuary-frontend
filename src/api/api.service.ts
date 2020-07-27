@@ -34,7 +34,7 @@ export default class APIservice {
     return apiResult;
   }
 
-  public static async getProblemStatements(): Promise<APIResult<ProblemStatementDTO[]>> {
+  public static async getProblemStatements(): Promise<APIResult<ProblemStatement[]>> {
     const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
     const res: rm.IRestResponse<ProblemStatementDTO[]> = await rest.get<ProblemStatementDTO[]>("/problemStatements");
 
@@ -46,6 +46,16 @@ export default class APIservice {
     return apiResult;
   }
 
+  public static async updateProblemStatement(problemStatement: ProblemStatement) {
+    const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
+    console.log(problemStatement.toDTO);
+    const res: rm.IRestResponse<ProblemStatementDTO> = await rest.update<ProblemStatementDTO>("/problemStatements/"+problemStatement.id ,problemStatement.toDTO);
 
-  
+    const apiResult: APIResult<ProblemStatement> = {
+      status: res.statusCode,
+      content: (res.statusCode == 200) ? ProblemStatement.fromDTO(res.result!) : undefined
+    }
+    await delay(3000);
+    return apiResult;
+  }
 }

@@ -2,7 +2,7 @@ import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
 import store from "@/store";
 import { ProblemStatement } from '@/shared/models/ProblemStatement.model';
 import { ProblemStatementLink } from '@/shared/models/ProblemStatementLink.model';
-import APIservice from '@/api/api.service';
+import APIservice, { APIResult } from '@/api/api.service';
 
 @Module({ dynamic: true, store, name: "ProblemStatementStore" })
 export default class ProblemStatementStore extends VuexModule {
@@ -22,10 +22,13 @@ export default class ProblemStatementStore extends VuexModule {
   }
 
   @Action
-  public update(problemStatement: ProblemStatement) {
-    // TODO: send updated problemstatement to backend
-    // the update is only done in vuex for now
-    this.add(problemStatement);
+  public async update(problemStatement: ProblemStatement) {
+    const httpResult = await APIservice.updateProblemStatement(problemStatement);
+    if (httpResult.status == 200 && typeof httpResult.content !== "undefined") { //everything ok
+      this.add(httpResult.content);
+    } else {
+      // something went wrong
+    }
   }
 
   @Action

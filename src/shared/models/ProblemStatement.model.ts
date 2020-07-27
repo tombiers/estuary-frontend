@@ -26,4 +26,19 @@ export class ProblemStatement {
       links
     )
   }
+
+  public get toDTO(): ProblemStatementDTO {
+    const links = this.linked.map(link =>{ return {"id": link.id, "tag": link.tag}})
+    const dto: ProblemStatementDTO = {
+      "id": this.id,
+      "likes": this.likes,
+      "iAm": this.iAm,
+      "iWant": this.iWant,
+      "but": this.but,
+      "because": this.because,
+      "feel": this.feel,
+      "linked": links
+    }
+    return dto;
+  }
 }
