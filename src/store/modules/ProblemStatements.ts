@@ -33,6 +33,8 @@ export default class ProblemStatementStore extends VuexModule {
 
   @Action
   public generateTestData(): void {
+    //const ps = new ProblemStatement(0, 0, "me", "want", "but", "not", "feels", []);
+    //this.addProblemStatement(ps);
     this.fetchProblemStatements();
   }
 
@@ -44,6 +46,16 @@ export default class ProblemStatementStore extends VuexModule {
     }
     else {
       // something went wrong in the request => throw an error? try again?
+    }
+  }
+
+  @Action
+  public async addProblemStatement(problemStatement: ProblemStatement) {
+    const httpResult = await APIservice.addProblemStatement(problemStatement)
+    if (httpResult.status == 201 && typeof httpResult.content !== "undefined") { // ps has been added
+      this.add(httpResult.content); // add to vuex with id given by backend
+    } else {
+      // something went wrong
     }
   }
 
