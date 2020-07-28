@@ -11,14 +11,14 @@ import { WorkshopContentDTO } from './dto/WorkshopContentDTO';
 
 export interface APIResult<T> {
   status: number,
-  content: T|undefined
+  content: T | undefined
 }
 
 const serverURL = "http://localhost:3000";
 
 // add a delay when in development mode
 function delay(ms: number) {
-  if (process.env.NODE_ENV === "development"){
+  if (process.env.NODE_ENV === "development") {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   return;
@@ -29,7 +29,7 @@ export default class APIservice {
   public static async getWorkshops(): Promise<APIResult<BaseWorkshop[]>> {
     const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
     const res: rm.IRestResponse<BaseWorkshopDTO[]> = await rest.get<BaseWorkshopDTO[]>("/workshops");
-    
+
     const apiResult: APIResult<BaseWorkshop[]> = {
       status: res.statusCode,
       content: (res.statusCode == 200) ? res.result!.map(element => BaseWorkshop.fromDTO(element)) : undefined
@@ -38,21 +38,32 @@ export default class APIservice {
     return apiResult;
   }
 
-    // get all workshops with content
-    public static async getWorkshopsWithContent(): Promise<APIResult<Workshop<WorkshopContent>[]>> {
-      const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
-      const res: rm.IRestResponse<WorkshopDTO<WorkshopContentDTO>[]> = await rest.get<WorkshopDTO<WorkshopContentDTO>[]>("/workshopsFull");
-      
-      const apiResult: APIResult<Workshop<WorkshopContent>[]> = {
-        status: res.statusCode,
-        content: (res.statusCode == 200) ? res.result!.map(element => Workshop.fromDTO(element)) : undefined
-      }
+  // get all workshops with content
+  public static async getWorkshopsWithContent(): Promise<APIResult<Workshop<WorkshopContent>[]>> {
+    const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
+    const res: rm.IRestResponse<WorkshopDTO<WorkshopContentDTO>[]> = await rest.get<WorkshopDTO<WorkshopContentDTO>[]>("/workshopsFull");
 
-      console.log("getting full workshops:")
-      apiResult.content?.forEach(ws => console.log(ws));
+    const apiResult: APIResult<Workshop<WorkshopContent>[]> = {
+      status: res.statusCode,
+      content: (res.statusCode == 200) ? res.result!.map(element => Workshop.fromDTO(element)) : undefined
+    }
 
-      await delay(3000);
-      return apiResult;
+    await delay(3000);
+    return apiResult;
+  }
+
+  // get a workshop with content
+  public static async getWorkshopWithContent(id: number): Promise<APIResult<Workshop<WorkshopContent>>> {
+    const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
+    const res: rm.IRestResponse<WorkshopDTO<WorkshopContentDTO>> = await rest.get<WorkshopDTO<WorkshopContentDTO>>("/workshopsFull/"+id);
+
+    const apiResult: APIResult<Workshop<WorkshopContent>> = {
+      status: res.statusCode,
+      content: (res.statusCode == 200) ? Workshop.fromDTO(res.result!) : undefined
+    }
+
+    await delay(3000);
+    return apiResult;
   }
 
   public static async getProblemStatements(): Promise<APIResult<ProblemStatement[]>> {
@@ -69,7 +80,7 @@ export default class APIservice {
 
   public static async updateProblemStatement(problemStatement: ProblemStatement) {
     const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
-    const res: rm.IRestResponse<ProblemStatementDTO> = await rest.update<ProblemStatementDTO>("/problemStatements/"+problemStatement.id ,problemStatement.toDTO);
+    const res: rm.IRestResponse<ProblemStatementDTO> = await rest.update<ProblemStatementDTO>("/problemStatements/" + problemStatement.id, problemStatement.toDTO);
 
     const apiResult: APIResult<ProblemStatement> = {
       status: res.statusCode,
