@@ -66,6 +66,7 @@ export default class APIservice {
     return apiResult;
   }
 
+  // get all ProblemStatements
   public static async getProblemStatements(): Promise<APIResult<ProblemStatement[]>> {
     const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
     const res: rm.IRestResponse<ProblemStatementDTO[]> = await rest.get<ProblemStatementDTO[]>("/problemStatements");
@@ -78,6 +79,20 @@ export default class APIservice {
     return apiResult;
   }
 
+  // get ProblemStatement with id
+  public static async getProblemStatement(id: number): Promise<APIResult<ProblemStatement>> {
+    const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
+    const res: rm.IRestResponse<ProblemStatementDTO> = await rest.get<ProblemStatementDTO>("/problemStatements/"+id);
+
+    const apiResult: APIResult<ProblemStatement> = {
+      status: res.statusCode,
+      content: (res.statusCode == 200) ? ProblemStatement.fromDTO(res.result!) : undefined
+    }
+    await delay(3000);
+    return apiResult;
+  }
+
+  // update a ProblemStatement
   public static async updateProblemStatement(problemStatement: ProblemStatement) {
     const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
     const res: rm.IRestResponse<ProblemStatementDTO> = await rest.update<ProblemStatementDTO>("/problemStatements/" + problemStatement.id, problemStatement.toDTO);
@@ -90,6 +105,8 @@ export default class APIservice {
     return apiResult;
   }
 
+  // add a new ProblemStatement, the id is ignored
+  // returns newly created problemstatement with the correct id
   public static async addProblemStatement(problemStatement: ProblemStatement) {
     const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
     const res: rm.IRestResponse<ProblemStatementDTO> = await rest.create<ProblemStatementDTO>("/problemStatements", problemStatement.toDTO);

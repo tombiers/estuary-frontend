@@ -12,6 +12,10 @@ export class ProblemStatement {
     public feel: string,
     public linked: ProblemStatementLink[]
   ) { }
+
+  public get linkedProblemStatementIds(): number[] {
+    return this.linked.map(link => link.id);
+  }
   
   public static fromDTO(dto: ProblemStatementDTO): ProblemStatement {
     const links: ProblemStatementLink[] = dto.linked.map(linkDTO => new ProblemStatementLink(linkDTO.id, linkDTO.tag));

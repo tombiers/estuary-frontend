@@ -4,6 +4,7 @@ import WorkshopOverview from "../views/WorkshopOverview.vue";
 import WorkshopDetails from "../views/WorkshopDetails.vue";
 import WorkshopStore from "@/store/modules/Workshops.ts";
 import { getModule } from "vuex-module-decorators";
+import { ProblemStatementWorkshopContent } from '@/shared/models/ProblemStatementWorkshopContent.model';
 
 Vue.use(VueRouter);
 
@@ -31,7 +32,9 @@ const routes: Array<RouteConfig> = [
       const tryGetWorkshop = getModule(WorkshopStore).selectWorkshop(Number(to.params.id));
       tryGetWorkshop.then(value => {
         if (value) {
-          next();
+          const pro = (getModule(WorkshopStore).selectedWorkshop.content as ProblemStatementWorkshopContent)
+            .loadContent()
+          pro.then(_ => next() );
         } else {
           next({ path: '/WorkshopOverview' })
         }

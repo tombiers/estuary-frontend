@@ -1,9 +1,7 @@
 <template>
   <div>
-    <div
-      v-if="showPsComparison"
-    >
-      <ProblemStatementDetails 
+    <div v-if="showPsComparison">
+      <ProblemStatementDetails
         :problemStatement="detailedPS"
         :Workshop="workshop"
         @openLink="eventHandler($event)"
@@ -11,21 +9,18 @@
         :openInEditMode="openInEditMode"
       />
     </div>
-    <div
-        class="ps-card-collection"
-        v-else
-      >
-        <ProblemStatementCard 
-          :problemStatement="ps"
-          :detailed="detailed"
-          :editable="true"
-          class="ps-card"
-          v-for="ps in workshop.content.problemStatements"
-          :key="ps.id"
-          @openLink="eventHandler($event)"
-          @openLinkAndEdit="eventHandlerEdit($event)"
-        />
-      </div>
+    <div class="ps-card-collection" v-else>
+      <ProblemStatementCard
+        :problemStatement="ps"
+        :detailed="detailed"
+        :editable="true"
+        class="ps-card"
+        v-for="ps in problemStatements"
+        :key="ps.id"
+        @openLink="eventHandler($event)"
+        @openLinkAndEdit="eventHandlerEdit($event)"
+      />
+    </div>
   </div>
 </template>
 
@@ -37,37 +32,44 @@ import { Workshop } from "@/shared/models/Workshop.model";
 import { ProblemStatementWorkshopContent } from "@/shared/models/ProblemStatementWorkshopContent.model";
 import ProblemStatementCard from "@/components/ProblemStatementCard.vue";
 import ProblemStatementDetails from "@/components/ProblemStatementDetails.vue";
-import { ProblemStatement } from '../shared/models/ProblemStatement.model';
+import { ProblemStatement } from "../shared/models/ProblemStatement.model";
+import ProblemStatementStore from "../store/modules/ProblemStatements";
 
 @Component({
-  components:{
+  components: {
     ProblemStatementCard,
     ProblemStatementDetails
-    }
+  }
 })
 export default class PsWorkshopContent extends Vue {
-  @Prop({default: true}) private detailed!: boolean;
-  @Prop({default: false}) private showPsComparison!: boolean;
+  @Prop({ default: true }) private detailed!: boolean;
+  @Prop({ default: false }) private showPsComparison!: boolean;
 
   private openInEditMode = false;
 
   workshopStore = getModule(WorkshopStore);
-  workshop: Workshop<ProblemStatementWorkshopContent> = 
-    this.workshopStore.selectedWorkshop as Workshop<ProblemStatementWorkshopContent>;
+  workshop: Workshop<ProblemStatementWorkshopContent> = this.workshopStore
+    .selectedWorkshop as Workshop<ProblemStatementWorkshopContent>;
   showSinglePsDetails = false;
-  detailedPS:ProblemStatement|null = null;
+  detailedPS: ProblemStatement | null = null;
+
+  get problemStatements() {
+    return this.workshop.content.problemStatementIds.map(id =>
+      getModule(ProblemStatementStore).problemStatement(id)
+    );
+  }
 
   eventHandler(id: number) {
-    this.openInEditMode = false
-    this.detailedPS = this.workshop.content.problemStatements[id-1];
-    this.$emit('update:showPsComparison', true);
+    this.openInEditMode = false;
+    this.detailedPS = getModule(ProblemStatementStore).problemStatement(id)!;
+    this.$emit("update:showPsComparison", true);
     this.goToTop();
   }
 
   eventHandlerEdit(id: number) {
-    this.openInEditMode = true
-    this.detailedPS = this.workshop.content.problemStatements[id-1];
-    this.$emit('update:showPsComparison', true);
+    this.openInEditMode = true;
+    this.detailedPS = getModule(ProblemStatementStore).problemStatement(id)!;
+    this.$emit("update:showPsComparison", true);
     this.goToTop();
   }
 
@@ -78,13 +80,10 @@ export default class PsWorkshopContent extends Vue {
       behavior: "smooth"
     });
   }
-
 }
-
 </script>
 
 <style scoped langs="less">
-
 .ps-card-collection {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -94,5 +93,4 @@ export default class PsWorkshopContent extends Vue {
 .ps-card {
   text-align: center;
 }
-
 </style>

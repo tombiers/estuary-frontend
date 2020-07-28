@@ -11,8 +11,18 @@ export default class ProblemStatementStore extends VuexModule {
 
   // returns problem statement with matching id or undefined
   get problemStatement() {
-    return (id: number): ProblemStatement | undefined=> {
-      return this.problemStatements.get(id);
+    return (id: number): ProblemStatement | undefined => {
+      //return this.problemStatements.get(id); // TODO: why doesn't this work for ids > 5? 
+      // The key value pairs are in the map!
+      // If they weren't the following workaround wouldn't work
+      // but this workaround works
+      let re: ProblemStatement|undefined = undefined;
+      this.problemStatements.forEach(entry => {
+        if (entry.id == id) {
+          re = entry;
+        }
+      });
+      return re;
     };
   }
 
@@ -35,10 +45,10 @@ export default class ProblemStatementStore extends VuexModule {
   public generateTestData(): void {
     //const ps = new ProblemStatement(0, 0, "me", "want", "but", "not", "feels", []);
     //this.addProblemStatement(ps);
-    this.fetchProblemStatements();
+    //this.fetchProblemStatements();
   }
 
-  @Action
+  @Action // get all problemstatements from backend
   public async fetchProblemStatements() {
     const httpResult = await APIservice.getProblemStatements();
     if (httpResult.status == 200 && typeof httpResult.content !== "undefined") { // everything ok 
@@ -47,6 +57,32 @@ export default class ProblemStatementStore extends VuexModule {
     else {
       // something went wrong in the request => throw an error? try again?
     }
+  }
+
+  @Action // make sure that specified problemstatements are in vuex and request missing ones
+  public async checkProblemStatements(ids: number[]):Promise<boolean> {
+
+    let available = false;
+
+    await Promise.all(ids.map(async (id) => {
+      if (typeof this.problemStatement(id) === "undefined") {
+        console.log("id " + id + " is missing, requesting it now");
+        const result = await APIservice.getProblemStatement(id);
+        if (result.status == 200 && typeof result.content !== "undefined") {
+          this.add(result.content);
+          console.log("fetched and added to vuex, ps with id " + id);
+          available = true
+        }
+        else {
+          console.log("unable to fetch missing ps with id " + id);
+          available = false;
+        }
+      } else {
+        console.log("id " + id + " is in store");
+        available = true;
+      }
+    }));
+    return available
   }
 
   @Action

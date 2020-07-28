@@ -26,7 +26,7 @@
               />
             </transition>
             <ProblemStatementCard
-              v-for="ps in linkedWorkshops"
+              v-for="ps in linkedProblemStatements"
               :key="ps.id"
               :problemStatement="ps"
               class="ps-card-linked"
@@ -45,6 +45,8 @@ import ProblemStatementCard from "@/components/ProblemStatementCard.vue";
 import { ProblemStatement } from "@/shared/models/ProblemStatement.model";
 import { Workshop } from "@/shared/models/Workshop.model";
 import { ProblemStatementWorkshopContent } from "@/shared/models/ProblemStatementWorkshopContent.model";
+import { getModule } from 'vuex-module-decorators';
+import ProblemStatementStore from "@/store/modules/ProblemStatements";
 
 @Component({
   components: {
@@ -59,21 +61,21 @@ export default class ProblemStatementDetails extends Vue {
   
   private highlightId = -1;
 
-  get linkedWorkshops(): ProblemStatement[] {
-    return this.problemStatement.linked
-      .filter(link => link.id != this.highlightId)
-      .map(link => {
-        return this.Workshop.content.problemStatements.find(
-          ps => ps.id == link.id
-        )!;
-      })
-      .sort((a, b) => a.id - b.id);
+  get linkedProblemStatements(): ProblemStatement[] {
+    const psStore = getModule(ProblemStatementStore);
+    const ps = this.problemStatement.linkedProblemStatementIds
+      .filter(id => id != this.highlightId)     // the highlighted ps is shown elsewhere
+      .sort((a,b) => a - b)                     // sort ascending
+      .map(id => psStore.problemStatement(id))  // get the corosponding problem statements from vuex, this includes ps which aren't part of this workshop
+      .filter(ps => typeof ps !== "undefined")  // remove ps that weren't found => no more undefined ps
+      .map(ps => ps!);                          // let the compiler know that the remaining ps aren't undefined
+
+    return ps;
   }
 
   get highlightedPS(): ProblemStatement | undefined {
-    return this.Workshop.content.problemStatements.find(
-      ps => ps.id == this.highlightId
-    );
+    const psStore = getModule(ProblemStatementStore);
+    return psStore.problemStatement(this.highlightId);
   }
 
   eventHandler(id: any) {
