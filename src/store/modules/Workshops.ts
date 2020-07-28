@@ -131,6 +131,7 @@ export default class WorkshopStore extends VuexModule {
 
   @Action
   public async fetchWorkshops() {
+    // get all workshops as BaseWorkshop
     const httpResult = await APIservice.getWorkshops();
     if (httpResult.status == 200 && typeof httpResult.content !== "undefined") { // everything ok
       httpResult.content.forEach(element => this.addWorkshop(element));
@@ -138,5 +139,7 @@ export default class WorkshopStore extends VuexModule {
     else {
       // something went wrong in the request => throw an error? try again?
     }
+    // get all workshops with content
+    // await APIservice.getWorkshopsWithContent();
   }
 }

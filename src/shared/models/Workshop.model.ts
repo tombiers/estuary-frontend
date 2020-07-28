@@ -1,7 +1,11 @@
+import { i18n } from "@/main";
 import { Place } from "./Place.model";
 import { BaseWorkshop, WorkshopType } from './BaseWorkshop.model';
+import { WorkshopDTO } from '@/api/dto/WorkshopDTO';
 import { WorkshopContent } from './WorkshopContent.model';
-import { i18n } from "@/main";
+import { WorkshopContentDTO } from '@/api/dto/WorkshopContentDTO';
+import { ProblemStatementWorkshopContent } from './ProblemStatementWorkshopContent.model';
+import { ProblemStatementWorkshopContentDTO } from "@/api/dto/ProblemStatementWorkshopContentDTO"
 
 export enum workshopStatus {
   WIP,
@@ -37,4 +41,36 @@ export class Workshop<T extends WorkshopContent> extends BaseWorkshop{
         return i18n.t("workshopStatus.unkown").toString();
     }
   }
+
+  public static fromDTO(dto: WorkshopDTO<WorkshopContentDTO>): Workshop<WorkshopContent> {
+    let workshopType: WorkshopType;
+    let workshopContent: WorkshopContent;
+    switch (dto.type) {
+      case 1:
+        workshopType = WorkshopType.PS;
+        workshopContent = ProblemStatementWorkshopContent.fromDTO(dto.content as ProblemStatementWorkshopContentDTO);
+        break;
+      case 2:
+        workshopType = WorkshopType.IDEA;
+        workshopContent = {};
+        break;
+      default:
+        workshopType = WorkshopType.UNKOWN;
+        workshopContent = {};
+    }
+
+    return new Workshop<WorkshopContent>(
+      dto.id,
+      workshopType,
+      new Place(dto.place.name, dto.place.mapLink),
+      dto.date,
+      dto.tags,
+      dto.likes,
+      dto.teaser,
+      dto.authors,
+      dto.status,
+      workshopContent
+    );
+  }
+
 }

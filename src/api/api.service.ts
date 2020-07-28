@@ -4,6 +4,10 @@ import { BaseWorkshopDTO } from "@/api/dto/BaseWorkshopDTO";
 import { WorkshopType, BaseWorkshop } from '@/shared/models/BaseWorkshop.model';
 import { ProblemStatement } from '@/shared/models/ProblemStatement.model';
 import { ProblemStatementDTO } from './dto/ProblemStatementDTO';
+import { Workshop } from '@/shared/models/Workshop.model';
+import { WorkshopDTO } from './dto/WorkshopDTO';
+import { WorkshopContent } from '@/shared/models/WorkshopContent.model';
+import { WorkshopContentDTO } from './dto/WorkshopContentDTO';
 
 export interface APIResult<T> {
   status: number,
@@ -32,6 +36,23 @@ export default class APIservice {
     }
     await delay(3000);
     return apiResult;
+  }
+
+    // get all workshops with content
+    public static async getWorkshopsWithContent(): Promise<APIResult<Workshop<WorkshopContent>[]>> {
+      const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
+      const res: rm.IRestResponse<WorkshopDTO<WorkshopContentDTO>[]> = await rest.get<WorkshopDTO<WorkshopContentDTO>[]>("/workshopsFull");
+      
+      const apiResult: APIResult<Workshop<WorkshopContent>[]> = {
+        status: res.statusCode,
+        content: (res.statusCode == 200) ? res.result!.map(element => Workshop.fromDTO(element)) : undefined
+      }
+
+      console.log("getting full workshops:")
+      apiResult.content?.forEach(ws => console.log(ws));
+
+      await delay(3000);
+      return apiResult;
   }
 
   public static async getProblemStatements(): Promise<APIResult<ProblemStatement[]>> {
