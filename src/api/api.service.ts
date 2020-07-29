@@ -55,7 +55,7 @@ export default class APIservice {
   // get a workshop with content
   public static async getWorkshopWithContent(id: number): Promise<APIResult<Workshop<WorkshopContent>>> {
     const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
-    const res: rm.IRestResponse<WorkshopDTO<WorkshopContentDTO>> = await rest.get<WorkshopDTO<WorkshopContentDTO>>("/workshopsFull/"+id);
+    const res: rm.IRestResponse<WorkshopDTO<WorkshopContentDTO>> = await rest.get<WorkshopDTO<WorkshopContentDTO>>("/workshopsFull/" + id);
 
     const apiResult: APIResult<Workshop<WorkshopContent>> = {
       status: res.statusCode,
@@ -66,19 +66,34 @@ export default class APIservice {
     return apiResult;
   }
 
-    // update a workshop with content
-    public static async updateWorkshopWithContent(workshop: Workshop<WorkshopContent>): Promise<APIResult<Workshop<WorkshopContent>>> {
-      const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
-      const res: rm.IRestResponse<WorkshopDTO<WorkshopContentDTO>> = await rest.update<WorkshopDTO<WorkshopContentDTO>>("/workshopsFull/"+workshop.id, workshop.DTO);
-  
-      const apiResult: APIResult<Workshop<WorkshopContent>> = {
-        status: res.statusCode,
-        content: (res.statusCode == 200) ? Workshop.fromDTO(res.result!) : undefined
-      }
-  
-      await delay(3000);
-      return apiResult;
+  // update a workshop with content
+  public static async updateWorkshopWithContent(workshop: Workshop<WorkshopContent>): Promise<APIResult<Workshop<WorkshopContent>>> {
+    const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
+    const res: rm.IRestResponse<WorkshopDTO<WorkshopContentDTO>> = await rest.update<WorkshopDTO<WorkshopContentDTO>>("/workshopsFull/" + workshop.id, workshop.DTO);
+
+    const apiResult: APIResult<Workshop<WorkshopContent>> = {
+      status: res.statusCode,
+      content: (res.statusCode == 200) ? Workshop.fromDTO(res.result!) : undefined
     }
+
+    await delay(3000);
+    return apiResult;
+  }
+
+  // add a new Workshop with content, the id is ignored
+  // returns newly created workshop with the correct id
+  public static async addWorkshopWithContent(workshop: Workshop<WorkshopContent>): Promise<APIResult<Workshop<WorkshopContent>>> {
+    const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
+    const res: rm.IRestResponse<WorkshopDTO<WorkshopContentDTO>> = await rest.create<WorkshopDTO<WorkshopContentDTO>>("/workshopsFull", workshop.DTO);
+
+    const apiResult: APIResult<Workshop<WorkshopContent>> = {
+      status: res.statusCode,
+      content: (res.statusCode == 201) ? Workshop.fromDTO(res.result!) : undefined
+    }
+
+    await delay(3000);
+    return apiResult;
+  }
 
   // get all ProblemStatements
   public static async getProblemStatements(): Promise<APIResult<ProblemStatement[]>> {
@@ -96,7 +111,7 @@ export default class APIservice {
   // get ProblemStatement with id
   public static async getProblemStatement(id: number): Promise<APIResult<ProblemStatement>> {
     const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
-    const res: rm.IRestResponse<ProblemStatementDTO> = await rest.get<ProblemStatementDTO>("/problemStatements/"+id);
+    const res: rm.IRestResponse<ProblemStatementDTO> = await rest.get<ProblemStatementDTO>("/problemStatements/" + id);
 
     const apiResult: APIResult<ProblemStatement> = {
       status: res.statusCode,
