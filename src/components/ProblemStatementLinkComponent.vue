@@ -5,7 +5,7 @@
         <div class="badge-flex">
           <div class="badge-id">
             PS
-            <input type="number" v-model="problemStatementLink.id" placeholder class="id-input" />
+            <input type="number" v-model="problemStatementLink.id" placeholder class="id-input" @blur="ensureType" />
           </div>
           <div class="badge-inner">
             <input v-model="problemStatementLink.tag" placeholder />
@@ -123,6 +123,12 @@ export default class ProblemStatementLinkComponent extends mixins(UidMixin) {
 
   get tags() {
     return this.problemStatementLink.tag;
+  }
+
+  // input type="number" is not supported by all browsers and may fall back to string
+  // with this we ensure that the type of id remains number
+  ensureType() {
+    this.problemStatementLink.id = Number(this.problemStatementLink.id);
   }
 }
 </script>
