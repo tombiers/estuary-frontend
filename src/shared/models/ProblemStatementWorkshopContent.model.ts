@@ -16,6 +16,13 @@ export class ProblemStatementWorkshopContent implements WorkshopContent {
     
   }
 
+  public get DTO(): ProblemStatementWorkshopContentDTO {
+    const dto: ProblemStatementWorkshopContentDTO = {
+      psIDs: this.problemStatementIds
+    }
+    return dto; 
+  }
+
   public static fromDTO(dto: ProblemStatementWorkshopContentDTO) {
     return new ProblemStatementWorkshopContent(dto.psIDs)
   }

@@ -1,6 +1,6 @@
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
 import { BaseWorkshop, WorkshopType } from "@/shared/models/BaseWorkshop.model";
-import { Workshop, workshopStatus } from "@/shared/models/Workshop.model";
+import { Workshop, WorkshopStatus } from "@/shared/models/Workshop.model";
 import { Place } from "@/shared/models/Place.model";
 import store from "@/store";
 import { WorkshopContent } from "@/shared/models/WorkshopContent.model";
@@ -84,7 +84,6 @@ export default class WorkshopStore extends VuexModule {
     console.log(httpResult.status);
     console.log(httpResult.content);
     if (httpResult.status == 200 && typeof httpResult.content !== "undefined") {
-
       this.setSelectedWorkshop(httpResult.content);
       return true;
     } else {

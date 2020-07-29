@@ -6,10 +6,13 @@ import { WorkshopContent } from './WorkshopContent.model';
 import { WorkshopContentDTO } from '@/api/dto/WorkshopContentDTO';
 import { ProblemStatementWorkshopContent } from './ProblemStatementWorkshopContent.model';
 import { ProblemStatementWorkshopContentDTO } from "@/api/dto/ProblemStatementWorkshopContentDTO"
+import { UnknownWorkshopContent } from "@/shared/models/UnknownWorkshopContent.model";
+import * as Util from "@/shared/Util";
 
-export enum workshopStatus {
+export enum WorkshopStatus {
   WIP,
-  PUBLIC
+  PUBLIC,
+  UNKOWN
 }
 
 // represents a  complete workshop model as need for the detail view
@@ -23,7 +26,7 @@ export class Workshop<T extends WorkshopContent> extends BaseWorkshop{
     upvotes: number,
     teaser: string,
     public authors: string[],
-    public status: workshopStatus,
+    public status: WorkshopStatus,
     public content: T
   ) {
     super (id, type, place, date, tags, upvotes, teaser)
@@ -31,15 +34,34 @@ export class Workshop<T extends WorkshopContent> extends BaseWorkshop{
 
   get statusLocale(): string {
     switch (this.status) {
-      case workshopStatus.WIP: 
+      case WorkshopStatus.WIP: 
         return i18n.t("workshopStatus.wip").toString();
       
-      case workshopStatus.PUBLIC: 
+      case WorkshopStatus.PUBLIC: 
       return i18n.t("workshopStatus.public").toString();
       
       default:
         return i18n.t("workshopStatus.unkown").toString();
     }
+  }
+
+  get DTO(): WorkshopDTO<WorkshopContentDTO> {
+    const dto: WorkshopDTO<WorkshopContentDTO> = {
+      id: this.id,
+      type: Util.WorkshopTypeToDTO(this.type),
+      place: {
+        name: this.place.name,
+        mapLink: this.place.mapLink
+      },
+      date: this.date,
+      tags: this.tags,
+      likes: this.upvotes,
+      teaser: this.teaser,
+      authors: this.authors,
+      status: Util.WorkshopStatusToDTO(this.status),
+      content: this.content.DTO
+    }
+    return dto;
   }
 
   public static fromDTO(dto: WorkshopDTO<WorkshopContentDTO>): Workshop<WorkshopContent> {
@@ -52,11 +74,11 @@ export class Workshop<T extends WorkshopContent> extends BaseWorkshop{
         break;
       case 2:
         workshopType = WorkshopType.IDEA;
-        workshopContent = {};
+        workshopContent = UnknownWorkshopContent.fromDTO(dto.content);
         break;
       default:
         workshopType = WorkshopType.UNKOWN;
-        workshopContent = {};
+        workshopContent = UnknownWorkshopContent.fromDTO(dto.content);
     }
 
     return new Workshop<WorkshopContent>(
@@ -68,7 +90,7 @@ export class Workshop<T extends WorkshopContent> extends BaseWorkshop{
       dto.likes,
       dto.teaser,
       dto.authors,
-      dto.status,
+      Util.WorkshopStatusFromDTO(dto.status),
       workshopContent
     );
   }
