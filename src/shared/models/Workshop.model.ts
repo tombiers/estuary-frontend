@@ -65,20 +65,18 @@ export class Workshop<T extends WorkshopContent> extends BaseWorkshop{
   }
 
   public static fromDTO(dto: WorkshopDTO<WorkshopContentDTO>): Workshop<WorkshopContent> {
-    let workshopType: WorkshopType;
+    const workshopType = Util.WorkshopTypeFromDTO(dto.type);
     let workshopContent: WorkshopContent;
-    switch (dto.type) {
-      case 1:
-        workshopType = WorkshopType.PS;
+    switch (workshopType) {
+      case WorkshopType.PS:
         workshopContent = ProblemStatementWorkshopContent.fromDTO(dto.content as ProblemStatementWorkshopContentDTO);
         break;
-      case 2:
-        workshopType = WorkshopType.IDEA;
+      case WorkshopType.IDEA:
         workshopContent = UnknownWorkshopContent.fromDTO(dto.content);
         break;
-      default:
-        workshopType = WorkshopType.UNKOWN;
+      case WorkshopType.UNKOWN:
         workshopContent = UnknownWorkshopContent.fromDTO(dto.content);
+        break;
     }
 
     return new Workshop<WorkshopContent>(

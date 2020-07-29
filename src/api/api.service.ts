@@ -124,7 +124,7 @@ export default class APIservice {
   // update a ProblemStatement
   public static async updateProblemStatement(problemStatement: ProblemStatement) {
     const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
-    const res: rm.IRestResponse<ProblemStatementDTO> = await rest.update<ProblemStatementDTO>("/problemStatements/" + problemStatement.id, problemStatement.toDTO);
+    const res: rm.IRestResponse<ProblemStatementDTO> = await rest.update<ProblemStatementDTO>("/problemStatements/" + problemStatement.id, problemStatement.DTO);
 
     const apiResult: APIResult<ProblemStatement> = {
       status: res.statusCode,
@@ -138,7 +138,7 @@ export default class APIservice {
   // returns newly created problemstatement with the correct id
   public static async addProblemStatement(problemStatement: ProblemStatement) {
     const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
-    const res: rm.IRestResponse<ProblemStatementDTO> = await rest.create<ProblemStatementDTO>("/problemStatements", problemStatement.toDTO);
+    const res: rm.IRestResponse<ProblemStatementDTO> = await rest.create<ProblemStatementDTO>("/problemStatements", problemStatement.DTO);
 
     const apiResult: APIResult<ProblemStatement> = {
       status: res.statusCode,

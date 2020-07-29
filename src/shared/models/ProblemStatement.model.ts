@@ -18,7 +18,7 @@ export class ProblemStatement {
   }
   
   public static fromDTO(dto: ProblemStatementDTO): ProblemStatement {
-    const links: ProblemStatementLink[] = dto.linked.map(linkDTO => new ProblemStatementLink(linkDTO.id, linkDTO.tag));
+    const links: ProblemStatementLink[] = dto.linked.map(linkDTO => ProblemStatementLink.fromDTO(linkDTO));
     return new ProblemStatement(
       dto.id,
       dto.likes,
@@ -31,8 +31,7 @@ export class ProblemStatement {
     )
   }
 
-  public get toDTO(): ProblemStatementDTO {
-    const links = this.linked.map(link =>{ return {"id": link.id, "tag": link.tag}})
+  public get DTO(): ProblemStatementDTO {
     const dto: ProblemStatementDTO = {
       "id": this.id,
       "likes": this.likes,
@@ -41,7 +40,7 @@ export class ProblemStatement {
       "but": this.but,
       "because": this.because,
       "feel": this.feel,
-      "linked": links
+      "linked": this.linked.map(link => link.DTO)
     }
     return dto;
   }

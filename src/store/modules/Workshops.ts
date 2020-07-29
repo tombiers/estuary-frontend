@@ -78,11 +78,7 @@ export default class WorkshopStore extends VuexModule {
 
   @Action
   public async selectWorkshop(id: number): Promise<boolean> {
-    // TODO: get the workshop with that id from the backend
     const httpResult = await APIservice.getWorkshopWithContent(id);
-    console.log("getting a single ws");
-    console.log(httpResult.status);
-    console.log(httpResult.content);
     if (httpResult.status == 200 && typeof httpResult.content !== "undefined") {
       this.setSelectedWorkshop(httpResult.content);
       return true;

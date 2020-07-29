@@ -35,7 +35,7 @@ export function WorkshopStatusFromDTO(dto: number): WorkshopStatus {
 }
 
 export function WorkshopTypeToDTO(workshopType: WorkshopType): number {
-  let workshopTypeDTO = 0;
+  let workshopTypeDTO;
   switch (workshopType) {
     case WorkshopType.PS:
       workshopTypeDTO = 1;
@@ -46,6 +46,24 @@ export function WorkshopTypeToDTO(workshopType: WorkshopType): number {
     case WorkshopType.UNKOWN:
       workshopTypeDTO = 0;
       break;
+    default:
+      workshopTypeDTO = 0;
   }
   return workshopTypeDTO;
 }
+
+export function WorkshopTypeFromDTO(dtoType: number): WorkshopType {
+  let workshopType;
+  switch (dtoType) {
+    case 1:
+      workshopType = WorkshopType.PS;
+      break;
+    case 2:
+      workshopType = WorkshopType.IDEA;
+      break;
+    default:
+      workshopType = WorkshopType.UNKOWN;
+  }
+  return workshopType;
+}
+
