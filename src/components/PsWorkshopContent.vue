@@ -1,5 +1,14 @@
 <template>
   <div>
+    <div>
+      <Button
+            class="testButton"
+            :label='$t("problemStatement.new")'
+            icon="pi pi-plus"
+            icon-pos="left"
+            @click="newProblemStatement()"
+          />
+    </div>
     <div v-if="showPsComparison">
       <ProblemStatementDetails
         :problemStatement="detailedPS"
@@ -71,6 +80,12 @@ export default class PsWorkshopContent extends Vue {
     this.detailedPS = getModule(ProblemStatementStore).problemStatement(id)!;
     this.$emit("update:showPsComparison", true);
     this.goToTop();
+  }
+
+  newProblemStatement() {
+    console.log("new PS");
+    // create a new ps
+    getModule(ProblemStatementStore).createProblemStatement(this.workshop.id);
   }
 
   goToTop() {

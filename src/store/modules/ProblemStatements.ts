@@ -1,8 +1,9 @@
-import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
+import { Module, VuexModule, Mutation, Action, getModule } from "vuex-module-decorators";
 import store from "@/store";
 import { ProblemStatement } from '@/shared/models/ProblemStatement.model';
 import { ProblemStatementLink } from '@/shared/models/ProblemStatementLink.model';
 import APIservice, { APIResult } from '@/api/api.service';
+import WorkshopStore from './Workshops';
 
 @Module({ dynamic: true, store, name: "ProblemStatementStore" })
 export default class ProblemStatementStore extends VuexModule {
@@ -87,12 +88,22 @@ export default class ProblemStatementStore extends VuexModule {
 
   @Action
   public async addProblemStatement(problemStatement: ProblemStatement) {
-    const httpResult = await APIservice.addProblemStatement(problemStatement)
+    const httpResult = await APIservice.addProblemStatement(problemStatement);
     if (httpResult.status == 201 && typeof httpResult.content !== "undefined") { // ps has been added
       this.add(httpResult.content); // add to vuex with id given by backend
     } else {
       // something went wrong
     }
+  }
+
+  // create a new empty ProblemStatement, send it to the backend, add it to the given workshop
+  @Action
+  public async createProblemStatement(workshopID: number) {
+    // create empty PS
+    const ps = new ProblemStatement(-1, 0, "", "", "", "", "", []);
+    this.addProblemStatement(ps);
+    const workshopStore = getModule(WorkshopStore);
+    //workshopStore.work
   }
 
 }
