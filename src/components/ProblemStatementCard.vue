@@ -23,6 +23,12 @@
           />
         </div>
       </template>
+
+ <div v-if="editMode">
+      <ProblemStatementForm :problemStatement="problemStatement"/>
+ </div>
+ <div v-else>
+
       <div v-if="editMode" class="ps-content">
         <div>
           <span>{{$t("problemStatement.iAm")}}:</span>
@@ -92,6 +98,9 @@
             </div>
         </div>
       </div>
+
+ </div>
+
       <div class="ps-interaction">
         <div class="ps-interaction-buttons">
           <!-- like button -->
@@ -130,10 +139,12 @@ import ProblemStatementLinkComponent from "@/components/ProblemStatementLinkComp
 import { ProblemStatementLink } from "../shared/models/ProblemStatementLink.model";
 import { i18n } from "@/main";
 import ProblemStatementStore from "../store/modules/ProblemStatements";
+import ProblemStatementForm from "@/components/ProblemStatementForm.vue";
 
 @Component({
   components: {
-    ProblemStatementLinkComponent
+    ProblemStatementLinkComponent,
+    ProblemStatementForm
   }
 })
 export default class ProblemStatementCard extends Vue {
