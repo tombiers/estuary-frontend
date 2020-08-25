@@ -24,82 +24,36 @@
         </div>
       </template>
 
- <div v-if="editMode">
-      <ProblemStatementForm :problemStatement="problemStatement"/>
- </div>
- <div v-else>
-
-      <div v-if="editMode" class="ps-content">
-        <div>
-          <span>{{$t("problemStatement.iAm")}}:</span>
-          <br />
-          <Textarea v-model="problemStatement.iAm" :autoResize="true" rows="1" cols="40" />
-        </div>
-        <div>
-          <span>{{$t("problemStatement.iWant")}}</span>
-          <br />
-          <Textarea v-model="problemStatement.iWant" :autoResize="true" rows="3" cols="40" />
-        </div>
-        <div>
-          <span>{{$t("problemStatement.but")}}</span>
-          <br />
-          <Textarea v-model="problemStatement.but" :autoResize="true" rows="3" cols="40" />
-        </div>
-        <div>
-          <span>{{$t("problemStatement.because")}}</span>
-          <br />
-          <Textarea v-model="problemStatement.because" :autoResize="true" rows="3" cols="40" />
-        </div>
-        <div>
-          <span>{{$t("problemStatement.feel")}}</span>
-          <br />
-          <Textarea v-model="problemStatement.feel" :autoResize="true" rows="2" cols="40" />
-        </div>
+      <div v-if="editMode"> <!-- form component to edit a problemStatement -->
+        <ProblemStatementForm :problemStatement="problemStatement" />
       </div>
-      <div v-else class="ps-content">{{ text }}</div>
-
-      <div class="ps-links-top">
-        <div class="ps-links">
-          <Button
-            @click="clicked($event)"
-            label
-            icon="pi pi-search-plus"
-            iconPos="left"
-            class="p-button-secondary p-button-text ps-interaction-button-details"
-          />
-          <div class="ps-link-elements">{{$t('related')}}:</div>
-          <div class="ps-link-elements" v-for="pslink in orderedPsLinks" :key="pslink.id">
-            <div v-if="detailed">
-              <ProblemStatementLinkComponent
-                :problemStatementLink="pslink"
-                @openLink="highlight"
-                :detailed="detailed"
-                :editMode="editMode"
-                @removeLink="removeLink"
-              />
+      <div v-else>
+        <div class="ps-content">
+          {{ text }}
+        </div>
+        <div class="ps-links-top">
+          <div class="ps-links">
+            <Button
+              @click="clicked($event)"
+              label
+              icon="pi pi-search-plus"
+              iconPos="left"
+              class="p-button-secondary p-button-text ps-interaction-button-details"
+            />
+            <div class="ps-link-elements">
+              {{$t('related')}}:
             </div>
-            <div v-else>
+            <div class="ps-link-elements" v-for="pslink in orderedPsLinks" :key="pslink.id">
               <ProblemStatementLinkComponent
                 :problemStatementLink="pslink"
-                @openLink="openLink"
+                @openLink="openOrHighlight"
                 :detailed="detailed"
                 :editMode="editMode"
               />
             </div>
           </div>
-            <div :class="showAddButton" class="ps-link-elements">
-              <ProblemStatementLinkComponent
-                :problemStatementLink="newPsLink"
-                :detailed="true"
-                :editMode="true"
-                :newMode="true"
-                @addLink="addPsLink"
-              />
-            </div>
         </div>
       </div>
-
- </div>
 
       <div class="ps-interaction">
         <div class="ps-interaction-buttons">
@@ -155,7 +109,7 @@ export default class ProblemStatementCard extends Vue {
 
   private editMode = this.openInEditMode;
   private showAddButton = "hide";
-  public newPsLink = new ProblemStatementLink(0,"");
+  public newPsLink = new ProblemStatementLink(0, "");
 
   private likeIconClass = "pi pi-thumbs-up new-button-icon";
   private commentIconClass = "pi pi-comments new-button-icon";
@@ -234,9 +188,7 @@ export default class ProblemStatementCard extends Vue {
   }
 
   getLinksbyTag(tag: string): ProblemStatementLink[] {
-    return this.problemStatement.linked.filter(link =>
-      link.tag.match(tag)
-    );
+    return this.problemStatement.linked.filter(link => link.tag.match(tag));
   }
 
   get LinksWithoutTag(): ProblemStatementLink[] {
@@ -250,10 +202,12 @@ export default class ProblemStatementCard extends Vue {
   toggleEditMode() {
     if (this.editMode == false) {
       // finished editing,
-      this.showAddButton = "hide"
+      this.showAddButton = "hide";
       getModule(ProblemStatementStore).update(this.problemStatement);
-    } else { // edit mode has ben enabled
-      if (this.detailed == false ) { // switch to detailed mode for editing
+    } else {
+      // edit mode has ben enabled
+      if (this.detailed == false) {
+        // switch to detailed mode for editing
         this.$emit("openLinkAndEdit", this.problemStatement.id);
       }
       this.showAddButton = "";
@@ -263,11 +217,15 @@ export default class ProblemStatementCard extends Vue {
   addPsLink() {
     if (
       this.newPsLink.id > 0 && // id is "valid"- TODO: this should be checked with the backend
-      this.problemStatement.linked.every(link => link.id != this.newPsLink.id) && // link id is unique
+      this.problemStatement.linked.every(
+        link => link.id != this.newPsLink.id
+      ) && // link id is unique
       this.problemStatement.id != this.newPsLink.id // can't link to yourself
-    ) { 
+    ) {
       // link is valid, add it
-      this.problemStatement.linked.push(new ProblemStatementLink(this.newPsLink.id, this.newPsLink.tag));
+      this.problemStatement.linked.push(
+        new ProblemStatementLink(this.newPsLink.id, this.newPsLink.tag)
+      );
       this.newPsLink.id = 0;
       this.newPsLink.tag = "";
     } else {
@@ -277,8 +235,10 @@ export default class ProblemStatementCard extends Vue {
   }
 
   removeLink(id: number) {
-    const position = this.problemStatement.linked.findIndex(link => link.id == id);
-    this.problemStatement.linked.splice(position, 1)
+    const position = this.problemStatement.linked.findIndex(
+      link => link.id == id
+    );
+    this.problemStatement.linked.splice(position, 1);
   }
 
   like(event: any) {
@@ -293,12 +253,16 @@ export default class ProblemStatementCard extends Vue {
   clicked() {
     this.$emit("openLink", this.problemStatement.id);
   }
-  openLink(id: string) {
-    this.$emit("openLink", id);
-  }
 
-  highlight(id: string) {
-    this.$emit("highlight", id);
+  // in detailed mode: highlight the linked problemstatement
+  // in normal mode:   open the linked problemstatement in detailed mode
+  openOrHighlight(id: string) {
+    console.log("open or highlight?");
+    if (this.detailed) {
+      this.$emit("highlight", id);
+    } else {
+      this.$emit("openLink", id);
+    }
   }
 }
 </script>
@@ -530,5 +494,4 @@ export default class ProblemStatementCard extends Vue {
 .hide {
   display: none;
 }
-
 </style>
