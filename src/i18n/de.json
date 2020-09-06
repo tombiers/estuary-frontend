@@ -12,10 +12,14 @@
   "comments": "Kommentare",
   "authors": "Autoren",
   "status": "Status",
+  "cancel": "Abbrechen",
+  "teaser": "Teaser",
+  "createWorkshop": "Erstelle Workshop",
   "workshopType": {
     "ps": "Problem Statement Workshop",
     "idea": "Ideen Workshop",
-    "unkonwn": "unbekannter Workshop Typ"
+    "unkonwn": "unbekannter Workshop Typ",
+    "pick": "Typ auswählen"
   },
   "workshopStatus": {
     "wip": "In Bearbeitung",

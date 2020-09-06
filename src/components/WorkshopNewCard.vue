@@ -6,7 +6,15 @@
       :expand="true"
       class="vca-blue-background vca-more-shadow workshop"
     >
-      <template slot="header"></template>
+      <template slot="header">
+        <Button
+          class="testButton"
+          icon="pi pi-trash"
+          icon-pos="right"
+          :title="$t('cancel')"
+          @click="cancel()"
+        />
+      </template>
       <div class="workshop-body">
         <div class="workshop-body-item">
           <!-- name -->
@@ -17,28 +25,27 @@
             dateFormat="mm.yy"
             :yearNavigator="true"
             yearRange="2000:2030"
-            placeholder="Datum"
+            :placeholder="$t('date')"
             :showIcon="true"
           />
         </div>
         <div class="workshop-body-item">
           <!-- place -->
-          <input type="text" v-model="place" placeholder="Ort"/>
+          <input type="text" v-model="place" :placeholder="$t('place')"/>
         </div>
         <div class="workshop-body-item">
           <!-- type -->
-          <Dropdown v-model="type" :options="types" optionLabel="name" placeholder="Typ auswählen" class="stretch alignLeft"/>
+          <Dropdown v-model="type" :options="types" optionLabel="name" :placeholder="$t('workshopType.pick')" class="stretch alignLeft"/>
         </div>
         <div class="workshop-body-item">
           <!-- teaser -->
-          <Textarea v-model="teaser" :autoResize="true" rows="5" placeholder="Teaser" />
+          <Textarea v-model="teaser" :autoResize="true" rows="5" :placeholder="$t('teaser')" />
         </div>
         <div class="workshop-body-item">
           <!-- create button -->
           <Button
             class="testButton"
-            label="Erstelle Workshop"
-            icon-pos="right"
+            :label="$t('createWorkshop')"
             @click="createWorkshop"
           />
         </div>
@@ -65,7 +72,6 @@ import { Place } from '@/shared/models/Place.model';
   }
 })
 export default class WorkshopNewCard extends Vue {
-  //@Prop() private workshop!: BaseWorkshop;
 
   place = "";
   date: Date | null = null;
@@ -86,6 +92,10 @@ export default class WorkshopNewCard extends Vue {
         }
       });
     }
+  }
+
+  cancel() {
+    this.$emit("cancel");
   }
 }
 </script>

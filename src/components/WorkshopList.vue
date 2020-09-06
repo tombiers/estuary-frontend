@@ -9,6 +9,14 @@
         @click="getWorkshops()"
         :disabled="loadDisabled"
       />
+      <Button
+        class="testButton"
+        :label="$t('createWorkshop')"
+        icon="pi pi-plus"
+        icon-pos="left"
+        @click="createNewWorkshop()"
+        :disabled="createNew"
+      />
     </div>
     <div class="searchBar">
       <div class="monthPicker">
@@ -18,7 +26,7 @@
           dateFormat="mm.yy"
           :yearNavigator="true"
           yearRange="2000:2030"
-          placeholder="Datum"
+          :placeholder="$t('date')"
           :showIcon="true"
           @date-select="filterDate($event)"
         />
@@ -31,13 +39,15 @@
         @complete="completeQueries($event)"
         @item-select="addFilter($event)"
         @item-unselect="removeFilter($event)"
-        placeholder="Suche"
+        :placeholder="$t('search')"
         field="display"
       />
     </div>
     <div class="p-grid">
-      <div class="p-col-12 p-md-6 p-lg-4 p-xl-3">
-        <WorkshopNewCard/>
+      <div class="p-col-12 p-md-6 p-lg-4 p-xl-3" v-if="createNew">
+        <WorkshopNewCard
+          @cancel="cancelCreate()"
+        />
       </div>
       <div
         class="p-col-12 p-md-6 p-lg-4 p-xl-3"
@@ -75,6 +85,7 @@ export default class WorkshopList extends Vue {
   selectedQueries: AutoCompleteItem[] = this.workshopStore.activeFilterQueries.map(query =>  new AutoCompleteItem(query));
   filteredQueriesMultiple: AutoCompleteItem[] = [];
   datepicker: Date | null = null;
+  createNew = false;
 
   public completeQueries(event: any) {
     const availableQueries = this.workshopStore.matchingQueries(event.query);
@@ -114,6 +125,14 @@ export default class WorkshopList extends Vue {
 
   removeFilter(event: any) {
     this.workshopStore.removeFilter(event.value.value);
+  }
+
+  createNewWorkshop() {
+    this.createNew = true;
+  }
+
+  cancelCreate() {
+    this.createNew = false;
   }
 }
 </script>
