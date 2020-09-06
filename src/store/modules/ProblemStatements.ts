@@ -4,6 +4,8 @@ import { ProblemStatement } from '@/shared/models/ProblemStatement.model';
 import { ProblemStatementLink } from '@/shared/models/ProblemStatementLink.model';
 import APIservice, { APIResult } from '@/api/api.service';
 import WorkshopStore from './Workshops';
+import { ProblemStatementWorkshopContent } from '@/shared/models/ProblemStatementWorkshopContent.model';
+import { Workshop } from '@/shared/models/Workshop.model';
 
 @Module({ dynamic: true, store, name: "ProblemStatementStore" })
 export default class ProblemStatementStore extends VuexModule {
@@ -87,23 +89,28 @@ export default class ProblemStatementStore extends VuexModule {
   }
 
   @Action
-  public async addProblemStatement(problemStatement: ProblemStatement) {
+  public async addProblemStatement(problemStatement: ProblemStatement): Promise<number> {
     const httpResult = await APIservice.addProblemStatement(problemStatement);
     if (httpResult.status == 201 && typeof httpResult.content !== "undefined") { // ps has been added
       this.add(httpResult.content); // add to vuex with id given by backend
+      return httpResult.content.id
     } else {
       // something went wrong
+      return -1;
     }
   }
 
   // create a new empty ProblemStatement, send it to the backend, add it to the given workshop
   @Action
-  public async createProblemStatement(workshopID: number) {
+  public async createProblemStatement(workshopID: number): Promise<number> {
     // create empty PS
     const ps = new ProblemStatement(-1, 0, "", "", "", "", "", []);
-    this.addProblemStatement(ps);
+    const psID = await this.addProblemStatement(ps);
     const workshopStore = getModule(WorkshopStore);
-    //workshopStore.work
+    const workshop = workshopStore.selectedWorkshop as Workshop<ProblemStatementWorkshopContent>;
+    workshop.content.problemStatementIds.push(psID);
+    workshopStore.updateWorkshop(workshop);
+    return psID;
   }
 
 }

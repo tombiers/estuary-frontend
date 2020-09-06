@@ -136,7 +136,7 @@ export default class APIservice {
 
   // add a new ProblemStatement, the id is ignored
   // returns newly created problemstatement with the correct id
-  public static async addProblemStatement(problemStatement: ProblemStatement) {
+  public static async addProblemStatement(problemStatement: ProblemStatement): Promise<APIResult<ProblemStatement>> {
     const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
     const res: rm.IRestResponse<ProblemStatementDTO> = await rest.create<ProblemStatementDTO>("/problemStatements", problemStatement.DTO);
 

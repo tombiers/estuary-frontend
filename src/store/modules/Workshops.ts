@@ -125,4 +125,13 @@ export default class WorkshopStore extends VuexModule {
     // get all workshops with content
     // await APIservice.getWorkshopsWithContent();
   }
+
+  @Action async updateWorkshop(workshop: Workshop<WorkshopContent>): Promise<Workshop<WorkshopContent>|undefined> {
+    const httpResult = await APIservice.updateWorkshopWithContent(workshop);
+    if (httpResult.status == 200 && typeof httpResult.content !== "undefined") { // everything ok
+      return httpResult.content;
+    } else {
+      return undefined;
+    }
+  }
 }

@@ -83,9 +83,11 @@ export default class PsWorkshopContent extends Vue {
   }
 
   newProblemStatement() {
-    console.log("new PS");
     // create a new ps
-    getModule(ProblemStatementStore).createProblemStatement(this.workshop.id);
+    getModule(ProblemStatementStore).createProblemStatement(this.workshop.id)
+    .then(
+      id => this.eventHandlerEdit(id)
+    );
   }
 
   goToTop() {
