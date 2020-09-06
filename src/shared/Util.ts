@@ -35,7 +35,7 @@ export function WorkshopStatusFromDTO(dto: number): WorkshopStatus {
 }
 
 export function WorkshopTypeToDTO(workshopType: WorkshopType): number {
-  let workshopTypeDTO;
+  let workshopTypeDTO: number;
   switch (workshopType) {
     case WorkshopType.PS:
       workshopTypeDTO = 1;

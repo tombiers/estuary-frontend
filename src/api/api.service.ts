@@ -25,7 +25,7 @@ function delay(ms: number) {
 }
 
 export default class APIservice {
-  // get all workshops
+  // get all workshops as baseWorkshop
   public static async getWorkshops(): Promise<APIResult<BaseWorkshop[]>> {
     const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
     const res: rm.IRestResponse<BaseWorkshopDTO[]> = await rest.get<BaseWorkshopDTO[]>("/workshops");
@@ -34,6 +34,21 @@ export default class APIservice {
       status: res.statusCode,
       content: (res.statusCode == 200) ? res.result!.map(element => BaseWorkshop.fromDTO(element)) : undefined
     }
+    await delay(3000);
+    return apiResult;
+  }
+
+  // add a new BaseWorkshop, the id is ignored
+  // returns newly created workshop with the correct id
+  public static async addBaseWorkshop(workshop: BaseWorkshop): Promise<APIResult<BaseWorkshop>> {
+    const rest: rm.RestClient = new rm.RestClient("rest-samples", serverURL);
+    const res: rm.IRestResponse<BaseWorkshopDTO> = await rest.create<BaseWorkshopDTO>("/workshops", workshop.DTO);
+
+    const apiResult: APIResult<BaseWorkshop> = {
+      status: res.statusCode,
+      content: (res.statusCode == 201) ? BaseWorkshop.fromDTO(res.result!) : undefined
+    }
+
     await delay(3000);
     return apiResult;
   }

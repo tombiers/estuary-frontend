@@ -36,6 +36,9 @@
       />
     </div>
     <div class="p-grid">
+      <div class="p-col-12 p-md-6 p-lg-4 p-xl-3">
+        <WorkshopNewCard/>
+      </div>
       <div
         class="p-col-12 p-md-6 p-lg-4 p-xl-3"
         v-for="workshop in workshopStore.filteredWorkshops"
@@ -50,6 +53,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import WorkshopCard from "@/components/WorkshopCard.vue";
+import WorkshopNewCard from "@/components/WorkshopNewCard.vue";
 import { BaseWorkshop } from "@/shared/models/BaseWorkshop.model.ts";
 import { getModule } from "vuex-module-decorators";
 import WorkshopStore from "@/store/modules/Workshops.ts";
@@ -61,7 +65,8 @@ import ProblemStatementStore from '../store/modules/ProblemStatements';
   // See Vue.js docs for all available options:
   // https://vuejs.org/v2/api/#Options-Data
   components: {
-    WorkshopCard
+    WorkshopCard,
+    WorkshopNewCard
   }
 })
 export default class WorkshopList extends Vue {

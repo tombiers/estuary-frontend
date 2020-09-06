@@ -1,6 +1,7 @@
 import { Place } from "./Place.model";
 import { i18n } from "@/main"
-import { BaseWorkshopDTO } from '@/api/dto/BaseWorkshopDTO';
+import { BaseWorkshopDTO } from "@/api/dto/BaseWorkshopDTO";
+import * as Util from "@/shared/Util.ts";
 
 export enum WorkshopType {
   UNKOWN,
@@ -33,7 +34,39 @@ export class BaseWorkshop {
       }
     }
   }
+  
+  get DTO() {
 
+    let workshopTypeDTO: number;
+    switch (this.type) {
+      case WorkshopType.PS:
+        workshopTypeDTO = 1;
+        break;
+      case WorkshopType.IDEA:
+        workshopTypeDTO = 2;
+        break;
+      case WorkshopType.UNKOWN:
+        workshopTypeDTO = 0;
+        break;
+      default:
+        workshopTypeDTO = 0;
+    }
+
+    const dto: BaseWorkshopDTO = {
+      id: this.id,
+      type: workshopTypeDTO,
+      place: {
+        name: this.place.name,
+        mapLink: this.place.mapLink
+      },
+      date: this.date,
+      tags: this.tags,
+      likes: this.upvotes,
+      teaser: this.teaser
+    }
+    return dto
+  }
+  
   static fromDTO(dto: BaseWorkshopDTO): BaseWorkshop {
     let workshopType: WorkshopType;
     switch (dto.type) {

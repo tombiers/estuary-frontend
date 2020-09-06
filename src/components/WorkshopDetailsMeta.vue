@@ -1,5 +1,6 @@
 <template>
-  <div class="pannel">
+<div>
+  <div v-if="!editeMode" class="pannel">
     <Button
       class="testButton"
       label="close"
@@ -29,8 +30,31 @@
         >{{ author }}</li>
       </ul>
     </div>
-    
   </div>
+  <div v-else>
+    EditMode!!!
+    <Button
+      class="testButton"
+      label="close"
+      icon="pi pi-chevron-left"
+      icon-pos="right"
+      @click="$emit('close')"
+    />
+    <div class="status" v-if="editeMode">
+      {{ $t("status")}}: {{ this.status }}
+    </div>
+    <div class="status">
+          Ort:  <input type="text" v-model="workshopStore.selectedWorkshop.place.name" placeholder="Ort"  />
+      {{ this.place }}
+    </div>
+    <div class="status">
+      {{ this.date }}
+    </div>
+
+
+
+  </div>
+</div>
 </template>
 
 <script lang="ts">

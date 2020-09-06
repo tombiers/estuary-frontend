@@ -46,6 +46,7 @@ export class Workshop<T extends WorkshopContent> extends BaseWorkshop{
   }
 
   get DTO(): WorkshopDTO<WorkshopContentDTO> {
+
     const dto: WorkshopDTO<WorkshopContentDTO> = {
       id: this.id,
       type: Util.WorkshopTypeToDTO(this.type),

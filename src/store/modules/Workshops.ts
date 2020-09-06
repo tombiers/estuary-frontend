@@ -134,4 +134,14 @@ export default class WorkshopStore extends VuexModule {
       return undefined;
     }
   }
+
+  @Action async createWorkshop(workshop: BaseWorkshop): Promise<BaseWorkshop|undefined> {
+    const httpResult = await APIservice.addBaseWorkshop(workshop);
+    if (httpResult.status == 201 && typeof httpResult.content !== "undefined") { // everything ok
+      return httpResult.content;
+    } else {
+      return undefined;
+    }
+
+  }
 }
